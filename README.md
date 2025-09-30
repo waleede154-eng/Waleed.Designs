@@ -69,7 +69,6 @@
         <header class="text-center mb-8 border-b-2 border-indigo-200 pb-6">
             <h1 class="text-4xl sm:text-5xl font-black text-indigo-800">Waleed Designs</h1>
             <p class="text-lg text-slate-600 mt-2">محاكي الأسعار التفاعلي لغرف النوم</p>
-            <p class="text-xs text-slate-400 mt-4">معرف المستخدم: <span id="user-id-display" class="font-mono bg-slate-200 text-slate-600 px-2 py-1 rounded">يتم التحميل...</span></p>
         </header>
         
         <!-- CONFIGURATOR FORM -->
@@ -227,9 +226,22 @@
                             <div><label class="text-xs text-slate-500">الارتفاع (سم)</label><input type="number" id="tv-table-height" value="50" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
                             <div><label class="text-xs text-slate-500">العمق (سم)</label><input type="number" id="tv-table-depth" value="40" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
                         </div>
-                         <div>
-                            <label class="text-xs text-slate-500">عدد الأدراج</label>
-                            <input type="number" id="tv-table-drawers" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                         <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-xs text-slate-500">عدد الأدراج</label>
+                                <input type="number" id="tv-table-drawers" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-500">عدد الدولف</label>
+                                <input type="number" id="tv-table-doors" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                            </div>
+                        </div>
+                        <div>
+                           <label class="text-sm font-medium text-slate-600">طريقة التركيب</label>
+                           <select id="tv-table-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                               <option value="floor" selected>على الأرض</option>
+                               <option value="hanging">معلقة</option>
+                           </select>
                         </div>
                     </div>
 
@@ -253,12 +265,12 @@
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center pt-8">
-                 <button type="button" id="generate-image-btn" class="primary-btn bg-slate-700 hover:bg-slate-800 shadow-slate-300 hover:shadow-slate-400 w-full py-3 text-lg">
-                    توليد صورة للمقترح
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                </button>
                 <button type="button" id="show-quote-btn" class="primary-btn bg-indigo-600 hover:bg-indigo-700 shadow-indigo-300 hover:shadow-indigo-400 w-full py-3 text-lg">
-                    عرض السعر وطلب التواصل
+                    عرض السعر
+                </button>
+                 <button type="button" id="contact-whatsapp-btn" class="primary-btn bg-slate-700 hover:bg-slate-800 shadow-slate-300 hover:shadow-slate-400 w-full py-3 text-lg">
+                    تواصل مع خدمة العملاء
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-circle-question"><path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
                 </button>
             </div>
 
@@ -279,7 +291,7 @@
                  <input type="text" id="customer-name" placeholder="الاسم بالكامل *" class="w-full sm:w-40 p-2 text-sm rounded-md border border-slate-300" required>
                  <input type="tel" id="customer-phone" placeholder="رقم التليفون *" class="w-full sm:w-40 p-2 text-sm rounded-md border border-slate-300" required>
                  <button type="button" id="request-quote-btn" class="primary-btn w-full sm:w-auto" disabled>
-                     إرسال الطلب
+                     إرسال الطلب عبر واتساب
                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
                  </button>
             </div>
@@ -292,18 +304,6 @@
             <h3 id="modal-title" class="text-lg font-bold text-slate-800">تنبيه</h3>
             <p id="modal-message" class="text-slate-600 mt-2 mb-6">محتوى الرسالة هنا.</p>
             <button id="modal-close-btn" class="bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-indigo-700 transition">حسنًا</button>
-        </div>
-    </div>
-
-    <!-- IMAGE MODAL -->
-    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[70] opacity-0 pointer-events-none modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl text-center transform scale-95 opacity-0 modal-content relative p-4">
-            <button id="image-modal-close-btn" class="absolute -top-4 -right-4 bg-white text-slate-800 rounded-full h-10 w-10 flex items-center justify-center font-bold text-2xl shadow-lg border">&times;</button>
-            <div id="image-loading-spinner" class="h-96 flex flex-col items-center justify-center text-slate-600">
-                 <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mb-4"></div>
-                 <p>جاري توليد الصورة، قد يستغرق الأمر لحظات...</p>
-            </div>
-            <img id="generated-image" src="" alt="صورة التصميم المقترح" class="rounded-lg hidden w-full h-auto max-h-[80vh]">
         </div>
     </div>
 
@@ -326,7 +326,7 @@
                     KOMOD: { 'base_price': 1440, 'drawer_cost': 480 },
                     DRESSER: { 'hanging_premium': 400, 'drawer_cost': 560 },
                     MIRROR: { 'base_area_cost_per_sqm': 800, 'led': 960 },
-                    TABLES: { 'base_cost_per_sqm': 2400, 'drawer_cost': 500 },
+                    TABLES: { 'base_cost_per_sqm': 2400, 'drawer_cost': 500, 'door_cost': 350, 'hanging_premium': 400 },
                 },
                 DIMENSIONS: {
                     'small': { closet: { w: 160, h: 220 }, bed_size: '140', dresser: { w: 100, d: 40, drawers: 2 }, mirror: { w: 60, h: 90 } },
@@ -340,6 +340,7 @@
                     mechanism: { 'hinged': 'مفصلي', 'sliding': 'جرار' },
                     bedMaterial: { 'wood': 'خشب فقط', 'upholstered_back': 'تنجيد الظهر', 'upholstered_full': 'تنجيد كامل' },
                     dresserType: { 'hanging': 'معلقة', 'floor': 'على الأرض' },
+                    tvTableType: { 'hanging': 'معلقة', 'floor': 'على الأرض' },
                     mirrorShape: { 'rectangle': 'مستطيل', 'square': 'مربع', 'circle': 'دائري' },
                     boolean: { true: 'نعم', false: 'لا' }
                 }
@@ -411,7 +412,7 @@
         function showQuoteFooter() {
             recalculate(); // Ensure price is updated before showing
             App.elements.footer.classList.remove('hidden');
-            App.elements.showQuoteBtn.parentElement.classList.add('hidden'); 
+            App.elements.showQuoteBtn.classList.add('hidden'); 
             setTimeout(() => { 
                  App.elements.footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
             }, 100);
@@ -483,6 +484,8 @@
                     const area = calculateSurfaceArea(tv.width, tv.height, tv.depth);
                     total += area * C.TABLES.base_cost_per_sqm;
                     total += tv.drawers * C.TABLES.drawer_cost;
+                    total += tv.doors * C.TABLES.door_cost;
+                    if (tv.type === 'hanging') total += C.TABLES.hanging_premium;
                 }
             }
 
@@ -501,6 +504,12 @@
             const result = calculateTotal();
             App.elements.totalPrice.textContent = `${Math.round(result.total).toLocaleString('ar-EG')} ج.م`;
             App.elements.priceErrorMessage.textContent = result.error || '';
+        }
+
+        function contactWhatsApp() {
+            const message = "مرحباً، لدي استفسار بخصوص تصميم غرفة نوم.";
+            const whatsappUrl = `https://wa.me/${App.config.WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+            window.open(whatsappUrl, '_blank');
         }
 
         // --- EVENT HANDLING & SUBMISSION ---
@@ -526,7 +535,6 @@
 ---------------------------------------------
 *الاسم:* ${name}
 *التليفون:* ${phone}
-*معرف المستخدم:* ${App.currentUserId}
 *حجم الغرفة المبدئي:* ${T.roomSize[fullConfig.roomSize]}`;
 
             if(fullConfig.includeCloset){
@@ -563,8 +571,9 @@
                 summary += `
 ---------------------------------------------
 *-- مواصفات ترابيزة التليفزيون (TV Unit) --*
+- التركيب: ${T.tvTableType[fullConfig.tvTable.type]}
 - الأبعاد (ع×ا×ع): ${fullConfig.tvTable.width}×${fullConfig.tvTable.height}×${fullConfig.tvTable.depth} سم
-- عدد الأدراج: ${fullConfig.tvTable.drawers}`;
+- عدد الأدراج: ${fullConfig.tvTable.drawers} | عدد الدولف: ${fullConfig.tvTable.doors}`;
             }
 
              if(fullConfig.includeCoffeeTable){
@@ -582,171 +591,12 @@
             window.open(whatsappUrl, '_blank');
             showAlert('تم تجهيز طلبك بنجاح! سيتم الآن فتح واتساب لإتمام الإرسال.', 'تم بنجاح');
         }
-
-        // --- IMAGE GENERATION ---
-        function showImageModal() {
-            App.elements.imageModal.classList.remove('opacity-0', 'pointer-events-none');
-            App.elements.imageModalContent.classList.remove('scale-95', 'opacity-0');
-        }
-
-        function hideImageModal() {
-            App.elements.imageModalContent.classList.add('scale-95', 'opacity-0');
-            App.elements.imageModal.classList.add('opacity-0');
-            setTimeout(() => App.elements.imageModal.classList.add('pointer-events-none'), 300);
-        }
-
-        function generateImagePrompt() {
-            const config = getFullConfiguration();
-
-            let includedItems = [];
-            if (config.includeCloset) includedItems.push('closet');
-            if (config.includeBed) includedItems.push('bed');
-            if (config.includeDresser) includedItems.push('dresser');
-            if (config.includeTvTable) includedItems.push('tv_table');
-            if (config.includeCoffeeTable) includedItems.push('coffee_table');
-
-            if (includedItems.length === 0) {
-                return null;
-            }
-
-            let parts = [];
-            const productBasePrompt = "A photorealistic, professional product photograph of a piece of modern, luxurious furniture, studio lighting, on a plain light grey background.";
-            const roomBasePrompt = "A photorealistic, professional interior design photograph of a modern, luxurious room.";
-            
-            if (includedItems.length === 1) {
-                parts.push(productBasePrompt);
-                const item = includedItems[0];
-                
-                if (item === 'closet') {
-                    const woodMap = { counter: 'light oak veneer', sandwich_hpl: 'modern HPL panels', hpl_separate: 'high-pressure laminate with a wood grain texture' };
-                    let desc = `The subject is a custom-built wardrobe, ${config.closet.width}cm wide, made of rich ${woodMap[config.closet.woodType]}.`;
-                    if (config.closet.mechanism) desc += ` The doors are ${config.closet.mechanism}.`;
-                    if (config.closet.glassDoors > 0) desc += ` with ${config.closet.glassDoors} elegant glass panel doors.`;
-                    if (config.closet.hasLed) desc += " Subtle integrated LED lighting illuminates the interior.";
-                    parts.push(desc);
-                }
-                if (item === 'bed') {
-                    const materialMap = { wood: 'with a solid wood frame.', upholstered_back: 'with a plush, upholstered headboard in a neutral fabric.', upholstered_full: 'fully upholstered in a luxurious, soft-touch fabric.' };
-                    const bedCount = config.bed.count;
-                    let desc = '';
-                    if (bedCount === 1) {
-                        desc = `The subject is a single large (${config.bed.size}cm) bed ${materialMap[config.bed.material]}.`;
-                    } else if (bedCount === 2) {
-                        desc = `The subject is two twin beds, each (${config.bed.size}cm), ${materialMap[config.bed.material]} placed neatly in the room.`;
-                    } else {
-                         desc = `The subject is a room with ${bedCount} beds, each (${config.bed.size}cm), ${materialMap[config.bed.material]}.`;
-                    }
-                    if (config.bed.hasLed) desc += " A soft LED glow emanates from under the bed frame(s).";
-                    parts.push(desc);
-                    if (config.komod.count > 0) {
-                        parts.push(`The scene includes ${config.komod.count} matching nightstands (komod).`);
-                    }
-                }
-                if (item === 'dresser') {
-                    let desc = `The subject is a modern dresser, ${config.dresser.width}cm wide.`;
-                    let mirrorDesc = `Above it hangs a ${config.dresser.mirrorShape} mirror`;
-                    if(config.dresser.hasMirrorLed) mirrorDesc += " backlit with warm LED light.";
-                    parts.push(desc, mirrorDesc);
-                }
-                if (item === 'tv_table') {
-                    parts.push(`The subject is a sleek, low-profile TV unit, ${config.tvTable.width}cm wide, with ${config.tvTable.drawers} drawers.`);
-                }
-                if (item === 'coffee_table') {
-                    parts.push(`The subject is a modern coffee table, ${config.coffeeTable.width}cm wide and ${config.coffeeTable.depth}cm deep.`);
-                }
-            } else { // Multiple items
-                parts.push(roomBasePrompt);
-                const roomSizeMap = { small: "The room is a cozy and well-organized master bedroom.", medium: "The room is a spacious and airy master bedroom.", large: "The room is an expansive and grand master bedroom." };
-                parts.push(roomSizeMap[config.roomSize] || '');
-
-                if (config.includeCloset) {
-                    const woodMap = { counter: 'light oak veneer', sandwich_hpl: 'modern HPL panels', hpl_separate: 'high-pressure laminate with a wood grain texture' };
-                    let desc = `The room features a custom-built wardrobe, ${config.closet.width}cm wide, made of rich ${woodMap[config.closet.woodType]}.`;
-                    if (config.closet.mechanism) desc += ` The doors are ${config.closet.mechanism}.`;
-                    if (config.closet.glassDoors > 0) desc += ` with ${config.closet.glassDoors} elegant glass panel doors.`;
-                    if (config.closet.hasLed) desc += " Subtle integrated LED lighting illuminates the interior.";
-                    parts.push(desc);
-                }
-                if (config.includeBed) {
-                     const materialMap = { wood: 'with a solid wood frame.', upholstered_back: 'with a plush, upholstered headboard in a neutral fabric.', upholstered_full: 'fully upholstered in a luxurious, soft-touch fabric.' };
-                     const bedCount = config.bed.count;
-                     let desc = '';
-                     if (bedCount === 1) {
-                        desc = `The centerpiece is a single large (${config.bed.size}cm) bed ${materialMap[config.bed.material]}.`;
-                     } else if (bedCount === 2) {
-                        desc = `The room contains two twin beds, each (${config.bed.size}cm), ${materialMap[config.bed.material]} placed neatly side-by-side.`;
-                     } else {
-                        desc = `The room is arranged to accommodate ${bedCount} beds, each (${config.bed.size}cm), ${materialMap[config.bed.material]}.`;
-                     }
-                     if (config.bed.hasLed) desc += " A soft LED glow emanates from under the bed frame(s).";
-                     parts.push(desc);
-                     if (config.komod.count > 0) {
-                        parts.push(`The beds are flanked by ${config.komod.count} matching nightstands (komod).`);
-                     }
-                }
-                 if (config.includeDresser) {
-                    let desc = `There is a matching dresser, ${config.dresser.width}cm wide.`;
-                    let mirrorDesc = `Above it hangs a ${config.dresser.mirrorShape} mirror`;
-                    if(config.dresser.hasMirrorLed) mirrorDesc += " backlit with warm LED light.";
-                    parts.push(desc, mirrorDesc);
-                }
-                if (config.includeTvTable) {
-                    parts.push(`The room also contains a sleek, low-profile TV unit, ${config.tvTable.width}cm wide, with ${config.tvTable.drawers} drawers.`);
-                }
-                if (config.includeCoffeeTable) {
-                     parts.push(`The room has a modern coffee table, ${config.coffeeTable.width}cm wide and ${config.coffeeTable.depth}cm deep.`);
-                }
-            }
-            
-            parts.push("The styling is minimalist yet sophisticated, with high-end finishes, soft textiles, and a neutral color palette of beige, grey, and cream.", "The lighting is warm and inviting, creating a relaxing ambiance.", "Shot with a 35mm lens, f/1.8, cinematic lighting.");
-            
-            return parts.filter(p => p).join(' ');
-        }
-
-        async function generateImage() {
-            const userPrompt = generateImagePrompt();
-            if (!userPrompt) {
-                showAlert("الرجاء اختيار قطعة أثاث واحدة على الأقل لتوليد صورة لها.");
-                return;
-            }
-            
-            showImageModal();
-            App.elements.imageLoadingSpinner.classList.remove('hidden');
-            App.elements.generatedImage.classList.add('hidden');
-
-            const apiKey = ""; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
-            const payload = { instances: [{ prompt: userPrompt }], parameters: { "sampleCount": 1 } };
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                
-                const result = await response.json();
-                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
-                    const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
-                    App.elements.generatedImage.src = imageUrl;
-                    App.elements.imageLoadingSpinner.classList.add('hidden');
-                    App.elements.generatedImage.classList.remove('hidden');
-                } else {
-                    throw new Error("No image data in API response.");
-                }
-            } catch (error) {
-                console.error("Image generation failed:", error);
-                hideImageModal();
-                showAlert("عذراً، حدث خطأ أثناء توليد الصورة. الرجاء المحاولة مرة أخرى.");
-            }
-        }
         
         // --- INITIALIZATION ---
         function initialize() {
             App.elements = {
-                userIdDisplay: $('#user-id-display'), footer: $('footer'), totalPrice: $('#total-price'), priceErrorMessage: $('#price-error-message'),
-                requestQuoteBtn: $('#request-quote-btn'), showQuoteBtn: $('#show-quote-btn'), generateImageBtn: $('#generate-image-btn'),
+                footer: $('footer'), totalPrice: $('#total-price'), priceErrorMessage: $('#price-error-message'),
+                requestQuoteBtn: $('#request-quote-btn'), showQuoteBtn: $('#show-quote-btn'), contactWhatsappBtn: $('#contact-whatsapp-btn'),
                 customerName: $('#customer-name'), customerPhone: $('#customer-phone'), roomSize: $('#room-size'),
                 includeCloset: $('#include-closet'), includeBed: $('#include-bed'), includeDresser: $('#include-dresser'),
                 closetWoodType: $('#closet-wood-type'), closetWidth: $('#closet-width'), closetHeight: $('#closet-height'), closetDepth: $('#closet-depth'), closetDoors: $('#closet-doors'), closetGlassDoors: $('#closet-glass-doors'), closetInternalDrawers: $('#closet-internal-drawers'), doorMechanism: $('#door-mechanism'), closetShelves: $('#closet-shelves'), closetLed: $('#closet-led'),
@@ -754,10 +604,9 @@
                 komodCount: $('#komod-count'), komodDrawers: $('#komod-drawers'),
                 dresserType: $('#dresser-type'), dresserDrawers: $('#dresser-drawers'), dresserWidth: $('#dresser-width'), dresserDepth: $('#dresser-depth'),
                 mirrorShape: $('#mirror-shape'), mirrorWidth: $('#mirror-width'), mirrorHeight: $('#mirror-height'), mirrorLed: $('#mirror-led'),
-                includeTvTable: $('#include-tv-table'), tvTableWidth: $('#tv-table-width'), tvTableHeight: $('#tv-table-height'), tvTableDepth: $('#tv-table-depth'), tvTableDrawers: $('#tv-table-drawers'),
+                includeTvTable: $('#include-tv-table'), tvTableWidth: $('#tv-table-width'), tvTableHeight: $('#tv-table-height'), tvTableDepth: $('#tv-table-depth'), tvTableDrawers: $('#tv-table-drawers'), tvTableDoors: $('#tv-table-doors'), tvTableType: $('#tv-table-type'),
                 includeCoffeeTable: $('#include-coffee-table'), coffeeTableWidth: $('#coffee-table-width'), coffeeTableHeight: $('#coffee-table-height'), coffeeTableDepth: $('#coffee-table-depth'),
                 alertModal: $('#alert-modal'), modalContent: $('#alert-modal .modal-content'), modalTitle: $('#modal-title'), modalMessage: $('#modal-message'), modalCloseBtn: $('#modal-close-btn'),
-                imageModal: $('#image-modal'), imageModalContent: $('#image-modal .modal-content'), imageModalCloseBtn: $('#image-modal-close-btn'), imageLoadingSpinner: $('#image-loading-spinner'), generatedImage: $('#generated-image')
             };
 
             // Event listeners
@@ -765,13 +614,11 @@
             App.elements.roomSize.addEventListener('change', updateDimensionsBasedOnSize);
             App.elements.showQuoteBtn.addEventListener('click', showQuoteFooter);
             App.elements.requestQuoteBtn.addEventListener('click', submitQuote);
-            App.elements.generateImageBtn.addEventListener('click', generateImage);
+            App.elements.contactWhatsappBtn.addEventListener('click', contactWhatsApp);
             $$('#customer-name, #customer-phone').forEach(el => el.addEventListener('input', updateUI));
             App.elements.modalCloseBtn.addEventListener('click', hideAlert);
             App.elements.alertModal.addEventListener('click', e => { if (e.target === App.elements.alertModal) hideAlert(); });
-            App.elements.imageModalCloseBtn.addEventListener('click', hideImageModal);
-            App.elements.imageModal.addEventListener('click', e => { if (e.target === App.elements.imageModal) hideImageModal(); });
-
+            
             // Firebase Init
             const firebaseConfig = typeof __firebase_config !== 'undefined' && __firebase_config ? JSON.parse(__firebase_config) : null;
             if (firebaseConfig && Object.keys(firebaseConfig).length > 0) {
@@ -785,14 +632,11 @@
                             const signedInUser = initialAuthToken ? await signInWithCustomToken(App.auth, initialAuthToken) : await signInAnonymously(App.auth);
                             App.currentUserId = signedInUser.user.uid;
                         }
-                        App.elements.userIdDisplay.textContent = App.currentUserId || 'غير معروف';
                     });
                 } catch (e) {
                     console.error("Firebase initialization failed:", e);
-                    App.elements.userIdDisplay.textContent = "فشل الاتصال";
                 }
-            } else { App.elements.userIdDisplay.textContent = "الإعدادات غير متوفرة"; }
-
+            }
             updateUI();
             updateDimensionsBasedOnSize();
         }
@@ -806,7 +650,7 @@
                 bed: { count: parseInt(elements.bedCount.value) || 0, size: parseInt(elements.bedSize.value) || 0, material: elements.bedMaterial.value, paintType: $('#bed-paint-type').value || 'none', hasLiftingMechanism: elements.liftingMechanism.checked, hasLed: elements.bedLed.checked },
                 komod: { count: parseInt(elements.komodCount.value) || 0, drawers: parseInt(elements.komodDrawers.value) || 0 },
                 dresser: { type: elements.dresserType.value, drawers: parseInt(elements.dresserDrawers.value) || 0, width: parseFloat(elements.dresserWidth.value) || 0, depth: parseFloat(elements.dresserDepth.value) || 0, mirrorWidth: parseFloat(elements.mirrorWidth.value) || 0, mirrorHeight: parseFloat(elements.mirrorHeight.value) || 0, mirrorShape: elements.mirrorShape.value, hasMirrorLed: elements.mirrorLed.checked },
-                tvTable: { width: parseFloat(elements.tvTableWidth.value) || 0, height: parseFloat(elements.tvTableHeight.value) || 0, depth: parseFloat(elements.tvTableDepth.value) || 0, drawers: parseInt(elements.tvTableDrawers.value) || 0 },
+                tvTable: { type: elements.tvTableType.value, width: parseFloat(elements.tvTableWidth.value) || 0, height: parseFloat(elements.tvTableHeight.value) || 0, depth: parseFloat(elements.tvTableDepth.value) || 0, drawers: parseInt(elements.tvTableDrawers.value) || 0, doors: parseInt(elements.tvTableDoors.value) || 0 },
                 coffeeTable: { width: parseFloat(elements.coffeeTableWidth.value) || 0, height: parseFloat(elements.coffeeTableHeight.value) || 0, depth: parseFloat(elements.coffeeTableDepth.value) || 0 }
             };
         }
@@ -815,5 +659,4 @@
     </script>
 </body>
 </html>
-
 
