@@ -107,7 +107,7 @@
                         <label for="closet-wood-type" class="text-sm font-medium text-slate-600">نوع الخشب</label>
                         <select id="closet-wood-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
                             <option value="counter">كونتر</option>
-                            <option value="sandwich_hpl">سندوتش HPL</option>
+                            <option value="counter_melamine">كونتر ميلامين</option>
                             <option value="hpl_separate">HPL</option>
                         </select>
                     </div>
@@ -364,7 +364,7 @@
             config: {
                 WHATSAPP_NUMBER: "201110846333",
                 COSTS: {
-                    WOOD_BASE: { 'counter': 2800, 'sandwich_hpl': 2320, 'hpl_separate': 2720 },
+                    WOOD_BASE: { 'counter': 2800, 'counter_melamine': 2320, 'hpl_separate': 2720 },
                     PAINT: { 'ester': 200, 'duco': 400, 'none': 0 },
                     CLOSET: { 'sliding': 200, 'glass_door': 1500, 'wood_door_deduction': 1000, 'internal_drawer': 400, 'led': 1200, 'shelves': 80 },
                     BED: { 'base_price_unit_160': 4800, 'lifting_mechanism': 3600, 'upholstered_back': 1600, 'upholstered_full': 3200, 'led': 640 },
@@ -381,7 +381,7 @@
                 },
                 AR_TRANSLATIONS: {
                     roomSize: { 'small': 'صغيرة', 'medium': 'متوسطة', 'large': 'كبيرة' },
-                    woodType: { 'counter': 'كونتر', 'sandwich_hpl': 'سندوتش HPL', 'hpl_separate': 'HPL' },
+                    woodType: { 'counter': 'كونتر', 'counter_melamine': 'كونتر ميلامين', 'hpl_separate': 'HPL' },
                     paintType: { 'ester': 'استر', 'duco': 'دوكو', 'none': 'بدون' },
                     mechanism: { 'hinged': 'مفصلي', 'sliding': 'جرار' },
                     bedMaterial: { 'wood': 'خشب فقط', 'upholstered_back': 'تنجيد الظهر', 'upholstered_full': 'تنجيد كامل' },
@@ -756,5 +756,7 @@
     </script>
 </body>
 </html>
+
+
 
 
