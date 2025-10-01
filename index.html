@@ -68,7 +68,7 @@
         <!-- HEADER -->
         <header class="text-center mb-8 border-b-2 border-indigo-200 pb-6">
             <h1 class="text-4xl sm:text-5xl font-black text-indigo-800">Waleed Designs</h1>
-            <p class="text-lg text-slate-600 mt-2">محاكي الأسعار التفاعلي لغرف النوم</p>
+            <p class="text-lg text-slate-600 mt-2">محاكي الأسعار التفاعلي</p>
         </header>
         
         <!-- CONFIGURATOR FORM -->
@@ -261,6 +261,51 @@
                         </div>
                     </div>
 
+                    <!-- L-Shape Sofa -->
+                    <div class="space-y-3 p-4 border rounded-lg bg-slate-50">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold text-slate-700">ركنة حرف L (Corner Sofa)</h4>
+                            <div class="flex items-center gap-2">
+                                <label for="include-l-sofa" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                <input type="checkbox" id="include-l-sofa" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                           <div><label class="text-xs text-slate-500">العرض (سم)</label><input type="number" id="l-sofa-width" value="250" min="150" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
+                           <div><label class="text-xs text-slate-500">العمق (سم)</label><input type="number" id="l-sofa-depth" value="180" min="100" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
+                        </div>
+                    </div>
+
+                    <!-- Sofa -->
+                    <div class="space-y-3 p-4 border rounded-lg bg-slate-50">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold text-slate-700">كنبة (Sofa)</h4>
+                            <div class="flex items-center gap-2">
+                                <label for="include-sofa" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                <input type="checkbox" id="include-sofa" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                            </div>
+                        </div>
+                        <div>
+                           <label class="text-xs text-slate-500">العرض (سم)</label>
+                           <input type="number" id="sofa-width" value="200" min="120" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                        </div>
+                    </div>
+
+                    <!-- Sofa Bed -->
+                    <div class="space-y-3 p-4 border rounded-lg bg-slate-50 md:col-span-2">
+                        <div class="flex justify-between items-center">
+                            <h4 class="font-bold text-slate-700">كنبة سرير (Sofa Bed)</h4>
+                            <div class="flex items-center gap-2">
+                                <label for="include-sofa-bed" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                <input type="checkbox" id="include-sofa-bed" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                            </div>
+                        </div>
+                        <div>
+                           <label class="text-xs text-slate-500">العرض (سم)</label>
+                           <input type="number" id="sofa-bed-width" value="200" min="120" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                        </div>
+                    </div>
+
                 </div>
             </div>
 
@@ -327,6 +372,7 @@
                     DRESSER: { 'hanging_premium': 400, 'drawer_cost': 560 },
                     MIRROR: { 'base_area_cost_per_sqm': 800, 'led': 960 },
                     TABLES: { 'base_cost_per_sqm': 2400, 'drawer_cost': 500, 'door_cost': 350, 'hanging_premium': 400 },
+                    SOFAS: { 'l_shape': 6300, 'sofa': 6300, 'sofa_bed': 9000 },
                 },
                 DIMENSIONS: {
                     'small': { closet: { w: 160, h: 220 }, bed_size: '140', dresser: { w: 100, d: 40, drawers: 2 }, mirror: { w: 60, h: 90 } },
@@ -425,7 +471,7 @@
         }
 
         function calculateTotal() {
-            const formConfig = getFullConfiguration(); // Use a more detailed config for calculation
+            const formConfig = getFullConfiguration();
             const C = App.config.COSTS;
             let total = 0;
             let error = null;
@@ -497,6 +543,28 @@
                 }
             }
             
+            if (formConfig.includeLSofa) {
+                const lSofa = formConfig.lSofa;
+                if (lSofa.width > 0 && lSofa.depth > 0) {
+                    const totalMeters = (lSofa.width / 100) + (lSofa.depth / 100);
+                    total += totalMeters * C.SOFAS.l_shape;
+                }
+            }
+
+            if (formConfig.includeSofa) {
+                const sofa = formConfig.sofa;
+                if (sofa.width > 0) {
+                    total += (sofa.width / 100) * C.SOFAS.sofa;
+                }
+            }
+
+            if (formConfig.includeSofaBed) {
+                const sofaBed = formConfig.sofaBed;
+                if (sofaBed.width > 0) {
+                    total += (sofaBed.width / 100) * C.SOFAS.sofa_bed;
+                }
+            }
+
             return { total: error ? -1 : total, error };
         }
 
@@ -576,11 +644,32 @@
 - عدد الأدراج: ${fullConfig.tvTable.drawers} | عدد الدولف: ${fullConfig.tvTable.doors}`;
             }
 
-             if(fullConfig.includeCoffeeTable){
+            if(fullConfig.includeCoffeeTable){
                 summary += `
 ---------------------------------------------
 *-- مواصفات ترابيزة الوسط (Coffee Table) --*
 - الأبعاد (ع×ا×ع): ${fullConfig.coffeeTable.width}×${fullConfig.coffeeTable.height}×${fullConfig.coffeeTable.depth} سم`;
+            }
+
+            if(fullConfig.includeLSofa){
+                summary += `
+---------------------------------------------
+*-- مواصفات ركنة حرف L --*
+- الأبعاد (ع×ع): ${fullConfig.lSofa.width}×${fullConfig.lSofa.depth} سم`;
+            }
+
+            if(fullConfig.includeSofa){
+                summary += `
+---------------------------------------------
+*-- مواصفات كنبة --*
+- العرض: ${fullConfig.sofa.width} سم`;
+            }
+
+            if(fullConfig.includeSofaBed){
+                summary += `
+---------------------------------------------
+*-- مواصفات كنبة سرير --*
+- العرض: ${fullConfig.sofaBed.width} سم`;
             }
 
             summary += `
@@ -606,6 +695,9 @@
                 mirrorShape: $('#mirror-shape'), mirrorWidth: $('#mirror-width'), mirrorHeight: $('#mirror-height'), mirrorLed: $('#mirror-led'),
                 includeTvTable: $('#include-tv-table'), tvTableWidth: $('#tv-table-width'), tvTableHeight: $('#tv-table-height'), tvTableDepth: $('#tv-table-depth'), tvTableDrawers: $('#tv-table-drawers'), tvTableDoors: $('#tv-table-doors'), tvTableType: $('#tv-table-type'),
                 includeCoffeeTable: $('#include-coffee-table'), coffeeTableWidth: $('#coffee-table-width'), coffeeTableHeight: $('#coffee-table-height'), coffeeTableDepth: $('#coffee-table-depth'),
+                includeLSofa: $('#include-l-sofa'), lSofaWidth: $('#l-sofa-width'), lSofaDepth: $('#l-sofa-depth'),
+                includeSofa: $('#include-sofa'), sofaWidth: $('#sofa-width'),
+                includeSofaBed: $('#include-sofa-bed'), sofaBedWidth: $('#sofa-bed-width'),
                 alertModal: $('#alert-modal'), modalContent: $('#alert-modal .modal-content'), modalTitle: $('#modal-title'), modalMessage: $('#modal-message'), modalCloseBtn: $('#modal-close-btn'),
             };
 
@@ -645,13 +737,18 @@
         function getFullConfiguration() {
             const elements = App.elements;
             return {
-                includeCloset: elements.includeCloset.checked, includeBed: elements.includeBed.checked, includeDresser: elements.includeDresser.checked, includeTvTable: elements.includeTvTable.checked, includeCoffeeTable: elements.includeCoffeeTable.checked, roomSize: elements.roomSize.value,
+                includeCloset: elements.includeCloset.checked, includeBed: elements.includeBed.checked, includeDresser: elements.includeDresser.checked, includeTvTable: elements.includeTvTable.checked, includeCoffeeTable: elements.includeCoffeeTable.checked, 
+                includeLSofa: elements.includeLSofa.checked, includeSofa: elements.includeSofa.checked, includeSofaBed: elements.includeSofaBed.checked,
+                roomSize: elements.roomSize.value,
                 closet: { woodType: elements.closetWoodType.value, paintType: $('#closet-paint-type').value || 'none', width: parseFloat(elements.closetWidth.value) || 0, height: parseFloat(elements.closetHeight.value) || 0, depth: parseFloat(elements.closetDepth.value) || 0, doors: parseInt(elements.closetDoors.value) || 0, glassDoors: parseInt(elements.closetGlassDoors.value) || 0, internalDrawers: parseInt(elements.closetInternalDrawers.value) || 0, mechanism: elements.doorMechanism.value, shelves: parseInt(elements.closetShelves.value) || 0, hasLed: elements.closetLed.checked },
                 bed: { count: parseInt(elements.bedCount.value) || 0, size: parseInt(elements.bedSize.value) || 0, material: elements.bedMaterial.value, paintType: $('#bed-paint-type').value || 'none', hasLiftingMechanism: elements.liftingMechanism.checked, hasLed: elements.bedLed.checked },
                 komod: { count: parseInt(elements.komodCount.value) || 0, drawers: parseInt(elements.komodDrawers.value) || 0 },
                 dresser: { type: elements.dresserType.value, drawers: parseInt(elements.dresserDrawers.value) || 0, width: parseFloat(elements.dresserWidth.value) || 0, depth: parseFloat(elements.dresserDepth.value) || 0, mirrorWidth: parseFloat(elements.mirrorWidth.value) || 0, mirrorHeight: parseFloat(elements.mirrorHeight.value) || 0, mirrorShape: elements.mirrorShape.value, hasMirrorLed: elements.mirrorLed.checked },
                 tvTable: { type: elements.tvTableType.value, width: parseFloat(elements.tvTableWidth.value) || 0, height: parseFloat(elements.tvTableHeight.value) || 0, depth: parseFloat(elements.tvTableDepth.value) || 0, drawers: parseInt(elements.tvTableDrawers.value) || 0, doors: parseInt(elements.tvTableDoors.value) || 0 },
-                coffeeTable: { width: parseFloat(elements.coffeeTableWidth.value) || 0, height: parseFloat(elements.coffeeTableHeight.value) || 0, depth: parseFloat(elements.coffeeTableDepth.value) || 0 }
+                coffeeTable: { width: parseFloat(elements.coffeeTableWidth.value) || 0, height: parseFloat(elements.coffeeTableHeight.value) || 0, depth: parseFloat(elements.coffeeTableDepth.value) || 0 },
+                lSofa: { width: parseFloat(elements.lSofaWidth.value) || 0, depth: parseFloat(elements.lSofaDepth.value) || 0 },
+                sofa: { width: parseFloat(elements.sofaWidth.value) || 0 },
+                sofaBed: { width: parseFloat(elements.sofaBedWidth.value) || 0 },
             };
         }
         
@@ -659,4 +756,5 @@
     </script>
 </body>
 </html>
+
 
