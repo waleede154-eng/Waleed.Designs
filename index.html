@@ -120,7 +120,7 @@
             <!-- Room Size Card -->
             <div class="bg-indigo-100 p-6 rounded-2xl border-2 border-indigo-300 shadow-lg">
                 <h3 class="text-2xl font-bold mb-4 text-indigo-800 flex items-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-6-6m6 6v-4.5m0 4.5h-4.5"/><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M3 14h7v7H3z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-6-6m6 6v-4.5m0 4.5h-4.5"/><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M3 14h7v7H3z"/></svg>
                     <span>أبعاد الغرفة الرئيسية</span>
                 </h3>
                 <div>
@@ -364,13 +364,9 @@
                 </div>
             </div>
 
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center pt-8">
-                <button type="button" id="generate-image-btn" class="primary-btn bg-slate-700 hover:bg-slate-800 shadow-slate-300 hover:shadow-slate-400 w-full py-3 text-lg">
-                    توليد صورة للمقترح
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-image"><rect width="18" height="18" x="3" y="3" rx="2" ry="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/></svg>
-                </button>
-                <button type="button" id="show-quote-btn" class="primary-btn bg-indigo-600 hover:bg-indigo-700 shadow-indigo-300 hover:shadow-indigo-400 w-full py-3 text-lg">
-                    عرض السعر
+            <div class="text-center pt-8">
+                <button type="button" id="show-quote-btn" class="primary-btn bg-indigo-600 hover:bg-indigo-700 shadow-indigo-300 hover:shadow-indigo-400 w-full max-w-sm py-3 text-lg">
+                    عرض السعر وطلب التواصل
                 </button>
             </div>
 
@@ -408,17 +404,6 @@
         </div>
     </div>
     
-    <!-- IMAGE MODAL -->
-    <div id="image-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[70] opacity-0 pointer-events-none modal-backdrop">
-        <div class="bg-white rounded-lg shadow-xl w-full max-w-2xl text-center transform scale-95 opacity-0 modal-content relative p-4">
-            <button id="image-modal-close-btn" class="absolute -top-4 -right-4 bg-white text-slate-800 rounded-full h-10 w-10 flex items-center justify-center font-bold text-2xl shadow-lg border">&times;</button>
-            <div id="image-loading-spinner" class="h-96 flex flex-col items-center justify-center text-slate-600">
-                 <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-indigo-600 mb-4"></div>
-                 <p>جاري توليد الصورة، قد يستغرق الأمر لحظات...</p>
-            </div>
-            <img id="generated-image" src="" alt="صورة التصميم المقترح" class="rounded-lg hidden w-full h-auto max-h-[80vh]">
-        </div>
-    </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
@@ -745,147 +730,11 @@
             showAlert('تم تجهيز طلبك بنجاح! سيتم الآن فتح واتساب لإتمام الإرسال.', 'تم بنجاح');
         }
         
-        // --- IMAGE GENERATION ---
-        function showImageModal() {
-            App.elements.imageModal.classList.remove('opacity-0', 'pointer-events-none');
-            App.elements.imageModalContent.classList.remove('scale-95', 'opacity-0');
-        }
-
-        function hideImageModal() {
-            App.elements.imageModalContent.classList.add('scale-95', 'opacity-0');
-            App.elements.imageModal.classList.add('opacity-0');
-            setTimeout(() => App.elements.imageModal.classList.add('pointer-events-none'), 300);
-        }
-
-        function generateImagePrompt() {
-            const config = getFullConfiguration();
-            let includedItems = [];
-            if (config.includeCloset) includedItems.push('closet');
-            if (config.includeBed) includedItems.push('bed');
-            if (config.includeDresser) includedItems.push('dresser');
-            if (config.includeTvTable) includedItems.push('tv_table');
-            if (config.includeCoffeeTable) includedItems.push('coffee_table');
-            if (config.includeLSofa) includedItems.push('l_sofa');
-            if (config.includeSofa) includedItems.push('sofa');
-            if (config.includeSofaBed) includedItems.push('sofa_bed');
-
-
-            if (includedItems.length === 0) return null;
-
-            let parts = [];
-            const productBasePrompt = "A photorealistic, professional product photograph of a piece of modern, luxurious furniture, studio lighting, on a plain light grey background.";
-            const roomBasePrompt = "A photorealistic, professional interior design photograph of a modern, luxurious room.";
-            
-            if (includedItems.length === 1) {
-                parts.push(productBasePrompt);
-                const item = includedItems[0];
-                if (item === 'closet') {
-                    const woodMap = { counter: 'light oak veneer', counter_melamine: 'melamine-faced plywood', hpl_separate: 'high-pressure laminate with a wood grain texture' };
-                    let desc = `The subject is a custom-built wardrobe, ${config.closet.width}cm wide, made of rich ${woodMap[config.closet.woodType]}.`;
-                    if (config.closet.mechanism) desc += ` The doors are ${config.closet.mechanism}.`;
-                    if (config.closet.glassDoors > 0) desc += ` with ${config.closet.glassDoors} elegant glass panel doors.`;
-                    if (config.closet.hasLed) desc += " Subtle integrated LED lighting illuminates the interior.";
-                    parts.push(desc);
-                }
-                if (item === 'bed') {
-                    const materialMap = { wood: 'with a solid wood frame.', upholstered_back: 'with a plush, upholstered headboard in a neutral fabric.', upholstered_full: 'fully upholstered in a luxurious, soft-touch fabric.' };
-                    let desc = `The subject is a large (${config.bed.size}cm) bed ${materialMap[config.bed.material]}`;
-                    if (config.bed.hasLed) desc += " A soft LED glow emanates from under the bed frame.";
-                    parts.push(desc, "It is shown with two matching nightstands (komod).");
-                }
-                if (item === 'dresser') {
-                    let desc = `The subject is a modern dresser, ${config.dresser.width}cm wide.`;
-                    let mirrorDesc = `Above it hangs a ${config.dresser.mirrorShape} mirror`;
-                    if(config.dresser.hasMirrorLed) mirrorDesc += " backlit with warm LED light.";
-                    parts.push(desc, mirrorDesc);
-                }
-                if (item === 'tv_table') { parts.push(`The subject is a sleek, low-profile TV unit, ${config.tvTable.width}cm wide, with ${config.tvTable.drawers} drawers and ${config.tvTable.doors} doors.`); }
-                if (item === 'coffee_table') { parts.push(`The subject is a modern coffee table, ${config.coffeeTable.width}cm wide and ${config.coffeeTable.depth}cm deep.`); }
-                if (item === 'l_sofa') { parts.push(`The subject is a modern L-shaped corner sofa, with dimensions of ${config.lSofa.width}cm by ${config.lSofa.depth}cm.`); }
-                if (item === 'sofa') { parts.push(`The subject is a modern sofa, ${config.sofa.width}cm wide.`); }
-                if (item === 'sofa_bed') { parts.push(`The subject is a modern convertible sofa bed, ${config.sofaBed.width}cm wide.`); }
-
-            } else { // Multiple items
-                parts.push(roomBasePrompt);
-                const roomSizeMap = { small: "The room is a cozy and well-organized master bedroom.", medium: "The room is a spacious and airy living room.", large: "The room is an expansive and grand open-concept living space." };
-                parts.push(roomSizeMap[config.roomSize] || '');
-                
-                if (config.includeBed) {
-                     const materialMap = { wood: 'with a solid wood frame.', upholstered_back: 'with a plush, upholstered headboard in a neutral fabric.', upholstered_full: 'fully upholstered in a luxurious, soft-touch fabric.' };
-                     let bedCountText = config.bed.count > 1 ? `two twin beds side-by-side` : `a large (${config.bed.size}cm) bed`;
-                     let desc = `The centerpiece is ${bedCountText} ${materialMap[config.bed.material]}`;
-                     if (config.bed.hasLed) desc += " A soft LED glow emanates from under the bed frame.";
-                     parts.push(desc, "It is flanked by matching nightstands (komod).");
-                }
-                if (config.includeCloset) {
-                    const woodMap = { counter: 'light oak veneer', counter_melamine: 'melamine-faced plywood', hpl_separate: 'high-pressure laminate with a wood grain texture' };
-                    let desc = `Against one wall is a custom-built wardrobe, ${config.closet.width}cm wide, made of rich ${woodMap[config.closet.woodType]}.`;
-                    if (config.closet.mechanism) desc += ` The doors are ${config.closet.mechanism}.`;
-                    if (config.closet.glassDoors > 0) desc += ` with ${config.closet.glassDoors} elegant glass panel doors.`;
-                    parts.push(desc);
-                }
-                 if (config.includeDresser) {
-                    let desc = `There is a matching dresser, ${config.dresser.width}cm wide.`;
-                    let mirrorDesc = `Above it hangs a ${config.dresser.mirrorShape} mirror`;
-                    if(config.dresser.hasMirrorLed) mirrorDesc += " backlit with warm LED light.";
-                    parts.push(desc, mirrorDesc);
-                }
-                if (config.includeLSofa) { parts.push(`An L-shaped corner sofa, with dimensions of ${config.lSofa.width}cm by ${config.lSofa.depth}cm, defines the seating area.`); }
-                if (config.includeSofa) { parts.push(`The seating area includes a modern sofa, ${config.sofa.width}cm wide.`); }
-                if (config.includeSofaBed) { parts.push(`The seating area includes a versatile convertible sofa bed, ${config.sofaBed.width}cm wide.`); }
-                if (config.includeTvTable) { parts.push(`Opposite the seating area is a sleek, low-profile TV unit, ${config.tvTable.width}cm wide.`); }
-                if (config.includeCoffeeTable) { parts.push(`In the center of the seating area is a modern coffee table, ${config.coffeeTable.width}cm wide.`); }
-            }
-            
-            parts.push("The styling is minimalist yet sophisticated, with high-end finishes, soft textiles, and a neutral color palette of beige, grey, and cream.", "The lighting is warm and inviting, creating a relaxing ambiance.", "Shot with a 35mm lens, f/1.8, cinematic lighting.");
-            return parts.filter(p => p).join(' ');
-        }
-
-        async function generateImage() {
-            const userPrompt = generateImagePrompt();
-            if (!userPrompt) {
-                showAlert("الرجاء اختيار قطعة أثاث واحدة على الأقل لتوليد صورة لها.");
-                return;
-            }
-            
-            showImageModal();
-            App.elements.imageLoadingSpinner.classList.remove('hidden');
-            App.elements.generatedImage.classList.add('hidden');
-
-            const apiKey = ""; 
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/imagen-3.0-generate-002:predict?key=${apiKey}`;
-            const payload = { instances: [{ prompt: userPrompt }], parameters: { "sampleCount": 1 } };
-
-            try {
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                });
-                if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
-                
-                const result = await response.json();
-                if (result.predictions && result.predictions.length > 0 && result.predictions[0].bytesBase64Encoded) {
-                    const imageUrl = `data:image/png;base64,${result.predictions[0].bytesBase64Encoded}`;
-                    App.elements.generatedImage.src = imageUrl;
-                    App.elements.imageLoadingSpinner.classList.add('hidden');
-                    App.elements.generatedImage.classList.remove('hidden');
-                } else {
-                    throw new Error("No image data in API response.");
-                }
-            } catch (error) {
-                console.error("Image generation failed:", error);
-                hideImageModal();
-                showAlert("عذراً، حدث خطأ أثناء توليد الصورة. الرجاء المحاولة مرة أخرى.");
-            }
-        }
-        
         // --- INITIALIZATION ---
         function initialize() {
             App.elements = {
                 footer: $('footer'), totalPrice: $('#total-price'), priceErrorMessage: $('#price-error-message'),
                 requestQuoteBtn: $('#request-quote-btn'), showQuoteBtn: $('#show-quote-btn'),
-                generateImageBtn: $('#generate-image-btn'),
                 customerName: $('#customer-name'), customerPhone: $('#customer-phone'), roomSize: $('#room-size'),
                 includeCloset: $('#include-closet'), includeBed: $('#include-bed'), includeDresser: $('#include-dresser'),
                 closetWoodType: $('#closet-wood-type'), closetWidth: $('#closet-width'), closetHeight: $('#closet-height'), closetDepth: $('#closet-depth'), closetDoors: $('#closet-doors'), closetGlassDoors: $('#closet-glass-doors'), closetInternalDrawers: $('#closet-internal-drawers'), doorMechanism: $('#door-mechanism'), closetShelves: $('#closet-shelves'), closetLed: $('#closet-led'),
@@ -899,7 +748,6 @@
                 includeSofa: $('#include-sofa'), sofaWidth: $('#sofa-width'),
                 includeSofaBed: $('#include-sofa-bed'), sofaBedWidth: $('#sofa-bed-width'),
                 alertModal: $('#alert-modal'), modalContent: $('#alert-modal .modal-content'), modalTitle: $('#modal-title'), modalMessage: $('#modal-message'), modalCloseBtn: $('#modal-close-btn'),
-                imageModal: $('#image-modal'), imageModalContent: $('#image-modal .modal-content'), imageModalCloseBtn: $('#image-modal-close-btn'), imageLoadingSpinner: $('#image-loading-spinner'), generatedImage: $('#generated-image'),
             };
 
             // Event listeners
@@ -907,12 +755,9 @@
             App.elements.roomSize.addEventListener('change', updateDimensionsBasedOnSize);
             App.elements.showQuoteBtn.addEventListener('click', showQuoteFooter);
             App.elements.requestQuoteBtn.addEventListener('click', submitQuote);
-            App.elements.generateImageBtn.addEventListener('click', generateImage);
             $$('#customer-name, #customer-phone').forEach(el => el.addEventListener('input', updateUI));
             App.elements.modalCloseBtn.addEventListener('click', hideAlert);
             App.elements.alertModal.addEventListener('click', e => { if (e.target === App.elements.alertModal) hideAlert(); });
-            App.elements.imageModalCloseBtn.addEventListener('click', hideImageModal);
-            App.elements.imageModal.addEventListener('click', e => { if (e.target === App.elements.imageModal) hideImageModal(); });
             
             // Firebase Init
             const firebaseConfig = typeof __firebase_config !== 'undefined' && __firebase_config ? JSON.parse(__firebase_config) : null;
@@ -959,4 +804,5 @@
     </script>
 </body>
 </html>
+
 
