@@ -250,7 +250,7 @@
                         </div>
                         <div class="grid grid-cols-2 gap-2">
                             <div><label id="door-mechanism-label" class="text-sm font-medium text-slate-600">آلية الضُلف</label><select id="door-mechanism" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="hinged" data-lang-key="mech_hinged">مفصلي</option><option value="sliding" data-lang-key="mech_sliding">جرار</option></select></div>
-                            <div class="flex items-center pt-5"><input type="checkbox" id="closet-led" class="h-4 w-4 text-indigo-600 rounded"><label id="closet-led-label" for="closet-led" class="mr-2 text-sm text-slate-700">إضافة إضاءة ليد داخلية</label></div>
+                            <div class="flex items-center pt-5"><input type="checkbox" id="closet-led" class="h-4 w-4 text-indigo-600 rounded"><label id="closet-led-label" for="closet-led" class="mr-2 text-sm text-slate-700">إضاءة ليد داخلية</label></div>
                         </div>
                     </div>
                 </div>
@@ -265,6 +265,7 @@
                             </div>
                         </div>
                         <div id="bed-controls" class="space-y-4">
+                            <!-- التعديل المطلوب: عدد السراير بجوار مقاس السرير -->
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label id="bed-count-label" class="text-sm font-medium text-slate-600">عدد السراير</label>
@@ -293,6 +294,7 @@
                                 <div><div class="flex items-center"><input type="checkbox" id="lifting-mechanism" class="h-4 w-4 text-indigo-600 rounded"><label id="lifting-mechanism-label" for="lifting-mechanism" class="mr-2 text-sm text-slate-700">ميكانيزم رفع</label></div></div>
                                 <div><div class="flex items-center"><input type="checkbox" id="bed-led" class="h-4 w-4 text-indigo-600 rounded"><label id="bed-led-label" for="bed-led" class="mr-2 text-sm text-slate-700">إضاءة ليد للسرير</label></div></div>
                             </div>
+                            <!-- تم تصحيح التسميات في هذا الجزء -->
                             <div class="grid grid-cols-2 gap-2 pt-2 border-t mt-4">
                                 <div>
                                     <label id="komod-count-label" class="text-sm font-medium text-slate-600">عدد الكمود</label>
@@ -620,6 +622,8 @@
                         room_size_title: 'أبعاد الغرفة الرئيسية', room_size_label: 'اختر حجم الغرفة المبدئي:', room_size_note: 'هذا الاختيار يحدد الأبعاد الافتراضية لجميع قطع الأثاث.',
                         size_small: 'صغيرة (Small)', size_medium: 'متوسطة (Medium)', size_large: 'كبيرة (Large)',
                         include_price: 'إضافة للسعر', dim_width: 'العرض (سم)', dim_height: 'الارتفاع (سم)', dim_depth: 'العمق (سم)', dim_doors: 'عدد الضُلف', dim_glass_doors: 'ضلف زجاج', dim_drawers: 'عدد الأدراج', dim_komod_drawers: 'أدراج الكمود', dim_bed_count: 'عدد السراير', dim_bed_size: 'مقاس السرير', dim_mirror_width: 'عرض المرايا (سم)', dim_mirror_height: 'ارتفاع المرايا (سم)',
+                        // FIX 1: Add specific translation for Komod Count
+                        dim_komod_count: 'عدد الكمود',
                         
                         closet_title: '1. الدولاب', closet_wood_type_label: 'نوع الخشب', closet_paint_type_label: 'نوع الدهان', storage_ratio_label: 'نسبة التخزين', door_mech_label: 'آلية الضُلف', closet_led_label: 'إضافة إضاءة ليد داخلية',
                         closet_wood_tooltip: 'الكونتر السادة هو ببساطة سطح عمل بدون طبقة زينة، بينما كونتر الميلامين هو لوح خشبي مغطى بطبقة من الميلامين توفر سطحاً متيناً لكنه حساس للحرارة والخدوش، بينما كونتر HPL هو الأكثر قوة ومتانة، وهو لوح ديكوري حراري عالي الضغط مقاوم للضربات والخدوش والبقع والحرارة، مما يجعله الخيار الأفضل في الأماكن التي تتطلب أداءً عالياً.',
@@ -652,6 +656,8 @@
                         room_size_title: 'Main Room Dimensions', room_size_label: 'Choose Initial Room Size:', room_size_note: 'This selection sets the default dimensions for all furniture pieces.',
                         size_small: 'Small', size_medium: 'Medium', size_large: 'Large',
                         include_price: 'Include in Price', dim_width: 'Width (cm)', dim_height: 'Height (cm)', dim_depth: 'Depth (cm)', dim_doors: 'No. of Doors', dim_glass_doors: 'Glass Doors', dim_drawers: 'No. of Drawers', dim_komod_drawers: 'Komod Drawers', dim_bed_count: 'No. of Beds', dim_bed_size: 'Bed Size', dim_mirror_width: 'Mirror Width (cm)', dim_mirror_height: 'Mirror Height (cm)',
+                        // FIX 1: Add specific translation for Komod Count
+                        dim_komod_count: 'No. of Nightstands',
 
                         closet_title: '1. Closet', closet_wood_type_label: 'Wood Type', closet_paint_type_label: 'Paint Type', storage_ratio_label: 'Storage Ratio', door_mech_label: 'Door Mechanism', closet_led_label: 'Add Internal LED Lighting',
                         closet_wood_tooltip: 'Counter is a basic surface. Melamine counter is covered with melamine layer, durable but sensitive to heat/scratches. HPL counter is highly durable, scratch/stain/heat resistant, and is the preferred high-performance option.',
@@ -1038,7 +1044,10 @@
                 const labelKeys = {
                     'room-size-label': 'room_size_label', 'include-closet-label': 'include_price', 'closet-title': 'closet_title',
                     'closet-wood-type-label': 'closet_wood_type_label', 'closet-paint-type-label': 'closet_paint_type_label', 'closet-storage-ratio-label': 'storage_ratio_label', 'door-mechanism-label': 'door_mech_label', 'closet-led-label': 'closet_led_label',
-                    'bed-title': 'bed_title', 'include-bed-label': 'include_price', 'bed-count-label': 'dim_bed_count', 'bed-size-label': 'dim_bed_size', 'bed-material-label': 'bed_material_label', 'bed-paint-type-label': 'bed_paint_type_label', 'lifting-mechanism-label': 'lifting_mech_label', 'bed-led-label': 'bed_led_label', 'komod-count-label': 'dim_bed_count', 'komod-drawers-label': 'dim_komod_drawers',
+                    'bed-title': 'bed_title', 'include-bed-label': 'include_price', 'bed-count-label': 'dim_bed_count', 'bed-size-label': 'dim_bed_size', 'bed-material-label': 'bed_material_label', 'bed-paint-type-label': 'bed_paint_type_label', 'lifting-mechanism-label': 'lifting_mech_label', 'bed-led-label': 'bed_led_label', 
+                    // FIX 2: Correctly map komod-count-label to the new komod count translation
+                    'komod-count-label': 'dim_komod_count', 
+                    'komod-drawers-label': 'dim_komod_drawers',
                     'dresser-title': 'dresser_title', 'include-dresser-label': 'include_price', 'dresser-type-label': 'dresser_type_label', 'dresser-drawers-label': 'dim_drawers', 'mirror-shape-label': 'mirror_shape_label', 'mirror-led-label': 'mirror_led_label',
                     'additional-furniture-title': 'additional_furniture_title', 'tv-table-unit-title': 'tv_table_unit_title', 'include-tv-table-label': 'include_price', 'tv-table-type-label': 'dresser_type_label', 
                     'coffee-table-title': 'coffee_table_title', 'include-coffee-table-label': 'include_price',
@@ -1281,7 +1290,7 @@
 - ${T.dim_bed_count}: ${fullConfig.bed.count} | ${T.dim_bed_size}: ${fullConfig.bed.size} cm
 - ${T.bed_material_label}: ${T[`bed_${fullConfig.bed.material}`]} | ${T.bed_paint_type_label}: ${T[`paint_${fullConfig.bed.paintType}`]}
 - ${T.lifting_mech_label}: ${T.boolean[fullConfig.bed.hasLiftingMechanism]} | ${T.bed_led_label}: ${T.boolean[fullConfig.bed.hasLed]}
-- ${T.komod_count_label}: ${fullConfig.komod.count} | ${T.dim_komod_drawers}: ${fullConfig.komod.drawers}`;
+- ${T.dim_komod_count}: ${fullConfig.komod.count} | ${T.dim_komod_drawers}: ${fullConfig.komod.drawers}`;
             }
 
             if(fullConfig.includeDresser){
