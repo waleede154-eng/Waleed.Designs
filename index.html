@@ -517,10 +517,16 @@
             </div>
 
 
-            <div class="text-center pt-8">
+            <div id="quote-action-container" class="text-center pt-8">
                 <button type="button" id="show-quote-btn" class="primary-btn bg-indigo-600 hover:bg-indigo-700 shadow-indigo-300 hover:shadow-indigo-400 w-full max-w-sm py-3 text-lg">
                     عرض السعر وطلب التواصل
                 </button>
+                <p id="edit-mode-message" class="hidden mt-4 text-slate-600">
+                    <span id="edit-message-text"></span>
+                    <button type="button" id="hide-quote-link" class="text-indigo-600 font-bold hover:text-indigo-800 underline p-1">
+                        <span id="hide-quote-text">إخفاء شريط السعر</span>
+                    </button>
+                </p>
             </div>
 
         </form>
@@ -637,6 +643,8 @@
                         modal_alert: 'تنبيه', modal_error: 'خطأ', modal_ok: 'حسنًا',
                         validation_invalid_value: 'القيمة غير صالحة. يجب أن تكون {minRequiredMessage}.', validation_positive_or_zero: 'صفر أو موجبة', validation_greater_than_or_equal: 'أكبر من أو تساوي {min}',
                         validation_glass_doors_error: 'عدد الضلف الزجاجية لا يمكن أن يتجاوز العدد الكلي للضلف.', validation_additional_error: 'هناك قيم غير صالحة في قسم الأثاث الإضافي.', validation_send_error: 'لا يمكن إرسال الطلب. {error}', validation_input_error: 'خطأ في الإدخال', validation_specs_error: 'خطأ في المواصفات', validation_success: 'تم بنجاح', validation_success_message: 'تم تجهيز طلبك بنجاح! سيتم الآن فتح واتساب لإتمام الإرسال.',
+                        edit_mode_message: 'يمكنك تعديل المواصفات في أي وقت.',
+                        hide_quote_link: 'إخفاء شريط السعر',
                     },
                     en: {
                         dir: 'ltr', langName: 'العربية',
@@ -667,6 +675,8 @@
                         modal_alert: 'Alert', modal_error: 'Error', modal_ok: 'OK',
                         validation_invalid_value: 'Invalid value. Must be {minRequiredMessage}.', validation_positive_or_zero: 'positive or zero', validation_greater_than_or_equal: 'greater than or equal to {min}',
                         validation_glass_doors_error: 'Number of glass doors cannot exceed total number of doors.', validation_additional_error: 'There are invalid values in the Additional Furniture section.', validation_send_error: 'Cannot send request. {error}', validation_input_error: 'Input Error', validation_specs_error: 'Specification Error', validation_success: 'Success', validation_success_message: 'Your request is ready! WhatsApp will now open to complete the submission.',
+                        edit_mode_message: 'You can modify specifications at any time.',
+                        hide_quote_link: 'Hide Price Bar',
                     }
                 }
             }
@@ -1021,6 +1031,8 @@
                 else if (el.id === 'footer-price-label') el.textContent = langData.footer_price_label;
                 else if (el.id === 'footer-disclaimer') el.textContent = langData.footer_disclaimer;
                 else if (el.id === 'notes-title') el.textContent = langData.notes_title;
+                else if (el.id === 'edit-message-text') el.textContent = langData.edit_mode_message;
+                else if (el.id === 'hide-quote-text') el.textContent = langData.hide_quote_link;
                 
                 // Update specific labels
                 const labelKeys = {
@@ -1146,6 +1158,26 @@
             updateUI(); 
         }
 
+        function showQuoteFooter() {
+            recalculate(); // Ensure price is updated before showing
+            App.elements.footer.classList.remove('hidden');
+            App.elements.showQuoteBtn.classList.add('hidden');
+            App.elements.editModeMessage.classList.remove('hidden');
+            setTimeout(() => { 
+                 // Smooth scroll to the price footer
+                 App.elements.footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+            }, 100);
+        }
+
+        function hideQuoteFooter(event) {
+            event.preventDefault(); // Stop the default link behavior
+            App.elements.footer.classList.add('hidden');
+            App.elements.showQuoteBtn.classList.remove('hidden');
+            App.elements.editModeMessage.classList.add('hidden');
+            // Scroll back to the main button location if needed, though usually scrolling up covers it
+            App.elements.showQuoteBtn.scrollIntoView({ behavior: 'smooth', block: 'end' });
+        }
+
         function updateUI() {
             // 1. Closet Paint Option visibility
             const closetWoodType = App.elements.closetWoodType.value;
@@ -1196,16 +1228,6 @@
             App.elements.mirrorHeight.value = dims.mirror.h;
             
             updateUI(); // Recalculate and update visibility after dimension change
-        }
-
-        function showQuoteFooter() {
-            recalculate(); // Ensure price is updated before showing
-            App.elements.footer.classList.remove('hidden');
-            App.elements.showQuoteBtn.parentElement.classList.add('hidden');
-            setTimeout(() => { 
-                 // Smooth scroll to the price footer
-                 App.elements.footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
-            }, 100);
         }
 
         // --- EVENT HANDLING & SUBMISSION ---
@@ -1324,6 +1346,7 @@ ${T.footer_disclaimer}`;
                 requestQuoteBtn: $('#request-quote-btn'), showQuoteBtn: $('#show-quote-btn'), langToggleButton: $('#lang-toggle-btn'),
                 customerName: $('#customer-name'), customerPhone: $('#customer-phone'), roomSize: $('#room-size'),
                 additionalNotes: $('#additional-notes'),
+                editModeMessage: $('#edit-mode-message'), hideQuoteLink: $('#hide-quote-link'), // NEW ELEMENTS
                 
                 // Closet
                 includeCloset: $('#include-closet'), closetWoodType: $('#closet-wood-type'), closetWidth: $('#closet-width'), closetHeight: $('#closet-height'), closetDepth: $('#closet-depth'), closetDoors: $('#closet-doors'), closetGlassDoors: $('#closet-glass-doors'), closetStorageRatio: $('#closet-storage-ratio'), doorMechanism: $('#door-mechanism'), closetLed: $('#closet-led'),
@@ -1359,6 +1382,7 @@ ${T.footer_disclaimer}`;
             App.elements.roomSize.addEventListener('change', updateDimensionsBasedOnSize);
             App.elements.showQuoteBtn.addEventListener('click', showQuoteFooter);
             App.elements.requestQuoteBtn.addEventListener('click', submitQuote);
+            App.elements.hideQuoteLink.addEventListener('click', hideQuoteFooter); // NEW LISTENER
             $$('#customer-name, #customer-phone').forEach(el => el.addEventListener('input', updateUI)); 
             
             App.elements.modalCloseBtn.addEventListener('click', hideAlert);
