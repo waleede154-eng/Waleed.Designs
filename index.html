@@ -59,7 +59,23 @@
             background-color: #4f46e5;
             border-color: #4f46e5;
         }
+        
+        /* Highlight Class for momentary visual feedback */
+        .highlight-card {
+            background-color: #f0f4f8; /* Temporary light highlight */
+            transition: background-color 0.1s ease-in-out;
+        }
 
+        /* Disabled Card Style for visual cue when unchecked */
+        /* تم إلغاء تأثير card-disabled لإلغاء التعطيل */
+        .card-disabled {
+            opacity: 1; /* Keep full opacity */
+            pointer-events: auto; /* Allow interaction */
+        }
+        .card-disabled input, .card-disabled select, .card-disabled textarea {
+            cursor: auto;
+        }
+        
         /* Tooltip Styles */
         .tooltip-container {
             position: relative;
@@ -102,6 +118,12 @@
             visibility: visible;
             opacity: 1;
         }
+        .input-error-message {
+            margin-top: 0.25rem;
+            font-size: 0.75rem;
+            color: #ef4444; /* Red-500 */
+            height: 1.25rem; /* Reserve space to prevent layout shift */
+        }
     </style>
 </head>
 <body class="bg-slate-50">
@@ -120,7 +142,7 @@
             <!-- Room Size Card -->
             <div class="bg-indigo-100 p-6 rounded-2xl border-2 border-indigo-300 shadow-lg">
                 <h3 class="text-2xl font-bold mb-4 text-indigo-800 flex items-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-6-6m6 6v-4.5m0 4.5h-4.5"/><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M3 14h7v7H3z"/></svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-6-6m6 6v-4.5m0 4.5h-4.5"/><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M3 14h7v7H3z"/></svg>
                     <span>أبعاد الغرفة الرئيسية</span>
                 </h3>
                 <div>
@@ -138,125 +160,189 @@
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 
                 <!-- 1. Closet (دولاب) Card -->
-                <div class="bg-white p-6 rounded-2xl shadow-md border space-y-4">
+                <div id="closet-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4">
                     <div class="flex justify-between items-center border-b pb-3">
                         <h3 class="text-xl font-bold text-slate-800">1. الدولاب</h3>
                         <div class="flex items-center gap-2">
                             <label for="include-closet" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                            <input type="checkbox" id="include-closet" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
+                            <input type="checkbox" id="include-closet" data-card-id="closet-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
                         </div>
                     </div>
-                    <div>
-                        <label for="closet-wood-type" class="text-sm font-medium text-slate-600 flex items-center">
-                            نوع الخشب
-                            <span class="tooltip-container">
-                                <span class="tooltip-trigger">?</span>
-                                <span class="tooltip-content text-right">الكونتر السادة هو ببساطة سطح عمل بدون طبقة زينة، بينما كونتر الميلامين هو لوح خشبي مغطى بطبقة من الميلامين توفر سطحاً متيناً لكنه حساس للحرارة والخدوش، بينما كونتر HPL هو الأكثر قوة ومتانة، وهو لوح ديكوري حراري عالي الضغط مقاوم للضربات والخدوش والبقع والحرارة، مما يجعله الخيار الأفضل في الأماكن التي تتطلب أداءً عالياً.</span>
-                            </span>
-                        </label>
-                        <select id="closet-wood-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            <option value="counter">كونتر</option>
-                            <option value="counter_melamine">كونتر ميلامين</option>
-                            <option value="hpl_separate">HPL</option>
-                        </select>
+                    <div id="closet-controls" class="space-y-4">
+                        <div>
+                            <label for="closet-wood-type" class="text-sm font-medium text-slate-600 flex items-center">
+                                نوع الخشب
+                                <span class="tooltip-container">
+                                    <span class="tooltip-trigger">?</span>
+                                    <span class="tooltip-content text-right">الكونتر السادة هو ببساطة سطح عمل بدون طبقة زينة، بينما كونتر الميلامين هو لوح خشبي مغطى بطبقة من الميلامين توفر سطحاً متيناً لكنه حساس للحرارة والخدوش، بينما كونتر HPL هو الأكثر قوة ومتانة، وهو لوح ديكوري حراري عالي الضغط مقاوم للضربات والخدوش والبقع والحرارة، مما يجعله الخيار الأفضل في الأماكن التي تتطلب أداءً عالياً.</span>
+                                </span>
+                            </label>
+                            <select id="closet-wood-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                <option value="counter">كونتر</option>
+                                <option value="counter_melamine">كونتر ميلامين</option>
+                                <option value="hpl_separate">HPL</option>
+                            </select>
+                        </div>
+                        <div id="closet-paint-option-container" class="hidden">
+                            <label for="closet-paint-type" class="text-sm font-medium text-slate-600 flex items-center">
+                                نوع الدهان
+                                <span class="tooltip-container">
+                                    <span class="tooltip-trigger">?</span>
+                                    <span class="tooltip-content text-right">دهان الإستر يكشف عن جمال الخشب ويزيد من قيمته بلون طبيعي، بينما دهان الدوكو يغطي الخشب بلون موحد ويوفر متانة ومقاومة عالية للحرارة والرطوبة، ويُستخدم عادةً في أبواب الشقق والغرف والأثاث الذي يحتاج لتحمل.<br><br><b>*دهان الإستر</b><br>المظهر: يُبرز جمال الخشب الطبيعي وثمرته، ويعطي مظهراً فخماً.<br><br><b>*دهان الدوكو</b><br>المظهر: يُغطّي سطح الخشب بلون واحد، مما يمنح مظهراً ناعماً ومستوياً تماماً.<br>المتانة: قوي ويتحمل الظروف المختلفة كالحرارة والرطوبة.</span>
+                                </span>
+                            </label>
+                            <select id="closet-paint-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                <option value="none" selected>بدون دهان</option>
+                                <option value="ester">استر (Stain/Varnish)</option>
+                                <option value="duco">دوكو (Lacquer/Duco)</option>
+                            </select>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="text-xs text-slate-500">العرض (سم)</label>
+                                <input type="number" id="closet-width" value="200" min="100" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <p id="closet-width-error" class="input-error-message"></p>
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-500">الارتفاع (سم)</label>
+                                <input type="number" id="closet-height" value="240" min="200" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <p id="closet-height-error" class="input-error-message"></p>
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-500">العمق (سم)</label>
+                                <input type="number" id="closet-depth" value="60" min="50" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <p id="closet-depth-error" class="input-error-message"></p>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-3 gap-2">
+                            <div>
+                                <label class="text-xs text-slate-500">عدد الضُلف</label>
+                                <input type="number" id="closet-doors" value="3" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <p id="closet-doors-error" class="input-error-message"></p>
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-500">ضلف زجاج</label>
+                                <input type="number" id="closet-glass-doors" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <p id="closet-glass-doors-error" class="input-error-message"></p>
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium text-slate-600">نسبة التخزين</label>
+                                <select id="closet-storage-ratio" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    <option value="mostly_hanging">أغلبها تعليق (Mostly Hanging)</option>
+                                    <option value="balanced" selected>متوازن (Balanced)</option>
+                                    <option value="mostly_folding">أغلبها طيّ / أرفف (Mostly Folding)</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div><label class="text-sm font-medium text-slate-600">آلية الضُلف</label><select id="door-mechanism" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="hinged">مفصلي</option><option value="sliding">جرار</option></select></div>
+                            <div class="flex items-center pt-5"><input type="checkbox" id="closet-led" class="h-4 w-4 text-indigo-600 rounded"><label for="closet-led" class="mr-2 text-sm text-slate-700">إضافة إضاءة ليد داخلية</label></div>
+                        </div>
                     </div>
-                    <div id="closet-paint-option-container" class="hidden">
-                        <label for="closet-paint-type" class="text-sm font-medium text-slate-600 flex items-center">
-                            نوع الدهان
-                            <span class="tooltip-container">
-                                <span class="tooltip-trigger">?</span>
-                                <span class="tooltip-content text-right">دهان الإستر يكشف عن جمال الخشب ويزيد من قيمته بلون طبيعي، بينما دهان الدوكو يغطي الخشب بلون موحد ويوفر متانة ومقاومة عالية للحرارة والرطوبة، ويُستخدم عادةً في أبواب الشقق والغرف والأثاث الذي يحتاج لتحمل.<br><br><b>*دهان الإستر</b><br>المظهر: يُبرز جمال الخشب الطبيعي وثمرته، ويعطي مظهراً فخماً.<br><br><b>*دهان الدوكو</b><br>المظهر: يُغطّي سطح الخشب بلون واحد، مما يمنح مظهراً ناعماً ومستوياً تماماً.<br>المتانة: قوي ويتحمل الظروف المختلفة كالحرارة والرطوبة.</span>
-                            </span>
-                        </label>
-                        <select id="closet-paint-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            <option value="none" selected>بدون دهان</option>
-                            <option value="ester">استر (Stain/Varnish)</option>
-                            <option value="duco">دوكو (Lacquer/Duco)</option>
-                        </select>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                        <div><label class="text-xs text-slate-500">العرض (سم)</label><input type="number" id="closet-width" value="200" min="100" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                        <div><label class="text-xs text-slate-500">الارتفاع (سم)</label><input type="number" id="closet-height" value="240" min="200" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                        <div><label class="text-xs text-slate-500">العمق (سم)</label><input type="number" id="closet-depth" value="60" min="50" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                    </div>
-                    <div class="grid grid-cols-3 gap-2">
-                         <div><label class="text-xs text-slate-500">عدد الضُلف</label><input type="number" id="closet-doors" value="3" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                         <div><label class="text-xs text-slate-500">ضلف زجاج</label><input type="number" id="closet-glass-doors" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                         <div><label class="text-xs text-slate-500">أدراج داخلية</label><input type="number" id="closet-internal-drawers" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                    </div>
-                     <div class="grid grid-cols-2 gap-2">
-                        <div><label class="text-sm font-medium text-slate-600">آلية الضُلف</label><select id="door-mechanism" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="hinged">مفصلي</option><option value="sliding">جرار</option></select></div>
-                        <div><label class="text-sm font-medium text-slate-600">رفوف داخلية</label><input type="number" id="closet-shelves" value="4" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                    </div>
-                    <div class="flex items-center pt-2"><input type="checkbox" id="closet-led" class="h-4 w-4 text-indigo-600 rounded"><label for="closet-led" class="mr-2 text-sm text-slate-700">إضافة إضاءة ليد داخلية</label></div>
                 </div>
 
                 <!-- 2. Bed & Nightstands Card -->
-                <div class="bg-white p-6 rounded-2xl shadow-md border space-y-4">
-                     <div class="flex justify-between items-center border-b pb-3">
-                        <h3 class="text-xl font-bold text-slate-800">2. السرير والكمود</h3>
-                        <div class="flex items-center gap-2">
-                            <label for="include-bed" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                            <input type="checkbox" id="include-bed" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
+                <div id="bed-komod-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4">
+                        <div class="flex justify-between items-center border-b pb-3">
+                            <h3 class="text-xl font-bold text-slate-800">2. السرير والكمود</h3>
+                            <div class="flex items-center gap-2">
+                                <label for="include-bed" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                <input type="checkbox" id="include-bed" data-card-id="bed-komod-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
+                            </div>
                         </div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2">
-                        <div><label class="text-sm font-medium text-slate-600">عدد السراير</label><input type="number" id="bed-count" value="1" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                        <div><label class="text-sm font-medium text-slate-600">مقاس السرير</label><select id="bed-size" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="100">100 سم</option><option value="120">120 سم</option><option value="140">140 سم</option><option value="160" selected>160 سم</option><option value="180">180 سم</option><option value="200">200 سم</option></select></div>
-                    </div>
-                    <div>
-                        <label class="text-sm font-medium text-slate-600">خامة السرير</label>
-                        <select id="bed-material" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            <option value="wood">خشب فقط</option>
-                            <option value="upholstered_back">تنجيد الظهر فقط</option>
-                            <option value="upholstered_full">تنجيد كامل</option>
-                        </select>
-                    </div>
-                     <div id="bed-paint-option-container" class="hidden">
-                        <label for="bed-paint-type" class="text-sm font-medium text-slate-600">نوع دهان السرير</label>
-                        <select id="bed-paint-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            <option value="none" selected>بدون دهان</option>
-                            <option value="ester">استر</option>
-                            <option value="duco">دوكو</option>
-                        </select>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 pt-2">
-                         <div class="flex items-center"><input type="checkbox" id="lifting-mechanism" class="h-4 w-4 text-indigo-600 rounded"><label for="lifting-mechanism" class="mr-2 text-sm text-slate-700">ميكانيزم رفع</label></div>
-                         <div class="flex items-center"><input type="checkbox" id="bed-led" class="h-4 w-4 text-indigo-600 rounded"><label for="bed-led" class="mr-2 text-sm text-slate-700">إضاءة ليد للسرير</label></div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-2 pt-2 border-t mt-4">
-                        <div><label class="text-sm font-medium text-slate-600">عدد الكمود</label><input type="number" id="komod-count" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                        <div><label class="text-sm font-medium text-slate-600">أدراج الكمود</label><input type="number" id="komod-drawers" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                    </div>
+                        <div id="bed-controls" class="space-y-4">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-sm font-medium text-slate-600">عدد السراير</label>
+                                    <input type="number" id="bed-count" value="1" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="bed-count-error" class="input-error-message"></p>
+                                </div>
+                                <div><label class="text-sm font-medium text-slate-600">مقاس السرير</label><select id="bed-size" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="100">100 سم</option><option value="120">120 سم</option><option value="140">140 سم</option><option value="160" selected>160 سم</option><option value="180">180 سم</option><option value="200">200 سم</option></select></div>
+                            </div>
+                            <div>
+                                <label class="text-sm font-medium text-slate-600">خامة السرير</label>
+                                <select id="bed-material" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    <option value="wood">خشب فقط</option>
+                                    <option value="upholstered_back">تنجيد الظهر فقط</option>
+                                    <option value="upholstered_full">تنجيد كامل</option>
+                                </select>
+                            </div>
+                            <div id="bed-paint-option-container" class="hidden">
+                                <label for="bed-paint-type" class="text-sm font-medium text-slate-600">نوع دهان السرير</label>
+                                <select id="bed-paint-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    <option value="none" selected>بدون دهان</option>
+                                    <option value="ester">استر</option>
+                                    <option value="duco">دوكو</option>
+                                </select>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 pt-2">
+                                <div><div class="flex items-center"><input type="checkbox" id="lifting-mechanism" class="h-4 w-4 text-indigo-600 rounded"><label for="lifting-mechanism" class="mr-2 text-sm text-slate-700">ميكانيزم رفع</label></div></div>
+                                <div><div class="flex items-center"><input type="checkbox" id="bed-led" class="h-4 w-4 text-indigo-600 rounded"><label for="bed-led" class="mr-2 text-sm text-slate-700">إضاءة ليد للسرير</label></div></div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2 pt-2 border-t mt-4">
+                                <div>
+                                    <label class="text-sm font-medium text-slate-600">عدد الكمود</label>
+                                    <input type="number" id="komod-count" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="komod-count-error" class="input-error-message"></p>
+                                </div>
+                                <div>
+                                    <label class="text-sm font-medium text-slate-600">أدراج الكمود</label>
+                                    <input type="number" id="komod-drawers" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="komod-drawers-error" class="input-error-message"></p>
+                                </div>
+                            </div>
+                        </div>
                 </div>
 
                 <!-- 3. Dresser Card -->
-                <div class="bg-white p-6 rounded-2xl shadow-md border space-y-4 lg:col-span-2">
+                <div id="dresser-mirror-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4 lg:col-span-2">
                     <div class="flex justify-between items-center border-b pb-3">
                         <h3 class="text-xl font-bold text-slate-800">3. التسريحة والمرايا</h3>
-                         <div class="flex items-center gap-2">
-                            <label for="include-dresser" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                            <input type="checkbox" id="include-dresser" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
-                        </div>
+                            <div class="flex items-center gap-2">
+                                <label for="include-dresser" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                <input type="checkbox" id="include-dresser" data-card-id="dresser-mirror-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
+                            </div>
                     </div>
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
-                        <div><label class="text-sm font-medium text-slate-600">طريقة التركيب</label><select id="dresser-type" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="hanging">معلقة</option><option value="floor" selected>على الأرض</option></select></div>
-                        <div><label class="text-sm font-medium text-slate-600">عدد الأدراج</label><input type="number" id="dresser-drawers" value="3" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                        <div><label class="text-xs text-slate-500">العرض (سم)</label><input type="number" id="dresser-width" value="120" min="60" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                        <div><label class="text-xs text-slate-500">العمق (سم)</label><input type="number" id="dresser-depth" value="45" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                    </div>
-                    <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 pt-4 border-t mt-4">
-                        <div>
-                           <label for="mirror-shape" class="text-sm font-medium text-slate-600">شكل المرايا</label>
-                           <select id="mirror-shape" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                               <option value="rectangle">مستطيل</option>
-                               <option value="square">مربع</option>
-                               <option value="circle">دائري</option>
-                           </select>
+                    <div id="dresser-controls" class="space-y-4">
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                            <div><label class="text-sm font-medium text-slate-600">طريقة التركيب</label><select id="dresser-type" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="hanging">معلقة</option><option value="floor" selected>على الأرض</option></select></div>
+                            <div>
+                                <label class="text-sm font-medium text-slate-600">عدد الأدراج</label>
+                                <input type="number" id="dresser-drawers" value="3" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <p id="dresser-drawers-error" class="input-error-message"></p>
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-500">العرض (سم)</label>
+                                <input type="number" id="dresser-width" value="120" min="60" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <p id="dresser-width-error" class="input-error-message"></p>
+                            </div>
+                            <div>
+                                <label class="text-xs text-slate-500">العمق (سم)</label>
+                                <input type="number" id="dresser-depth" value="45" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <p id="dresser-depth-error" class="input-error-message"></p>
+                            </div>
                         </div>
-                        <div><label id="mirror-width-label" class="text-xs text-slate-500">عرض المرايا (سم)</label><input type="number" id="mirror-width" value="70" min="40" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                        <div id="mirror-height-container"><label id="mirror-height-label" class="text-xs text-slate-500">ارتفاع المرايا (سم)</label><input type="number" id="mirror-height" value="100" min="60" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                        <div class="flex items-end pb-1"><div class="flex items-center"><input type="checkbox" id="mirror-led" class="h-4 w-4 text-indigo-600 rounded"><label for="mirror-led" class="mr-2 text-sm text-slate-700">إضاءة ليد للمرايا</label></div></div>
+                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 pt-4 border-t mt-4">
+                            <div>
+                                <label for="mirror-shape" class="text-sm font-medium text-slate-600">شكل المرايا</label>
+                                <select id="mirror-shape" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    <option value="rectangle">مستطيل</option>
+                                    <option value="square">مربع</option>
+                                    <option value="circle">دائري</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label id="mirror-width-label" class="text-xs text-slate-500">عرض المرايا (سم)</label>
+                                <input type="number" id="mirror-width" value="70" min="40" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <p id="mirror-width-error" class="input-error-message"></p>
+                            </div>
+                            <div id="mirror-height-container">
+                                <label id="mirror-height-label" class="text-xs text-slate-500">ارتفاع المرايا (سم)</label>
+                                <input type="number" id="mirror-height" value="100" min="60" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <p id="mirror-height-error" class="input-error-message"></p>
+                            </div>
+                            <div class="flex items-end pb-1"><div class="flex items-center"><input type="checkbox" id="mirror-led" class="h-4 w-4 text-indigo-600 rounded"><label for="mirror-led" class="mr-2 text-sm text-slate-700">إضاءة ليد للمرايا</label></div></div>
+                        </div>
                     </div>
                 </div>
 
@@ -268,101 +354,154 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     
                     <!-- TV Table -->
-                    <div class="space-y-3 p-4 border rounded-lg bg-slate-50">
+                    <div id="tv-table-card" class="space-y-3 p-4 border rounded-lg bg-slate-50">
                         <div class="flex justify-between items-center">
                             <h4 class="font-bold text-slate-700">ترابيزة تليفزيون (TV Unit)</h4>
                             <div class="flex items-center gap-2">
                                 <label for="include-tv-table" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                                <input type="checkbox" id="include-tv-table" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                                <input type="checkbox" id="include-tv-table" data-card-id="tv-table-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
                             </div>
                         </div>
-                        <div class="grid grid-cols-3 gap-2">
-                            <div><label class="text-xs text-slate-500">العرض (سم)</label><input type="number" id="tv-table-width" value="160" min="80" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                            <div><label class="text-xs text-slate-500">الارتفاع (سم)</label><input type="number" id="tv-table-height" value="50" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                            <div><label class="text-xs text-slate-500">العمق (سم)</label><input type="number" id="tv-table-depth" value="40" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                        </div>
-                         <div class="grid grid-cols-2 gap-2">
+                        <div id="tv-table-controls" class="space-y-3">
+                            <div class="grid grid-cols-3 gap-2">
+                                <div>
+                                    <label class="text-xs text-slate-500">العرض (سم)</label>
+                                    <input type="number" id="tv-table-width" value="160" min="80" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="tv-table-width-error" class="input-error-message"></p>
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500">الارتفاع (سم)</label>
+                                    <input type="number" id="tv-table-height" value="50" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="tv-table-height-error" class="input-error-message"></p>
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500">العمق (سم)</label>
+                                    <input type="number" id="tv-table-depth" value="40" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="tv-table-depth-error" class="input-error-message"></p>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-xs text-slate-500">عدد الأدراج</label>
+                                    <input type="number" id="tv-table-drawers" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="tv-table-drawers-error" class="input-error-message"></p>
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500">عدد الدولف</label>
+                                    <input type="number" id="tv-table-doors" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="tv-table-doors-error" class="input-error-message"></p>
+                                </div>
+                            </div>
                             <div>
-                                <label class="text-xs text-slate-500">عدد الأدراج</label>
-                                <input type="number" id="tv-table-drawers" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                <label class="text-sm font-medium text-slate-600">طريقة التركيب</label>
+                                <select id="tv-table-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    <option value="floor" selected>على الأرض</option>
+                                    <option value="hanging">معلقة</option>
+                                </select>
                             </div>
-                            <div>
-                                <label class="text-xs text-slate-500">عدد الدولف</label>
-                                <input type="number" id="tv-table-doors" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                        </div>
-                        <div>
-                           <label class="text-sm font-medium text-slate-600">طريقة التركيب</label>
-                           <select id="tv-table-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                               <option value="floor" selected>على الأرض</option>
-                               <option value="hanging">معلقة</option>
-                           </select>
                         </div>
                     </div>
 
                     <!-- Coffee Table -->
-                    <div class="space-y-3 p-4 border rounded-lg bg-slate-50">
+                    <div id="coffee-table-card" class="space-y-3 p-4 border rounded-lg bg-slate-50">
                         <div class="flex justify-between items-center">
                             <h4 class="font-bold text-slate-700">ترابيزة وسط (Coffee Table)</h4>
                             <div class="flex items-center gap-2">
                                 <label for="include-coffee-table" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                                <input type="checkbox" id="include-coffee-table" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                                <input type="checkbox" id="include-coffee-table" data-card-id="coffee-table-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
                             </div>
                         </div>
-                        <div class="grid grid-cols-3 gap-2">
-                           <div><label class="text-xs text-slate-500">العرض (سم)</label><input type="number" id="coffee-table-width" value="100" min="50" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                           <div><label class="text-xs text-slate-500">الارتفاع (سم)</label><input type="number" id="coffee-table-height" value="45" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                           <div><label class="text-xs text-slate-500">العمق (سم)</label><input type="number" id="coffee-table-depth" value="60" min="40" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
+                        <div id="coffee-table-controls" class="space-y-3">
+                            <div class="grid grid-cols-3 gap-2">
+                                <div>
+                                    <label class="text-xs text-slate-500">العرض (سم)</label>
+                                    <input type="number" id="coffee-table-width" value="100" min="50" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="coffee-table-width-error" class="input-error-message"></p>
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500">الارتفاع (سم)</label>
+                                    <input type="number" id="coffee-table-height" value="45" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="coffee-table-height-error" class="input-error-message"></p>
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500">العمق (سم)</label>
+                                    <input type="number" id="coffee-table-depth" value="60" min="40" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="coffee-table-depth-error" class="input-error-message"></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- L-Shape Sofa -->
-                    <div class="space-y-3 p-4 border rounded-lg bg-slate-50">
+                    <div id="l-sofa-card" class="space-y-3 p-4 border rounded-lg bg-slate-50">
                         <div class="flex justify-between items-center">
                             <h4 class="font-bold text-slate-700">ركنة حرف L (Corner Sofa)</h4>
                             <div class="flex items-center gap-2">
                                 <label for="include-l-sofa" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                                <input type="checkbox" id="include-l-sofa" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                                <input type="checkbox" id="include-l-sofa" data-card-id="l-sofa-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
                             </div>
                         </div>
-                        <div class="grid grid-cols-2 gap-2">
-                           <div><label class="text-xs text-slate-500">العرض (سم)</label><input type="number" id="l-sofa-width" value="250" min="150" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
-                           <div><label class="text-xs text-slate-500">العمق (سم)</label><input type="number" id="l-sofa-depth" value="180" min="100" class="w-full mt-1 p-2 rounded-md border border-slate-300"></div>
+                        <div id="l-sofa-controls" class="space-y-3">
+                            <div class="grid grid-cols-2 gap-2">
+                                <div>
+                                    <label class="text-xs text-slate-500">العرض (سم)</label>
+                                    <input type="number" id="l-sofa-width" value="250" min="150" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="l-sofa-width-error" class="input-error-message"></p>
+                                </div>
+                                <div>
+                                    <label class="text-xs text-slate-500">العمق (سم)</label>
+                                    <input type="number" id="l-sofa-depth" value="180" min="100" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                    <p id="l-sofa-depth-error" class="input-error-message"></p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Sofa -->
-                    <div class="space-y-3 p-4 border rounded-lg bg-slate-50">
+                    <div id="sofa-card" class="space-y-3 p-4 border rounded-lg bg-slate-50">
                         <div class="flex justify-between items-center">
                             <h4 class="font-bold text-slate-700">كنبة (Sofa)</h4>
                             <div class="flex items-center gap-2">
                                 <label for="include-sofa" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                                <input type="checkbox" id="include-sofa" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                                <input type="checkbox" id="include-sofa" data-card-id="sofa-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
                             </div>
                         </div>
-                        <div>
-                           <label class="text-xs text-slate-500">العرض (سم)</label>
-                           <input type="number" id="sofa-width" value="200" min="120" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                        <div id="sofa-controls" class="space-y-3">
+                            <div>
+                                <label class="text-xs text-slate-500">العرض (سم)</label>
+                                <input type="number" id="sofa-width" value="200" min="120" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <p id="sofa-width-error" class="input-error-message"></p>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Sofa Bed -->
-                    <div class="space-y-3 p-4 border rounded-lg bg-slate-50 md:col-span-2">
+                    <div id="sofa-bed-card" class="space-y-3 p-4 border rounded-lg bg-slate-50 md:col-span-2">
                         <div class="flex justify-between items-center">
                             <h4 class="font-bold text-slate-700">كنبة سرير (Sofa Bed)</h4>
                             <div class="flex items-center gap-2">
                                 <label for="include-sofa-bed" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                                <input type="checkbox" id="include-sofa-bed" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                                <input type="checkbox" id="include-sofa-bed" data-card-id="sofa-bed-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
                             </div>
                         </div>
-                        <div>
-                           <label class="text-xs text-slate-500">العرض (سم)</label>
-                           <input type="number" id="sofa-bed-width" value="200" min="120" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                        <div id="sofa-bed-controls" class="space-y-3">
+                            <div>
+                                <label class="text-xs text-slate-500">العرض (سم)</label>
+                                <input type="number" id="sofa-bed-width" value="200" min="120" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <p id="sofa-bed-width-error" class="input-error-message"></p>
+                            </div>
                         </div>
                     </div>
 
                 </div>
             </div>
+
+            <!-- Additional Notes -->
+            <div class="bg-indigo-50 p-6 rounded-2xl border-2 border-indigo-200 shadow-inner">
+                 <h3 class="text-xl font-bold mb-3 text-indigo-700">5. ملاحظات إضافية أو طلبات خاصة</h3>
+                 <textarea id="additional-notes" rows="4" placeholder="اكتب هنا أي تفاصيل إضافية عن التصميم، خامات معينة، أو ملاحظات للورشة..." class="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
+            </div>
+
 
             <div class="text-center pt-8">
                 <button type="button" id="show-quote-btn" class="primary-btn bg-indigo-600 hover:bg-indigo-700 shadow-indigo-300 hover:shadow-indigo-400 w-full max-w-sm py-3 text-lg">
@@ -376,10 +515,11 @@
     <!-- STICKY FOOTER FOR PRICE & SUBMISSION -->
     <footer class="fixed bottom-0 left-0 right-0 bg-white/80 backdrop-blur-sm border-t border-slate-200 shadow-t-xl z-50 hidden">
         <div class="max-w-4xl mx-auto p-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <!-- Price Display -->
-            <div class="text-center sm:text-right">
+            <!-- Price and Time Display -->
+            <div class="flex flex-col text-center sm:text-right">
                 <p class="text-sm font-medium text-slate-500">السعر التقديري المحدد</p>
                 <p id="total-price" class="text-3xl font-black text-indigo-700">0 ج.م</p>
+                <p id="delivery-estimate" class="text-sm font-bold text-green-700 mt-2">وقت التصنيع المقدر: 0 أسابيع</p>
                 <p class="text-xs text-slate-500 mt-1">هذا السعر هو تقدير مبدئي غير مُلزم، ويخضع للتأكيد والقياسات النهائية</p>
                 <p id="price-error-message" class="text-xs text-red-600 h-4"></p>
             </div>
@@ -415,22 +555,43 @@
             currentUserId: null,
             elements: {},
             config: {
-                WHATSAPP_NUMBER: "201110846333",
+                WHATSAPP_NUMBER: "201110846333", // رقم واتساب افتراضي
                 COSTS: {
-                    WOOD_BASE: { 'counter': 2800, 'counter_melamine': 2320, 'hpl_separate': 2720 },
-                    PAINT: { 'ester': 200, 'duco': 400, 'none': 0 },
-                    CLOSET: { 'sliding': 200, 'glass_door': 1500, 'wood_door_deduction': 1000, 'internal_drawer': 400, 'led': 1200, 'shelves': 80 },
-                    BED: { 'base_price_unit_160': 4800, 'lifting_mechanism': 3600, 'upholstered_back': 1600, 'upholstered_full': 3200, 'led': 640 },
-                    KOMOD: { 'base_price': 1440, 'drawer_cost': 480 },
+                    // الأسعار هنا هي أسعار تقديرية للمتر المربع/الطولي بالجنيه المصري
+                    WOOD_BASE: { 'counter': 2800, 'counter_melamine': 2320, 'hpl_separate': 2720 }, // سعر المتر المربع
+                    PAINT: { 'ester': 200, 'duco': 400, 'none': 0 }, // سعر المتر المربع إضافي
+                    CLOSET: { 
+                        'sliding': 200, 'glass_door': 1500, 'wood_door_deduction': 1000, 'led': 1200, 
+                        // Base cost assumption for internal fittings if not using ratio: 3 drawers / 6 shelves
+                        'internal_drawer_cost': 400, 
+                        'shelf_cost': 80 
+                    }, 
+                    BED: { 'base_price_unit_160': 4800, 'lifting_mechanism': 3600, 'upholstered_back': 1600, 'upholstered_full': 3200, 'led': 640 }, 
+                    KOMOD: { 'base_price': 1440, 'drawer_cost': 480 }, 
                     DRESSER: { 'hanging_premium': 400, 'drawer_cost': 560 },
-                    MIRROR: { 'base_area_cost_per_sqm': 800, 'led': 960 },
-                    TABLES: { 'base_cost_per_sqm': 2400, 'drawer_cost': 500, 'door_cost': 350, 'hanging_premium': 400 },
-                    SOFAS: { 'l_shape': 6300, 'sofa': 6300, 'sofa_bed': 9000 },
+                    MIRROR: { 'base_area_cost_per_sqm': 800, 'led': 960 }, 
+                    TABLES: { 'base_cost_per_sqm': 2400, 'drawer_cost': 500, 'door_cost': 350, 'hanging_premium': 400 }, 
+                    SOFAS: { 'l_shape': 6300, 'sofa': 6300, 'sofa_bed': 9000 }, 
+                },
+                DELIVERY_TIMES: {
+                    'counter': 10,
+                    'counter_melamine': 6,
+                    'hpl_separate': 6,
+                    'bed': 4, 
+                    'komod': 4,
+                    'dresser': 4,
+                    'table': 4, // Used for TV table and coffee table
+                    'sofa': 4 // Used for L-Sofa, Sofa, Sofa Bed
                 },
                 DIMENSIONS: {
                     'small': { closet: { w: 160, h: 220 }, bed_size: '140', dresser: { w: 100, d: 40, drawers: 2 }, mirror: { w: 60, h: 90 } },
                     'medium': { closet: { w: 200, h: 240 }, bed_size: '160', dresser: { w: 120, d: 45, drawers: 3 }, mirror: { w: 70, h: 100 } },
                     'large': { closet: { w: 250, h: 250 }, bed_size: '180', dresser: { w: 140, d: 50, drawers: 4 }, mirror: { w: 80, h: 120 } }
+                },
+                STORAGE_RATIOS: { // Maps ratio to internal drawers/shelves for pricing
+                    'mostly_hanging': { drawers: 1, shelves: 2, description: 'أغلبها تعليق' },
+                    'balanced': { drawers: 3, shelves: 6, description: 'متوازن' },
+                    'mostly_folding': { drawers: 5, shelves: 10, description: 'أغلبها طيّ / أرفف' }
                 },
                 AR_TRANSLATIONS: {
                     roomSize: { 'small': 'صغيرة', 'medium': 'متوسطة', 'large': 'كبيرة' },
@@ -450,6 +611,15 @@
         const $ = (selector) => document.querySelector(selector);
         const $$ = (selector) => document.querySelectorAll(selector);
 
+        // Debounce function to limit the rate of function calls
+        function debounce(func, delay) {
+            let timeout;
+            return function(...args) {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), delay);
+            };
+        }
+
         function showAlert(message, title = "تنبيه") {
             App.elements.modalTitle.textContent = title;
             App.elements.modalMessage.textContent = message;
@@ -463,14 +633,327 @@
             setTimeout(() => App.elements.alertModal.classList.add('pointer-events-none'), 300);
         }
         
+        // Helper to get all form values
+        function getFullConfiguration() {
+            const elements = App.elements;
+            const float = (el) => parseFloat(el.value) || 0;
+            const int = (el) => parseInt(el.value) || 0;
+
+            const storageRatio = elements.closetStorageRatio ? App.config.STORAGE_RATIOS[elements.closetStorageRatio.value] : App.config.STORAGE_RATIOS['balanced'];
+
+            return {
+                // Includes
+                includeCloset: elements.includeCloset.checked, includeBed: elements.includeBed.checked, includeDresser: elements.includeDresser.checked, includeTvTable: elements.includeTvTable.checked, includeCoffeeTable: elements.includeCoffeeTable.checked, 
+                includeLSofa: elements.includeLSofa.checked, includeSofa: elements.includeSofa.checked, includeSofaBed: elements.includeSofaBed.checked,
+                roomSize: elements.roomSize.value,
+                additionalNotes: elements.additionalNotes.value,
+
+                // Closet
+                closet: { 
+                    woodType: elements.closetWoodType.value, paintType: $('#closet-paint-type').value || 'none', 
+                    width: float(elements.closetWidth), height: float(elements.closetHeight), depth: float(elements.closetDepth), 
+                    doors: int(elements.closetDoors), glassDoors: int(elements.closetGlassDoors), 
+                    storageRatio: elements.closetStorageRatio.value, // New ratio field
+                    internalDrawers: storageRatio.drawers, // Derived for calculation
+                    shelves: storageRatio.shelves, // Derived for calculation
+                    mechanism: elements.doorMechanism.value, hasLed: elements.closetLed.checked 
+                },
+                // Bed & Komod
+                bed: { count: int(elements.bedCount), size: int(elements.bedSize), material: elements.bedMaterial.value, paintType: $('#bed-paint-type').value || 'none', hasLiftingMechanism: elements.liftingMechanism.checked, hasLed: elements.bedLed.checked },
+                komod: { count: int(elements.komodCount), drawers: int(elements.komodDrawers) },
+                // Dresser & Mirror
+                dresser: { type: elements.dresserType.value, drawers: int(elements.dresserDrawers), width: float(elements.dresserWidth), depth: float(elements.dresserDepth), mirrorWidth: float(elements.mirrorWidth), mirrorHeight: float(elements.mirrorHeight), mirrorShape: elements.mirrorShape.value, hasMirrorLed: elements.mirrorLed.checked },
+                // Tables & Sofas
+                tvTable: { type: elements.tvTableType.value, width: float(elements.tvTableWidth), height: float(elements.tvTableHeight), depth: float(elements.tvTableDepth), drawers: int(elements.tvTableDrawers), doors: int(elements.tvTableDoors) },
+                coffeeTable: { width: float(elements.coffeeTableWidth), height: float(elements.coffeeTableHeight), depth: float(elements.coffeeTableDepth) },
+                lSofa: { width: float(elements.lSofaWidth), depth: float(elements.lSofaDepth) },
+                sofa: { width: float(elements.sofaWidth) },
+                sofaBed: { width: float(elements.sofaBedWidth) },
+            };
+        }
+
+        // Calculates the estimated total surface area (m²) for cubic furniture (Wardrobe/Dresser)
+        function calculateSurfaceArea(w, h, d) {
+            const [widthM, heightM, depthM] = [w / 100, h / 100, d / 100];
+            // Area = 2 * (W*H) + 2 * (H*D) + (W*D) - This estimates the wood used for sides, top, bottom, back, and doors.
+            return (widthM * heightM * 2) + (widthM * depthM) + (heightM * depthM * 2);
+        }
+        
+        function calculateDeliveryEstimate(config) {
+            const D = App.config.DELIVERY_TIMES;
+            let maxWeeks = 0;
+            
+            if (config.includeCloset) {
+                const materialTime = D[config.closet.woodType];
+                maxWeeks = Math.max(maxWeeks, materialTime || 0);
+            }
+
+            if (config.includeBed) {
+                maxWeeks = Math.max(maxWeeks, D.bed || 0);
+            }
+            if (config.includeBed && config.komod.count > 0) {
+                 maxWeeks = Math.max(maxWeeks, D.komod || 0);
+            }
+
+            if (config.includeDresser) {
+                maxWeeks = Math.max(maxWeeks, D.dresser || 0);
+            }
+
+            if (config.includeTvTable || config.includeCoffeeTable) {
+                maxWeeks = Math.max(maxWeeks, D.table || 0);
+            }
+            
+            if (config.includeLSofa || config.includeSofa || config.includeSofaBed) {
+                 maxWeeks = Math.max(maxWeeks, D.sofa || 0);
+            }
+
+            return maxWeeks;
+        }
+
+        function calculateTotal() {
+            const formConfig = getFullConfiguration();
+            const C = App.config.COSTS;
+            let total = 0;
+            let error = null;
+
+            // Helper for input validation: checks if a field is included and has a valid positive value
+            const isValidPositive = (val) => typeof val === 'number' && !isNaN(val) && val >= 0;
+            
+            // Function to validate a single input element and display error
+            const validateInput = (el, minRequired = 0) => {
+                const val = parseFloat(el.value);
+                const errorEl = $(`#${el.id}-error`);
+                
+                // CRITICAL CHANGE: Only return true if the element is NOT checked (ignoring validation)
+                if (!App.elements[`include-${el.closest('[id$="-card"]').id.replace('-card', '')}`]?.checked) {
+                     errorEl.textContent = '';
+                     el.classList.remove('border-red-500', 'bg-red-50');
+                     return true;
+                }
+
+                if (isNaN(val) || val < minRequired) {
+                    errorEl.textContent = `القيمة غير صالحة. يجب أن تكون ${minRequired === 0 ? 'صفر أو موجبة' : 'أكبر من أو تساوي ' + minRequired}.`;
+                    el.classList.add('border-red-500', 'bg-red-50');
+                    return false;
+                } else {
+                    errorEl.textContent = '';
+                    el.classList.remove('border-red-500', 'bg-red-50');
+                    return true;
+                }
+            };
+
+            // --- Validation & Calculation ---
+            let allInputsValid = true;
+
+            // 1. Closet
+            if (formConfig.includeCloset) {
+                const cl = formConfig.closet;
+                const controls = [App.elements.closetWidth, App.elements.closetHeight, App.elements.closetDepth, App.elements.closetDoors, App.elements.closetGlassDoors];
+                
+                controls.forEach(c => {
+                    if (!validateInput(c, c.min || 1)) allInputsValid = false;
+                });
+
+                if (cl.glassDoors > cl.doors) {
+                    error = "عدد الضلف الزجاجية لا يمكن أن يتجاوز العدد الكلي للضلف.";
+                    allInputsValid = false;
+                    App.elements.closetGlassDoors.classList.add('border-red-500', 'bg-red-50');
+                } else if (!error) {
+                    App.elements.closetGlassDoors.classList.remove('border-red-500', 'bg-red-50');
+
+                    const area = calculateSurfaceArea(cl.width, cl.height, cl.depth);
+                    total += area * (C.WOOD_BASE[cl.woodType] + C.PAINT[cl.paintType]);
+                    
+                    // Add costs based on Storage Ratio logic
+                    total += cl.internalDrawers * C.CLOSET.internal_drawer_cost;
+                    total += cl.shelves * C.CLOSET.shelf_cost;
+                    
+                    if (cl.mechanism === 'sliding') total += cl.doors * C.CLOSET.sliding;
+                    if (cl.hasLed) total += C.CLOSET.led;
+                    total += cl.glassDoors * (C.CLOSET.glass_door - C.CLOSET.wood_door_deduction);
+                }
+            } else {
+                 // Clear validation when unchecked (but allow user to edit)
+                $$('#closet-controls input.input-with-error').forEach(el => validateInput(el, 1));
+            }
+
+
+            // 2. Bed & Komod
+            if (formConfig.includeBed) {
+                const be = formConfig.bed;
+                const ko = formConfig.komod;
+
+                if (!validateInput(App.elements.bedCount, 1)) allInputsValid = false;
+                if (!validateInput(App.elements.komodCount, 0)) allInputsValid = false;
+                if (!validateInput(App.elements.komodDrawers, 0)) allInputsValid = false;
+
+                if (allInputsValid) {
+                    if (be.count > 0 && be.size > 0) {
+                        let bedPrice = C.BED.base_price_unit_160 * (be.size / 160);
+                        if (be.material === 'upholstered_back') bedPrice += C.BED.upholstered_back;
+                        if (be.material === 'upholstered_full') bedPrice += C.BED.upholstered_full;
+                        if (be.hasLiftingMechanism) bedPrice += C.BED.lifting_mechanism;
+                        if (be.hasLed) bedPrice += C.BED.led;
+                        if (be.material === 'wood') bedPrice += (be.size / 100 * 2) * C.PAINT[be.paintType]; 
+                        total += bedPrice * be.count;
+                        
+                        if (ko.count > 0) {
+                            total += ko.count * (C.KOMOD.base_price + (ko.drawers * C.KOMOD.drawer_cost));
+                        }
+                    }
+                }
+            } else {
+                $$('#bed-controls input.input-with-error').forEach(el => validateInput(el, el.min || 0));
+            }
+
+            // 3. Dresser & Mirror
+            if (formConfig.includeDresser) {
+                const dr = formConfig.dresser;
+                
+                if (!validateInput(App.elements.dresserWidth, 60)) allInputsValid = false;
+                if (!validateInput(App.elements.dresserDepth, 30)) allInputsValid = false;
+                if (!validateInput(App.elements.dresserDrawers, 0)) allInputsValid = false;
+
+                if (dr.mirrorShape !== 'square' && dr.mirrorShape !== 'circle') {
+                    if (!validateInput(App.elements.mirrorHeight, 60)) allInputsValid = false;
+                } else {
+                    // This input is not technically required for square/circle, but we validate it if it's there
+                    validateInput(App.elements.mirrorHeight, 0); 
+                }
+                if (!validateInput(App.elements.mirrorWidth, 40)) allInputsValid = false;
+                
+
+                if (allInputsValid && dr.width > 0) {
+                    const dresserHeight = 90; 
+                    const area = calculateSurfaceArea(dr.width, dresserHeight, dr.depth);
+                    total += area * C.WOOD_BASE.counter;
+                    total += dr.drawers * C.DRESSER.drawer_cost;
+                    if (dr.type === 'hanging') total += C.DRESSER.hanging_premium;
+
+                    let mirrorArea = 0;
+                    if (dr.mirrorShape === 'circle') {
+                        mirrorArea = Math.PI * Math.pow(dr.mirrorWidth / 200, 2); 
+                    } else if (dr.mirrorShape === 'square') {
+                        mirrorArea = Math.pow(dr.mirrorWidth / 100, 2); 
+                    } else { // Rectangle
+                        mirrorArea = (dr.mirrorWidth / 100) * (dr.mirrorHeight / 100);
+                    }
+                    total += mirrorArea * C.MIRROR.base_area_cost_per_sqm;
+                    if (dr.hasMirrorLed) total += C.MIRROR.led;
+                }
+            } else {
+                $$('#dresser-controls input.input-with-error').forEach(el => validateInput(el, el.min || 0));
+            }
+
+            // 4. Additional Items
+            const additionalItems = [
+                { include: 'includeTvTable', width: App.elements.tvTableWidth, height: App.elements.tvTableHeight, depth: App.elements.tvTableDepth, drawers: App.elements.tvTableDrawers, doors: App.elements.tvTableDoors, minW: 80, minH: 30, minD: 30, cost: (cfg, C) => {
+                    const area = calculateSurfaceArea(cfg.width, cfg.height, cfg.depth);
+                    let itemTotal = area * C.TABLES.base_cost_per_sqm;
+                    itemTotal += cfg.drawers * C.TABLES.drawer_cost;
+                    itemTotal += cfg.doors * C.TABLES.door_cost;
+                    if (cfg.type === 'hanging') itemTotal += C.TABLES.hanging_premium;
+                    return itemTotal;
+                }, configKey: 'tvTable' },
+                { include: 'includeCoffeeTable', width: App.elements.coffeeTableWidth, height: App.elements.coffeeTableHeight, depth: App.elements.coffeeTableDepth, minW: 50, minH: 30, minD: 40, cost: (cfg, C) => {
+                    const area = calculateSurfaceArea(cfg.width, cfg.height, cfg.depth);
+                    return area * C.TABLES.base_cost_per_sqm;
+                }, configKey: 'coffeeTable' },
+                { include: 'includeLSofa', width: App.elements.lSofaWidth, depth: App.elements.lSofaDepth, minW: 150, minD: 100, cost: (cfg, C) => {
+                    const totalMeters = (cfg.width / 100) + (cfg.depth / 100);
+                    return totalMeters * C.SOFAS.l_shape;
+                }, configKey: 'lSofa' },
+                { include: 'includeSofa', width: App.elements.sofaWidth, minW: 120, cost: (cfg, C) => {
+                    return (cfg.width / 100) * C.SOFAS.sofa;
+                }, configKey: 'sofa' },
+                { include: 'includeSofaBed', width: App.elements.sofaBedWidth, minW: 120, cost: (cfg, C) => {
+                    return (cfg.width / 100) * C.SOFAS.sofa_bed;
+                }, configKey: 'sofaBed' }
+            ];
+
+            additionalItems.forEach(item => {
+                if (formConfig[item.include]) {
+                    const cfg = formConfig[item.configKey];
+                    let itemValid = true;
+
+                    // Validate all required dimension inputs
+                    if (item.width && !validateInput(item.width, item.minW)) itemValid = false;
+                    if (item.height && !validateInput(item.height, item.minH)) itemValid = false;
+                    if (item.depth && !validateInput(item.depth, item.minD)) itemValid = false;
+                    if (item.drawers && !validateInput(item.drawers, 0)) itemValid = false;
+                    if (item.doors && !validateInput(item.doors, 0)) itemValid = false;
+                    
+                    if (itemValid) {
+                        total += item.cost(cfg, C);
+                    } else {
+                        allInputsValid = false;
+                        error = error || "هناك قيم غير صالحة في قسم الأثاث الإضافي.";
+                    }
+                } else {
+                    // Clear validation when unchecked (but allow user to edit)
+                    const cardEl = $(`#${item.include.replace('include-', '')}-card`);
+                    if (cardEl) {
+                         cardEl.querySelectorAll('input.input-with-error').forEach(el => validateInput(el, el.min || 0));
+                    }
+                }
+            });
+
+
+            return { total: allInputsValid && !error ? total : -1, error };
+        }
+
+        // Renamed and moved up to resolve ReferenceError
+        function recalculate() {
+            const result = calculateTotal();
+            const roundedTotal = Math.round(Math.max(0, result.total)); // Ensure price is never negative when displaying
+            const config = getFullConfiguration();
+            const deliveryWeeks = calculateDeliveryEstimate(config);
+
+            App.elements.totalPrice.textContent = `${roundedTotal.toLocaleString('ar-EG')} ج.م`;
+            App.elements.priceErrorMessage.textContent = result.error || '';
+            App.elements.deliveryEstimate.textContent = `وقت التصنيع المقدر: ${deliveryWeeks} أسابيع`;
+        }
+
+        const debouncedRecalculate = debounce(recalculate, 300);
+
         // --- UI MANIPULATION ---
+        function handleCardToggle(checkbox) {
+            const cardId = checkbox.dataset.cardId;
+            const cardElement = $(`#${cardId}`);
+            // const controlsElement = $(`#${cardId.replace('-card', '-controls')}`); // No longer needed
+            const isChecked = checkbox.checked;
+
+            if (isChecked) {
+                // Visual highlight effect
+                cardElement.classList.add('highlight-card');
+                setTimeout(() => cardElement.classList.remove('highlight-card'), 200);
+                // cardElement.classList.remove('card-disabled'); // REMOVED DISABLING
+                
+            } else {
+                // cardElement.classList.add('card-disabled'); // REMOVED DISABLING
+            }
+
+            // // REMOVED: disabling all inputs inside the card
+            // if (controlsElement) {
+            //     controlsElement.querySelectorAll('input, select, textarea').forEach(input => {
+            //         input.disabled = !isChecked;
+            //     });
+            // }
+            
+            // For the main items, we still need to run updateUI to handle paint/mirror options
+            updateUI(); 
+        }
+
         function updateUI() {
+            // 1. Closet Paint Option visibility
             const closetWoodType = App.elements.closetWoodType.value;
             $('#closet-paint-option-container').style.display = (closetWoodType === 'counter') ? 'block' : 'none';
             
+            // 2. Bed Paint Option visibility
             const bedMaterial = App.elements.bedMaterial.value;
             $('#bed-paint-option-container').style.display = (bedMaterial === 'wood') ? 'block' : 'none';
 
+            // 3. Mirror dimensions based on shape
             const mirrorShape = App.elements.mirrorShape.value;
             const widthLabel = $('#mirror-width-label');
             const heightContainer = $('#mirror-height-container');
@@ -485,10 +968,13 @@
                 heightContainer.style.display = 'block';
             }
 
-            // Enable/disable submit button based on contact info
+            // 4. Enable/disable submit button based on contact info
             const name = App.elements.customerName.value.trim();
             const phone = App.elements.customerPhone.value.trim();
             App.elements.requestQuoteBtn.disabled = !(name && phone);
+
+            // 5. Always recalculate after a UI change (checkboxes/selects/dimensions)
+            recalculate();
         }
         
         function updateDimensionsBasedOnSize() {
@@ -496,9 +982,10 @@
             const dims = App.config.DIMENSIONS[size];
             if (!dims) return;
 
+            // Set default values based on size preset
             App.elements.closetWidth.value = dims.closet.w;
             App.elements.closetHeight.value = dims.closet.h;
-            App.elements.closetDepth.value = 60;
+            App.elements.closetDepth.value = 60; // Standard
             App.elements.bedSize.value = dims.bed_size;
             App.elements.dresserWidth.value = dims.dresser.w;
             App.elements.dresserDepth.value = dims.dresser.d;
@@ -506,6 +993,7 @@
             App.elements.mirrorWidth.value = dims.mirror.w;
             App.elements.mirrorHeight.value = dims.mirror.h;
             
+            updateUI(); // Recalculate and update visibility after dimension change
         }
 
         function showQuoteFooter() {
@@ -513,118 +1001,9 @@
             App.elements.footer.classList.remove('hidden');
             App.elements.showQuoteBtn.parentElement.classList.add('hidden');
             setTimeout(() => { 
+                 // Smooth scroll to the price footer
                  App.elements.footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
             }, 100);
-        }
-        
-        // --- CORE PRICING LOGIC ---
-        function calculateSurfaceArea(w, h, d) {
-            const [widthM, heightM, depthM] = [w / 100, h / 100, d / 100];
-            return (widthM * heightM * 2) + (widthM * depthM) + (heightM * depthM * 2);
-        }
-
-        function calculateTotal() {
-            const formConfig = getFullConfiguration();
-            const C = App.config.COSTS;
-            let total = 0;
-            let error = null;
-
-            if (formConfig.includeCloset) {
-                const cl = formConfig.closet;
-                if (cl.width > 0 && cl.height > 0) {
-                    const area = calculateSurfaceArea(cl.width, cl.height, cl.depth);
-                    total += area * (C.WOOD_BASE[cl.woodType] + C.PAINT[cl.paintType]);
-                    total += cl.internalDrawers * C.CLOSET.internal_drawer;
-                    total += cl.shelves * C.CLOSET.shelves;
-                    if (cl.mechanism === 'sliding') total += cl.doors * C.CLOSET.sliding;
-                    if (cl.hasLed) total += C.CLOSET.led;
-                    if (cl.glassDoors > cl.doors) error = "عدد الضلف الزجاج لا يمكن أن يكون أكبر من العدد الكلي.";
-                    total += cl.glassDoors * (C.CLOSET.glass_door - C.CLOSET.wood_door_deduction);
-                }
-            }
-
-            if (formConfig.includeBed) {
-                const be = formConfig.bed;
-                if (be.count > 0 && be.size > 0) {
-                    let bedPrice = C.BED.base_price_unit_160 * (be.size / 160);
-                    if (be.material === 'upholstered_back') bedPrice += C.BED.upholstered_back;
-                    if (be.material === 'upholstered_full') bedPrice += C.BED.upholstered_full;
-                    if (be.hasLiftingMechanism) bedPrice += C.BED.lifting_mechanism;
-                    if (be.hasLed) bedPrice += C.BED.led;
-                    if (be.material === 'wood') bedPrice += (be.size / 100 * 2) * C.PAINT[be.paintType];
-                    total += bedPrice * be.count;
-                }
-                const ko = formConfig.komod;
-                if (ko.count > 0) {
-                    total += ko.count * (C.KOMOD.base_price + (ko.drawers * C.KOMOD.drawer_cost));
-                }
-            }
-
-            if (formConfig.includeDresser) {
-                const dr = formConfig.dresser;
-                if (dr.width > 0) {
-                    const area = calculateSurfaceArea(dr.width, 90, dr.depth);
-                    total += area * C.WOOD_BASE.counter;
-                    total += dr.drawers * C.DRESSER.drawer_cost;
-                    if (dr.type === 'hanging') total += C.DRESSER.hanging_premium;
-
-                    let mirrorArea = 0;
-                    if (dr.mirrorShape === 'circle') mirrorArea = Math.PI * Math.pow(dr.mirrorWidth / 200, 2);
-                    else if (dr.mirrorShape === 'square') mirrorArea = Math.pow(dr.mirrorWidth / 100, 2);
-                    else mirrorArea = (dr.mirrorWidth / 100) * (dr.mirrorHeight / 100);
-                    total += mirrorArea * C.MIRROR.base_area_cost_per_sqm;
-                    if (dr.hasMirrorLed) total += C.MIRROR.led;
-                }
-            }
-            
-            if(formConfig.includeTvTable){
-                const tv = formConfig.tvTable;
-                if(tv.width > 0 && tv.height > 0){
-                    const area = calculateSurfaceArea(tv.width, tv.height, tv.depth);
-                    total += area * C.TABLES.base_cost_per_sqm;
-                    total += tv.drawers * C.TABLES.drawer_cost;
-                    total += tv.doors * C.TABLES.door_cost;
-                    if (tv.type === 'hanging') total += C.TABLES.hanging_premium;
-                }
-            }
-
-            if(formConfig.includeCoffeeTable){
-                const coffee = formConfig.coffeeTable;
-                if(coffee.width > 0 && coffee.height > 0){
-                    const area = calculateSurfaceArea(coffee.width, coffee.height, coffee.depth);
-                    total += area * C.TABLES.base_cost_per_sqm;
-                }
-            }
-            
-            if (formConfig.includeLSofa) {
-                const lSofa = formConfig.lSofa;
-                if (lSofa.width > 0 && lSofa.depth > 0) {
-                    const totalMeters = (lSofa.width / 100) + (lSofa.depth / 100);
-                    total += totalMeters * C.SOFAS.l_shape;
-                }
-            }
-
-            if (formConfig.includeSofa) {
-                const sofa = formConfig.sofa;
-                if (sofa.width > 0) {
-                    total += (sofa.width / 100) * C.SOFAS.sofa;
-                }
-            }
-
-            if (formConfig.includeSofaBed) {
-                const sofaBed = formConfig.sofaBed;
-                if (sofaBed.width > 0) {
-                    total += (sofaBed.width / 100) * C.SOFAS.sofa_bed;
-                }
-            }
-
-            return { total: error ? -1 : total, error };
-        }
-
-        function recalculate() {
-            const result = calculateTotal();
-            App.elements.totalPrice.textContent = `${Math.round(result.total).toLocaleString('ar-EG')} ج.م`;
-            App.elements.priceErrorMessage.textContent = result.error || '';
         }
 
         // --- EVENT HANDLING & SUBMISSION ---
@@ -633,95 +1012,105 @@
             const phone = App.elements.customerPhone.value.trim();
             
             if (!name || !phone) {
-                showAlert('الرجاء إدخال الاسم ورقم التليفون لإرسال الطلب.');
+                showAlert('الرجاء إدخال الاسم ورقم التليفون لإرسال الطلب.', 'خطأ في الإدخال');
                 return;
             }
             
             const { total, error } = calculateTotal();
-            if (error) {
-                showAlert(`لا يمكن إرسال الطلب. ${error}`);
+            if (error || total < 0) {
+                showAlert(`لا يمكن إرسال الطلب. ${error || 'هناك خطأ في احتساب السعر، يرجى مراجعة المدخلات.'}`, 'خطأ في المواصفات');
                 return;
             }
 
             const fullConfig = getFullConfiguration();
             const T = App.config.AR_TRANSLATIONS;
+            const S = App.config.STORAGE_RATIOS;
+            const roundedTotal = Math.round(total);
+            const deliveryWeeks = calculateDeliveryEstimate(fullConfig);
             
-            let summary = `*طلب عرض سعر جديد من تطبيق Waleed Designs*
+            let summary = `*طلب عرض سعر جديد من تطبيق Waleed Designs (مُحاكي غرف النوم)*
+*معرف المستخدم: ${App.currentUserId || 'غير معروف'}*
 ---------------------------------------------
 *الاسم:* ${name}
 *التليفون:* ${phone}
-*حجم الغرفة المبدئي:* ${T.roomSize[fullConfig.roomSize]}`;
+*حجم الغرفة المبدئي:* ${T.roomSize[fullConfig.roomSize] || 'غير محدد'}
+*وقت التصنيع المقدر: ${deliveryWeeks} أسابيع*`;
 
             if(fullConfig.includeCloset){
+                const ratioDetails = S[fullConfig.closet.storageRatio];
                 summary += `
 ---------------------------------------------
-*-- مواصفات الدولاب --*
+*-- 1. مواصفات الدولاب --*
 - نوع الخشب: ${T.woodType[fullConfig.closet.woodType]} | دهان: ${T.paintType[fullConfig.closet.paintType]}
 - الأبعاد (ع×ا×ع): ${fullConfig.closet.width}×${fullConfig.closet.height}×${fullConfig.closet.depth} سم
 - آلية الضلف: ${T.mechanism[fullConfig.closet.mechanism]} (${fullConfig.closet.doors} ضلفة)
-- ضلف زجاج: ${fullConfig.closet.glassDoors} | أدراج: ${fullConfig.closet.internalDrawers} | رفوف: ${fullConfig.closet.shelves}
+- ضلف زجاج: ${fullConfig.closet.glassDoors}
+- نسبة التخزين: ${ratioDetails.description} (مقابل ${ratioDetails.drawers} درج و ${ratioDetails.shelves} رف محسوب)
 - إضاءة ليد: ${T.boolean[fullConfig.closet.hasLed]}`;
             }
 
             if(fullConfig.includeBed){
                  summary += `
 ---------------------------------------------
-*-- مواصفات السرير والكمود --*
+*-- 2. مواصفات السرير والكمود --*
 - عدد السراير: ${fullConfig.bed.count} | مقاس: ${fullConfig.bed.size} سم
 - الخامة: ${T.bedMaterial[fullConfig.bed.material]} | دهان: ${T.paintType[fullConfig.bed.paintType]}
 - ميكانيزم رفع: ${T.boolean[fullConfig.bed.hasLiftingMechanism]} | إضاءة ليد: ${T.boolean[fullConfig.bed.hasLed]}
-- الكمود: ${fullConfig.komod.count} | أدراج الكمود: ${fullConfig.komod.drawers}`;
+- الكمود: ${fullConfig.komod.count} قطعة | أدراج الكمود: ${fullConfig.komod.drawers} درج/قطعة`;
             }
 
             if(fullConfig.includeDresser){
                  summary += `
 ---------------------------------------------
-*-- مواصفات التسريحة --*
+*-- 3. مواصفات التسريحة والمرايا --*
 - التركيب: ${T.dresserType[fullConfig.dresser.type]} | أدراج: ${fullConfig.dresser.drawers}
-- الأبعاد (ع×ع): ${fullConfig.dresser.width}×${fullConfig.dresser.depth} سم
+- أبعاد التسريحة (ع×ع): ${fullConfig.dresser.width}×${fullConfig.dresser.depth} سم
 - المرايا: ${T.mirrorShape[fullConfig.dresser.mirrorShape]} | إضاءة ليد: ${T.boolean[fullConfig.dresser.hasMirrorLed]}`;
+            }
+
+            // Additional items
+            if(fullConfig.includeTvTable || fullConfig.includeCoffeeTable || fullConfig.includeLSofa || fullConfig.includeSofa || fullConfig.includeSofaBed){
+                summary += `
+---------------------------------------------
+*-- 4. قطع أثاث إضافية --*`;
             }
 
             if(fullConfig.includeTvTable){
                 summary += `
----------------------------------------------
-*-- مواصفات ترابيزة التليفزيون (TV Unit) --*
-- التركيب: ${T.tvTableType[fullConfig.tvTable.type]}
-- الأبعاد (ع×ا×ع): ${fullConfig.tvTable.width}×${fullConfig.tvTable.height}×${fullConfig.tvTable.depth} سم
-- عدد الأدراج: ${fullConfig.tvTable.drawers} | عدد الدولف: ${fullConfig.tvTable.doors}`;
+- ترابيزة تليفزيون (TV Unit): تركيب ${T.tvTableType[fullConfig.tvTable.type]} | أبعاد: ${fullConfig.tvTable.width}×${fullConfig.tvTable.height}×${fullConfig.tvTable.depth} سم | أدراج: ${fullConfig.tvTable.drawers} | ضلف: ${fullConfig.tvTable.doors}`;
             }
 
             if(fullConfig.includeCoffeeTable){
                 summary += `
----------------------------------------------
-*-- مواصفات ترابيزة الوسط (Coffee Table) --*
-- الأبعاد (ع×ا×ع): ${fullConfig.coffeeTable.width}×${fullConfig.coffeeTable.height}×${fullConfig.coffeeTable.depth} سم`;
+- ترابيزة الوسط (Coffee Table): أبعاد: ${fullConfig.coffeeTable.width}×${fullConfig.coffeeTable.height}×${fullConfig.coffeeTable.depth} سم`;
             }
 
             if(fullConfig.includeLSofa){
                 summary += `
----------------------------------------------
-*-- مواصفات ركنة حرف L --*
-- الأبعاد (ع×ع): ${fullConfig.lSofa.width}×${fullConfig.lSofa.depth} سم`;
+- ركنة حرف L: أبعاد: ${fullConfig.lSofa.width}×${fullConfig.lSofa.depth} سم`;
             }
 
             if(fullConfig.includeSofa){
                 summary += `
----------------------------------------------
-*-- مواصفات كنبة --*
-- العرض: ${fullConfig.sofa.width} سم`;
+- كنبة: العرض: ${fullConfig.sofa.width} سم`;
             }
 
             if(fullConfig.includeSofaBed){
                 summary += `
----------------------------------------------
-*-- مواصفات كنبة سرير --*
-- العرض: ${fullConfig.sofaBed.width} سم`;
+- كنبة سرير: العرض: ${fullConfig.sofaBed.width} سم`;
             }
+            
+            if (fullConfig.additionalNotes.trim()) {
+                 summary += `
+---------------------------------------------
+*-- 5. ملاحظات العميل --*
+${fullConfig.additionalNotes.trim()}`;
+            }
+
 
             summary += `
 ---------------------------------------------
-*السعر التقديري الإجمالي المحدد: ${Math.round(total).toLocaleString('ar-EG')} ج.م*
+*السعر التقديري الإجمالي المحدد: ${roundedTotal.toLocaleString('ar-EG')} ج.م*
 ---------------------------------------------
 هذا السعر هو تقدير مبدئي غير مُلزم، ويخضع للتأكيد والقياسات النهائية`;
 
@@ -732,77 +1121,93 @@
         
         // --- INITIALIZATION ---
         function initialize() {
+            // Mapping elements
             App.elements = {
-                footer: $('footer'), totalPrice: $('#total-price'), priceErrorMessage: $('#price-error-message'),
+                footer: $('footer'), totalPrice: $('#total-price'), priceErrorMessage: $('#price-error-message'), deliveryEstimate: $('#delivery-estimate'),
                 requestQuoteBtn: $('#request-quote-btn'), showQuoteBtn: $('#show-quote-btn'),
                 customerName: $('#customer-name'), customerPhone: $('#customer-phone'), roomSize: $('#room-size'),
-                includeCloset: $('#include-closet'), includeBed: $('#include-bed'), includeDresser: $('#include-dresser'),
-                closetWoodType: $('#closet-wood-type'), closetWidth: $('#closet-width'), closetHeight: $('#closet-height'), closetDepth: $('#closet-depth'), closetDoors: $('#closet-doors'), closetGlassDoors: $('#closet-glass-doors'), closetInternalDrawers: $('#closet-internal-drawers'), doorMechanism: $('#door-mechanism'), closetShelves: $('#closet-shelves'), closetLed: $('#closet-led'),
-                bedCount: $('#bed-count'), bedSize: $('#bed-size'), bedMaterial: $('#bed-material'), liftingMechanism: $('#lifting-mechanism'), bedLed: $('#bed-led'),
+                additionalNotes: $('#additional-notes'),
+                
+                // Closet
+                includeCloset: $('#include-closet'), closetWoodType: $('#closet-wood-type'), closetWidth: $('#closet-width'), closetHeight: $('#closet-height'), closetDepth: $('#closet-depth'), closetDoors: $('#closet-doors'), closetGlassDoors: $('#closet-glass-doors'), closetStorageRatio: $('#closet-storage-ratio'), doorMechanism: $('#door-mechanism'), closetLed: $('#closet-led'),
+                
+                // Bed & Komod
+                includeBed: $('#include-bed'), bedCount: $('#bed-count'), bedSize: $('#bed-size'), bedMaterial: $('#bed-material'), liftingMechanism: $('#lifting-mechanism'), bedLed: $('#bed-led'),
                 komodCount: $('#komod-count'), komodDrawers: $('#komod-drawers'),
-                dresserType: $('#dresser-type'), dresserDrawers: $('#dresser-drawers'), dresserWidth: $('#dresser-width'), dresserDepth: $('#dresser-depth'),
+                
+                // Dresser & Mirror
+                includeDresser: $('#include-dresser'), dresserType: $('#dresser-type'), dresserDrawers: $('#dresser-drawers'), dresserWidth: $('#dresser-width'), dresserDepth: $('#dresser-depth'),
                 mirrorShape: $('#mirror-shape'), mirrorWidth: $('#mirror-width'), mirrorHeight: $('#mirror-height'), mirrorLed: $('#mirror-led'),
+                
+                // Additional Items
                 includeTvTable: $('#include-tv-table'), tvTableWidth: $('#tv-table-width'), tvTableHeight: $('#tv-table-height'), tvTableDepth: $('#tv-table-depth'), tvTableDrawers: $('#tv-table-drawers'), tvTableDoors: $('#tv-table-doors'), tvTableType: $('#tv-table-type'),
                 includeCoffeeTable: $('#include-coffee-table'), coffeeTableWidth: $('#coffee-table-width'), coffeeTableHeight: $('#coffee-table-height'), coffeeTableDepth: $('#coffee-table-depth'),
                 includeLSofa: $('#include-l-sofa'), lSofaWidth: $('#l-sofa-width'), lSofaDepth: $('#l-sofa-depth'),
                 includeSofa: $('#include-sofa'), sofaWidth: $('#sofa-width'),
                 includeSofaBed: $('#include-sofa-bed'), sofaBedWidth: $('#sofa-bed-width'),
+                
+                // Modal
                 alertModal: $('#alert-modal'), modalContent: $('#alert-modal .modal-content'), modalTitle: $('#modal-title'), modalMessage: $('#modal-message'), modalCloseBtn: $('#modal-close-btn'),
             };
 
-            // Event listeners
-            $$('#configurator-form input, #configurator-form select').forEach(el => el.addEventListener('change', updateUI));
+            // --- Event listeners setup ---
+            // Recalculate and update UI visibility immediately on change for selects/checkboxes
+            $$('#configurator-form select, #configurator-form input[type="checkbox"]').forEach(el => el.addEventListener('change', updateUI));
+            // Debounced recalculation on number/text input
+            $$('#configurator-form input[type="number"], #configurator-form input[type="text"], #additional-notes').forEach(el => el.addEventListener('input', debouncedRecalculate));
+
+            // Attach toggle handlers to main item checkboxes
+            $$('input[type="checkbox"][data-card-id]').forEach(checkbox => {
+                checkbox.addEventListener('change', () => handleCardToggle(checkbox));
+            });
+            
             App.elements.roomSize.addEventListener('change', updateDimensionsBasedOnSize);
             App.elements.showQuoteBtn.addEventListener('click', showQuoteFooter);
             App.elements.requestQuoteBtn.addEventListener('click', submitQuote);
-            $$('#customer-name, #customer-phone').forEach(el => el.addEventListener('input', updateUI));
+            
+            // Re-check form validity on name/phone input
+            $$('#customer-name, #customer-phone').forEach(el => el.addEventListener('input', updateUI)); 
+            
+            // Modal closing events
             App.elements.modalCloseBtn.addEventListener('click', hideAlert);
             App.elements.alertModal.addEventListener('click', e => { if (e.target === App.elements.alertModal) hideAlert(); });
             
-            // Firebase Init
+            // --- Firebase Init ---
             const firebaseConfig = typeof __firebase_config !== 'undefined' && __firebase_config ? JSON.parse(__firebase_config) : null;
             if (firebaseConfig && Object.keys(firebaseConfig).length > 0) {
                 try {
                     const app = initializeApp(firebaseConfig);
                     App.auth = getAuth(app);
                     onAuthStateChanged(App.auth, async (user) => {
-                        if (user) { App.currentUserId = user.uid; } 
-                        else {
+                        if (user) { 
+                            App.currentUserId = user.uid; 
+                        } else {
                             const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-                            const signedInUser = initialAuthToken ? await signInWithCustomToken(App.auth, initialAuthToken) : await signInAnonymously(App.auth);
-                            App.currentUserId = signedInUser.user.uid;
+                            try {
+                                const signedInUser = initialAuthToken ? await signInWithCustomToken(App.auth, initialAuthToken) : await signInAnonymously(App.auth);
+                                App.currentUserId = signedInUser.user.uid;
+                            } catch (authError) {
+                                console.error("Firebase Auth failed:", authError);
+                                App.currentUserId = crypto.randomUUID(); 
+                            }
                         }
                     });
                 } catch (e) {
                     console.error("Firebase initialization failed:", e);
                 }
+            } else {
+                 console.warn("Firebase configuration not found. Running without persistent storage.");
+                 App.currentUserId = crypto.randomUUID(); 
             }
-            updateUI();
-            updateDimensionsBasedOnSize();
-        }
 
-        // Helper to get all form values for calculation/submission
-        function getFullConfiguration() {
-            const elements = App.elements;
-            return {
-                includeCloset: elements.includeCloset.checked, includeBed: elements.includeBed.checked, includeDresser: elements.includeDresser.checked, includeTvTable: elements.includeTvTable.checked, includeCoffeeTable: elements.includeCoffeeTable.checked, 
-                includeLSofa: elements.includeLSofa.checked, includeSofa: elements.includeSofa.checked, includeSofaBed: elements.includeSofaBed.checked,
-                roomSize: elements.roomSize.value,
-                closet: { woodType: elements.closetWoodType.value, paintType: $('#closet-paint-type').value || 'none', width: parseFloat(elements.closetWidth.value) || 0, height: parseFloat(elements.closetHeight.value) || 0, depth: parseFloat(elements.closetDepth.value) || 0, doors: parseInt(elements.closetDoors.value) || 0, glassDoors: parseInt(elements.closetGlassDoors.value) || 0, internalDrawers: parseInt(elements.closetInternalDrawers.value) || 0, mechanism: elements.doorMechanism.value, shelves: parseInt(elements.closetShelves.value) || 0, hasLed: elements.closetLed.checked },
-                bed: { count: parseInt(elements.bedCount.value) || 0, size: parseInt(elements.bedSize.value) || 0, material: elements.bedMaterial.value, paintType: $('#bed-paint-type').value || 'none', hasLiftingMechanism: elements.liftingMechanism.checked, hasLed: elements.bedLed.checked },
-                komod: { count: parseInt(elements.komodCount.value) || 0, drawers: parseInt(elements.komodDrawers.value) || 0 },
-                dresser: { type: elements.dresserType.value, drawers: parseInt(elements.dresserDrawers.value) || 0, width: parseFloat(elements.dresserWidth.value) || 0, depth: parseFloat(elements.dresserDepth.value) || 0, mirrorWidth: parseFloat(elements.mirrorWidth.value) || 0, mirrorHeight: parseFloat(elements.mirrorHeight.value) || 0, mirrorShape: elements.mirrorShape.value, hasMirrorLed: elements.mirrorLed.checked },
-                tvTable: { type: elements.tvTableType.value, width: parseFloat(elements.tvTableWidth.value) || 0, height: parseFloat(elements.tvTableHeight.value) || 0, depth: parseFloat(elements.tvTableDepth.value) || 0, drawers: parseInt(elements.tvTableDrawers.value) || 0, doors: parseInt(elements.tvTableDoors.value) || 0 },
-                coffeeTable: { width: parseFloat(elements.coffeeTableWidth.value) || 0, height: parseFloat(elements.coffeeTableHeight.value) || 0, depth: parseFloat(elements.coffeeTableDepth.value) || 0 },
-                lSofa: { width: parseFloat(elements.lSofaWidth.value) || 0, depth: parseFloat(elements.lSofaDepth.value) || 0 },
-                sofa: { width: parseFloat(elements.sofaWidth.value) || 0 },
-                sofaBed: { width: parseFloat(elements.sofaBedWidth.value) || 0 },
-            };
+            // Initial UI setup and calculation
+            updateDimensionsBasedOnSize();
+            // Manually run toggle for all included items to apply initial disabled state
+            $$('input[type="checkbox"][data-card-id]').forEach(checkbox => handleCardToggle(checkbox));
+            updateUI(); // Final calculation after dimensions and toggles are set
         }
         
         document.addEventListener('DOMContentLoaded', initialize);
     </script>
 </body>
 </html>
-
-
