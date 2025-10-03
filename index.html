@@ -131,6 +131,17 @@
             color: #ef4444; /* Red-500 */
             height: 1.25rem; /* Reserve space to prevent layout shift */
         }
+        @keyframes pulse-shadow {
+          0%, 100% {
+            box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4);
+          }
+          70% {
+            box-shadow: 0 0 0 10px rgba(79, 70, 229, 0);
+          }
+        }
+        .animate-pulse-shadow {
+            animation: pulse-shadow 2.5s infinite;
+        }
     </style>
 </head>
 <body class="bg-slate-50">
@@ -138,13 +149,13 @@
     <div class="max-w-4xl mx-auto p-4 sm:p-6 pb-40"> <!-- Added padding-bottom for sticky footer -->
         
         <!-- HEADER -->
-        <header class="mb-8 border-b-2 border-indigo-200 pb-6 flex justify-between items-center">
-            <div class="text-start">
-                <button id="lang-toggle-btn" class="text-indigo-600 hover:text-indigo-800 font-bold p-2 rounded-lg transition text-sm border border-indigo-300">
+        <header class="mb-8 border-b-2 border-indigo-200 pb-6 relative flex justify-center items-center">
+             <div class="absolute start-0 top-1/2 -translate-y-1/2">
+                <button id="lang-toggle-btn" class="text-indigo-600 hover:text-indigo-800 font-bold p-2 rounded-lg transition text-sm border border-indigo-300 bg-white/50 hover:bg-white">
                     <span id="current-lang-text">English</span>
                 </button>
             </div>
-            <div class="text-center flex-grow">
+            <div class="text-center">
                 <h1 id="header-title" class="text-4xl sm:text-5xl font-black text-indigo-800">Waleed Designs</h1>
                 <p id="header-subtitle" class="text-lg text-slate-600 mt-2">محاكي الأسعار التفاعلي</p>
             </div>
@@ -176,7 +187,10 @@
                 <!-- 1. Closet (دولاب) Card -->
                 <div id="closet-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4">
                     <div class="flex justify-between items-center border-b pb-3">
-                        <h3 id="closet-title" class="text-xl font-bold text-slate-800">1. الدولاب</h3>
+                        <h3 id="closet-title" class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/><path d="M9 2v20"/><path d="M15 2v20"/></svg>
+                            1. الدولاب
+                        </h3>
                         <div class="flex items-center gap-2">
                             <label id="include-closet-label" for="include-closet" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
                             <input type="checkbox" id="include-closet" data-card-id="closet-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
@@ -231,7 +245,7 @@
                         <div class="grid grid-cols-3 gap-2">
                             <div>
                                 <label id="closet-doors-label" class="text-xs text-slate-500">عدد الضُلف</label>
-                                <input type="number" id="closet-doors" value="3" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                <input type="number" id="closet-doors" value="4" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
                                 <p id="closet-doors-error" class="input-error-message"></p>
                             </div>
                             <div>
@@ -258,14 +272,16 @@
                 <!-- 2. Bed & Nightstands Card -->
                 <div id="bed-komod-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4">
                         <div class="flex justify-between items-center border-b pb-3">
-                            <h3 id="bed-title" class="text-xl font-bold text-slate-800">2. السرير والكمود</h3>
+                            <h3 id="bed-title" class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M2 4v16"/><path d="M2 4h20"/><path d="M14 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4"/><path d="M6 8h4"/><path d="M6 12h2"/></svg>
+                                2. السرير
+                            </h3>
                             <div class="flex items-center gap-2">
                                 <label id="include-bed-label" for="include-bed" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
                                 <input type="checkbox" id="include-bed" data-card-id="bed-komod-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
                             </div>
                         </div>
                         <div id="bed-controls" class="space-y-4">
-                            <!-- التعديل المطلوب: عدد السراير بجوار مقاس السرير -->
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label id="bed-count-label" class="text-sm font-medium text-slate-600">عدد السراير</label>
@@ -294,17 +310,20 @@
                                 <div><div class="flex items-center"><input type="checkbox" id="lifting-mechanism" class="h-4 w-4 text-indigo-600 rounded"><label id="lifting-mechanism-label" for="lifting-mechanism" class="mr-2 text-sm text-slate-700">ميكانيزم رفع</label></div></div>
                                 <div><div class="flex items-center"><input type="checkbox" id="bed-led" class="h-4 w-4 text-indigo-600 rounded"><label id="bed-led-label" for="bed-led" class="mr-2 text-sm text-slate-700">إضاءة ليد للسرير</label></div></div>
                             </div>
-                            <!-- تم تصحيح التسميات في هذا الجزء -->
-                            <div class="grid grid-cols-2 gap-2 pt-2 border-t mt-4">
-                                <div>
-                                    <label id="komod-count-label" class="text-sm font-medium text-slate-600">عدد الكمود</label>
-                                    <input type="number" id="komod-count" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
-                                    <p id="komod-count-error" class="input-error-message"></p>
-                                </div>
-                                <div>
-                                    <label id="komod-drawers-label" class="text-sm font-medium text-slate-600">أدراج الكمود</label>
-                                    <input type="number" id="komod-drawers" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
-                                    <p id="komod-drawers-error" class="input-error-message"></p>
+                            
+                            <div class="pt-4 border-t mt-4 space-y-4">
+                                <h4 id="komod-title" class="font-bold text-slate-700">الكمود (Nightstands)</h4>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label id="komod-count-label" class="text-sm font-medium text-slate-600">عدد الكمود</label>
+                                        <input type="number" id="komod-count" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                        <p id="komod-count-error" class="input-error-message"></p>
+                                    </div>
+                                    <div>
+                                        <label id="komod-drawers-label" class="text-sm font-medium text-slate-600">أدراج الكمود</label>
+                                        <input type="number" id="komod-drawers" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300 input-with-error">
+                                        <p id="komod-drawers-error" class="input-error-message"></p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -313,7 +332,10 @@
                 <!-- 3. Dresser Card -->
                 <div id="dresser-mirror-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4 lg:col-span-2">
                     <div class="flex justify-between items-center border-b pb-3">
-                        <h3 id="dresser-title" class="text-xl font-bold text-slate-800">3. التسريحة والمرايا</h3>
+                        <h3 id="dresser-title" class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M14.5 17H4a2 2 0 0 0-2 2v2h16v-2a2 2 0 0 0-2-2z"/><path d="M14.5 4h-5L6 7v3h12V7l-3.5-3z"/><path d="M4 17v-3h16v3"/><circle cx="12" cy="12" r="2.5"/></svg>
+                            3. التسريحة والمرايا
+                        </h3>
                             <div class="flex items-center gap-2">
                                 <label id="include-dresser-label" for="include-dresser" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
                                 <input type="checkbox" id="include-dresser" data-card-id="dresser-mirror-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
@@ -366,7 +388,10 @@
 
             <!-- Additional Furniture Section -->
             <div class="bg-white p-6 rounded-2xl shadow-md border space-y-6">
-                <h3 id="additional-furniture-title" class="text-xl font-bold text-slate-800 border-b pb-3">4. قطع أثاث إضافية</h3>
+                <h3 id="additional-furniture-title" class="text-xl font-bold text-slate-800 border-b pb-3 flex items-center gap-2">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M20 10V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3"/><path d="M2 15h20"/><path d="M4 15v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg>
+                   4. قطع أثاث إضافية
+                </h3>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     
                     <!-- TV Table -->
@@ -515,7 +540,7 @@
             <!-- Additional Notes -->
             <div class="bg-indigo-50 p-6 rounded-2xl border-2 border-indigo-200 shadow-inner">
                  <h3 id="notes-title" class="text-xl font-bold mb-3 text-indigo-700">5. ملاحظات إضافية أو طلبات خاصة</h3>
-                 <textarea id="additional-notes" rows="4" data-lang-key="notes_placeholder" placeholder="اكتب هنا أي تفاصيل إضافية عن التصميم، خامات معينة، أو ملاحظات للورشة..." class="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
+                 <textarea id="additional-notes" rows="3" data-lang-key="notes_placeholder" placeholder="اكتب هنا أي تفاصيل إضافية عن التصميم، خامات معينة، أو ملاحظات للورشة..." class="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
             </div>
 
 
@@ -546,12 +571,14 @@
                 <p id="price-error-message" class="text-xs text-red-600 h-4"></p>
             </div>
             <!-- Contact Info & Submit -->
-            <div class="flex-grow w-full sm:w-auto flex flex-col sm:flex-row items-center gap-3">
-                 <input type="text" id="customer-name" placeholder="الاسم بالكامل *" class="w-full sm:w-40 p-2 text-sm rounded-md border border-slate-300" required data-lang-key="placeholder_name">
-                 <input type="tel" id="customer-phone" placeholder="رقم التليفون *" class="w-full sm:w-40 p-2 text-sm rounded-md border border-slate-300" required data-lang-key="placeholder_phone">
-                 <button type="button" id="request-quote-btn" class="primary-btn w-full sm:w-auto" disabled>
+            <div class="flex-grow w-full sm:w-auto flex flex-col items-center gap-2">
+                <div class="w-full flex flex-col sm:flex-row gap-2">
+                    <input type="text" id="customer-name" placeholder="الاسم بالكامل *" class="w-full sm:w-40 p-2 text-sm rounded-md border border-slate-300 animate-pulse-shadow" required data-lang-key="placeholder_name">
+                    <input type="tel" id="customer-phone" placeholder="رقم التليفون *" class="w-full sm:w-40 p-2 text-sm rounded-md border border-slate-300 animate-pulse-shadow" required data-lang-key="placeholder_phone">
+                </div>
+                 <button type="button" id="request-quote-btn" class="primary-btn w-full" disabled>
                      <span id="request-quote-text">إرسال الطلب عبر واتساب</span>
-                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
+                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" class="text-white"><path d="M16.75 13.96c.25.13.43.2.5.28.08.08.16.21.16.33.01.13-.01.25-.05.38-.04.13-.13.25-.26.38s-.28.23-.45.3-.37.1-.58.1c-.23.01-.48-.02-.73-.08-.25-.06-.5-.16-.75-.28-.25-.12-.5-.28-.75-.45s-.48-.37-.7-.58c-.23-.21-.43-.45-.6-.7-.18-.25-.33-.5-.48-.75s-.25-.5-.33-.75c-.08-.25-.13-.48-.13-.7.01-.21.05-.4.13-.58s.2-.33.33-.45.28-.23.4-.3.23-.1.33-.1c.12 0 .23.03.33.08.1.05.18.13.23.23.05.1.1.21.13.33s.05.23.05.33c0 .13-.03.25-.08.38-.05.13-.13.23-.23.3-.1.08-.21.13-.33.13-.12 0-.23-.03-.3-.08s-.13-.13-.13-.23c0-.05.01-.1.03-.13.02-.03.05-.08.08-.13.1-.13.21-.25.33-.38s.25-.25.4-.38c.15-.13.3-.25.45-.38s.3-.23.48-.3c.18-.08.35-.13.53-.13h.1c.3 0 .58.08.83.23.25.15.45.35.6.6s.23.5.28.83c.04.33 0 .65-.13.98z M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/></svg>
                  </button>
             </div>
         </div>
@@ -629,7 +656,7 @@
                         closet_wood_tooltip: 'الكونتر السادة هو ببساطة سطح عمل بدون طبقة زينة، بينما كونتر الميلامين هو لوح خشبي مغطى بطبقة من الميلامين توفر سطحاً متيناً لكنه حساس للحرارة والخدوش، بينما كونتر HPL هو الأكثر قوة ومتانة، وهو لوح ديكوري حراري عالي الضغط مقاوم للضربات والخدوش والبقع والحرارة، مما يجعله الخيار الأفضل في الأماكن التي تتطلب أداءً عالياً.',
                         closet_paint_tooltip: 'دهان الإستر يكشف عن جمال الخشب ويزيد من قيمته بلون طبيعي، بينما دهان الدوكو يغطي الخشب بلون موحد ويوفر متانة ومقاومة عالية للحرارة والرطوبة، ويُستخدم عادةً في أبواب الشقق والغرف والأثاث الذي يحتاج لتحمل.<br><br><b>*دهان الإستر</b><br>المظهر: يُبرز جمال الخشب الطبيعي وثمرته، ويعطي مظهراً فخماً.<br><br><b>*دهان الدوكو</b><br>المظهر: يُغطّي سطح الخشب بلون واحد، مما يمنح مظهراً ناعماً ومستوياً تماماً.<br>المتانة: قوي ويتحمل الظروف المختلفة كالحرارة والرطوبة.',
 
-                        bed_title: '2. السرير والكمود', bed_material_label: 'خامة السرير', bed_paint_type_label: 'نوع دهان السرير', lifting_mech_label: 'ميكانيزم رفع', bed_led_label: 'إضاءة ليد للسرير',
+                        bed_title: '2. السرير', komod_title: 'الكمود (Nightstands)', bed_material_label: 'خامة السرير', bed_paint_type_label: 'نوع دهان السرير', lifting_mech_label: 'ميكانيزم رفع', bed_led_label: 'إضاءة ليد للسرير',
                         dresser_title: '3. التسريحة والمرايا', dresser_type_label: 'طريقة التركيب', mirror_shape_label: 'شكل المرايا', mirror_led_label: 'إضاءة ليد للمرايا',
                         additional_furniture_title: '4. قطع أثاث إضافية', tv_table_unit_title: 'ترابيزة تليفزيون (TV Unit)', coffee_table_title: 'ترابيزة وسط (Coffee Table)', l_sofa_title: 'ركنة حرف L (Corner Sofa)', sofa_title: 'كنبة (Sofa)', sofa_bed_title: 'كنبة سرير (Sofa Bed)',
 
@@ -655,15 +682,14 @@
                         app_title: 'Waleed Designs - Bedroom Design Simulator', header_subtitle: 'Interactive Price Estimator',
                         room_size_title: 'Main Room Dimensions', room_size_label: 'Choose Initial Room Size:', room_size_note: 'This selection sets the default dimensions for all furniture pieces.',
                         size_small: 'Small', size_medium: 'Medium', size_large: 'Large',
-                        include_price: 'Include in Price', dim_width: 'Width (cm)', dim_height: 'Height (cm)', dim_depth: 'Depth (cm)', dim_doors: 'No. of Doors', dim_glass_doors: 'Glass Doors', dim_drawers: 'No. of Drawers', dim_komod_drawers: 'Komod Drawers', dim_bed_count: 'No. of Beds', dim_bed_size: 'Bed Size', dim_mirror_width: 'Mirror Width (cm)', dim_mirror_height: 'Mirror Height (cm)',
-                        // FIX 1: Add specific translation for Komod Count
+                        include_price: 'Include in Price', dim_width: 'Width (cm)', dim_height: 'Height (cm)', dim_depth: 'Depth (cm)', dim_doors: 'No. of Doors', dim_glass_doors: 'Glass Doors', dim_drawers: 'No. of Drawers', dim_komod_drawers: 'Nightstand Drawers', dim_bed_count: 'No. of Beds', dim_bed_size: 'Bed Size', dim_mirror_width: 'Mirror Width (cm)', dim_mirror_height: 'Mirror Height (cm)',
                         dim_komod_count: 'No. of Nightstands',
 
                         closet_title: '1. Closet', closet_wood_type_label: 'Wood Type', closet_paint_type_label: 'Paint Type', storage_ratio_label: 'Storage Ratio', door_mech_label: 'Door Mechanism', closet_led_label: 'Add Internal LED Lighting',
                         closet_wood_tooltip: 'Counter is a basic surface. Melamine counter is covered with melamine layer, durable but sensitive to heat/scratches. HPL counter is highly durable, scratch/stain/heat resistant, and is the preferred high-performance option.',
                         closet_paint_tooltip: 'Ester paint highlights natural wood grain for a luxurious look. Duco paint provides solid color coverage, offering high durability and resistance to heat and humidity, often used for high-traffic furniture.<br><br><b>*Ester Paint</b>: Shows wood grain, luxurious.<br><br><b>*Duco Paint</b>: Solid color, smooth finish, high durability.',
 
-                        bed_title: '2. Bed & Nightstands', bed_material_label: 'Bed Material', bed_paint_type_label: 'Bed Paint Type', lifting_mech_label: 'Lifting Mechanism', bed_led_label: 'Bed LED Lighting',
+                        bed_title: '2. Bed', komod_title: 'Nightstands', bed_material_label: 'Bed Material', bed_paint_type_label: 'Bed Paint Type', lifting_mech_label: 'Lifting Mechanism', bed_led_label: 'Bed LED Lighting',
                         dresser_title: '3. Dresser & Mirror', dresser_type_label: 'Installation Type', mirror_shape_label: 'Mirror Shape', mirror_led_label: 'Mirror LED Lighting',
                         additional_furniture_title: '4. Additional Furniture', tv_table_unit_title: 'TV Unit', coffee_table_title: 'Coffee Table', l_sofa_title: 'L-Shape Corner Sofa', sofa_title: 'Sofa', sofa_bed_title: 'Sofa Bed',
 
@@ -814,9 +840,9 @@
                 
                 // If the item is NOT checked, clear error and ignore validation for calculation validity
                 if (!includeCheckbox?.checked) {
-                     errorEl.textContent = '';
-                     el.classList.remove('border-red-500', 'bg-red-50');
-                     return true;
+                    errorEl.textContent = '';
+                    el.classList.remove('border-red-500', 'bg-red-50');
+                    return true;
                 }
 
                 // If item IS checked, perform strict validation
@@ -863,7 +889,7 @@
                     total += cl.glassDoors * (C.CLOSET.glass_door - C.CLOSET.wood_door_deduction);
                 }
             } else {
-                 // Re-run validation (to clear errors) when unchecked, but it will return true based on logic
+                // Re-run validation (to clear errors) when unchecked, but it will return true based on logic
                 $$('#closet-controls input.input-with-error').forEach(el => validateInput(el, 1));
             }
 
@@ -1012,6 +1038,7 @@
             if (!langData) return;
 
             App.currentLang = newLang;
+            localStorage.setItem('appLang', newLang); // Save preference
 
             // 1. Set main language and direction
             document.documentElement.lang = newLang;
@@ -1044,8 +1071,7 @@
                 const labelKeys = {
                     'room-size-label': 'room_size_label', 'include-closet-label': 'include_price', 'closet-title': 'closet_title',
                     'closet-wood-type-label': 'closet_wood_type_label', 'closet-paint-type-label': 'closet_paint_type_label', 'closet-storage-ratio-label': 'storage_ratio_label', 'door-mechanism-label': 'door_mech_label', 'closet-led-label': 'closet_led_label',
-                    'bed-title': 'bed_title', 'include-bed-label': 'include_price', 'bed-count-label': 'dim_bed_count', 'bed-size-label': 'dim_bed_size', 'bed-material-label': 'bed_material_label', 'bed-paint-type-label': 'bed_paint_type_label', 'lifting-mechanism-label': 'lifting_mech_label', 'bed-led-label': 'bed_led_label', 
-                    // FIX 2: Correctly map komod-count-label to the new komod count translation
+                    'bed-title': 'bed_title', 'komod-title': 'komod_title', 'include-bed-label': 'include_price', 'bed-count-label': 'dim_bed_count', 'bed-size-label': 'dim_bed_size', 'bed-material-label': 'bed_material_label', 'bed-paint-type-label': 'bed_paint_type_label', 'lifting-mechanism-label': 'lifting_mech_label', 'bed-led-label': 'bed_led_label', 
                     'komod-count-label': 'dim_komod_count', 
                     'komod-drawers-label': 'dim_komod_drawers',
                     'dresser-title': 'dresser_title', 'include-dresser-label': 'include_price', 'dresser-type-label': 'dresser_type_label', 'dresser-drawers-label': 'dim_drawers', 'mirror-shape-label': 'mirror_shape_label', 'mirror-led-label': 'mirror_led_label',
@@ -1063,7 +1089,11 @@
                     'l-sofa-width-label': 'dim_width', 'l-sofa-depth-label': 'dim_depth', 'sofa-width-label': 'dim_width', 'sofa-bed-width-label': 'dim_width',
                 };
 
-                if (labelKeys[el.id]) el.textContent = langData[labelKeys[el.id]];
+                if (labelKeys[el.id]) {
+                    const icon = el.querySelector('svg');
+                    el.textContent = langData[labelKeys[el.id]];
+                    if (icon) el.prepend(icon, ' ');
+                }
 
 
                 // Update tooltips
@@ -1173,8 +1203,8 @@
             App.elements.showQuoteBtn.classList.add('hidden');
             App.elements.editModeMessage.classList.remove('hidden');
             setTimeout(() => { 
-                 // Smooth scroll to the price footer
-                 App.elements.footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
+                // Smooth scroll to the price footer
+                App.elements.footer.scrollIntoView({ behavior: 'smooth', block: 'end' });
             }, 100);
         }
 
@@ -1236,6 +1266,12 @@
             App.elements.mirrorWidth.value = dims.mirror.w;
             App.elements.mirrorHeight.value = dims.mirror.h;
             
+            // Trigger smart default for closet doors
+            const width = parseFloat(App.elements.closetWidth.value);
+            if (width > 0) {
+                App.elements.closetDoors.value = Math.max(1, Math.round(width / 50));
+            }
+
             updateUI(); // Recalculate and update visibility after dimension change
         }
 
@@ -1382,7 +1418,34 @@ ${T.footer_disclaimer}`;
             // --- Event listeners setup ---
             App.elements.langToggleButton.addEventListener('click', toggleLanguage);
             $$('#configurator-form select, #configurator-form input[type="checkbox"]').forEach(el => el.addEventListener('change', updateUI));
-            $$('#configurator-form input[type="number"], #configurator-form input[type="text"], #additional-notes').forEach(el => el.addEventListener('input', debouncedRecalculate));
+            $$('#configurator-form input[type="number"], #configurator-form input[type="text"]').forEach(el => el.addEventListener('input', debouncedRecalculate));
+            
+            // Auto-resize textarea
+            App.elements.additionalNotes.addEventListener('input', () => {
+                const el = App.elements.additionalNotes;
+                el.style.height = 'auto';
+                el.style.height = (el.scrollHeight) + 'px';
+                 debouncedRecalculate();
+            });
+
+            // Smart Defaults Listeners
+            App.elements.closetWidth.addEventListener('input', () => {
+                const width = parseFloat(App.elements.closetWidth.value);
+                if (width > 0) {
+                    App.elements.closetDoors.value = Math.max(1, Math.round(width / 50));
+                }
+            });
+            App.elements.bedCount.addEventListener('input', () => {
+                const bedCount = parseInt(App.elements.bedCount.value, 10);
+                if (bedCount === 1) App.elements.komodCount.value = 2;
+                else if (bedCount === 2) App.elements.komodCount.value = 1;
+            });
+             $('#closet-paint-type').addEventListener('change', (e) => {
+                if ($('#bed-material').value === 'wood') {
+                    $('#bed-paint-type').value = e.target.value;
+                }
+            });
+
 
             $$('input[type="checkbox"][data-card-id]').forEach(checkbox => {
                 checkbox.addEventListener('change', () => handleCardToggle(checkbox));
@@ -1391,7 +1454,7 @@ ${T.footer_disclaimer}`;
             App.elements.roomSize.addEventListener('change', updateDimensionsBasedOnSize);
             App.elements.showQuoteBtn.addEventListener('click', showQuoteFooter);
             App.elements.requestQuoteBtn.addEventListener('click', submitQuote);
-            App.elements.hideQuoteLink.addEventListener('click', hideQuoteFooter); // NEW LISTENER
+            App.elements.hideQuoteLink.addEventListener('click', hideQuoteFooter); 
             $$('#customer-name, #customer-phone').forEach(el => el.addEventListener('input', updateUI)); 
             
             App.elements.modalCloseBtn.addEventListener('click', hideAlert);
@@ -1441,3 +1504,4 @@ ${T.footer_disclaimer}`;
     </script>
 </body>
 </html>
+
