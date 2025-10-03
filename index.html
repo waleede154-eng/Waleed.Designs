@@ -158,387 +158,459 @@
             <div class="text-center">
                 <h1 id="header-title" class="text-4xl sm:text-5xl font-black text-indigo-800">Waleed Designs</h1>
                 <p id="header-subtitle" class="text-lg text-slate-600 mt-2">محاكي الأسعار التفاعلي</p>
+                 <div class="mt-4">
+                    <button type="button" id="show-guide-btn" class="text-indigo-600 font-bold hover:underline flex items-center gap-2 mx-auto">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-help-circle"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                        دليل الاستخدام
+                    </button>
+                </div>
             </div>
         </header>
         
-        <!-- CONFIGURATOR FORM -->
-        <form id="configurator-form" class="space-y-8">
-            
-            <!-- Room Size Card -->
-            <div class="bg-indigo-100 p-6 rounded-2xl border-2 border-indigo-300 shadow-lg">
-                <h3 id="room-size-title" class="text-2xl font-bold mb-4 text-indigo-800 flex items-center gap-3">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-6-6m6 6v-4.5m0 4.5h-4.5"/><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M3 14h7v7H3z"/></svg>
-                    <span>أبعاد الغرفة الرئيسية</span>
-                </h3>
-                <div>
-                    <label id="room-size-label" for="room-size" class="block text-base font-medium text-slate-700 mb-2">اختر حجم الغرفة المبدئي:</label>
-                    <select id="room-size" class="w-full p-3 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
-                        <option value="small" data-lang-key="size_small">صغيرة (Small)</option>
-                        <option value="medium" selected data-lang-key="size_medium">متوسطة (Medium)</option>
-                        <option value="large" data-lang-key="size_large">كبيرة (Large)</option>
-                    </select>
-                    <p id="room-size-note" class="text-sm text-slate-500 mt-2">هذا الاختيار يحدد الأبعاد الافتراضية لجميع قطع الأثاث.</p>
-                </div>
-            </div>
-
-            <!-- Main Furniture Grid -->
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        <div id="main-view">
+            <!-- CONFIGURATOR FORM -->
+            <form id="configurator-form" class="space-y-8">
                 
-                <!-- 1. Closet (دولاب) Card -->
-                <div id="closet-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4">
-                    <div class="flex justify-between items-center border-b pb-3">
-                        <h3 id="closet-title" class="text-xl font-bold text-slate-800 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/><path d="M9 2v20"/><path d="M15 2v20"/></svg>
-                            1. الدولاب
-                        </h3>
-                        <div class="flex items-center gap-2">
-                            <label id="include-closet-label" for="include-closet" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                            <input type="checkbox" id="include-closet" data-card-id="closet-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
-                        </div>
-                    </div>
-                    <div id="closet-controls" class="space-y-4">
-                        <div>
-                            <label id="closet-wood-type-label" for="closet-wood-type" class="text-sm font-medium text-slate-600 flex items-center">
-                                نوع الخشب
-                                <span class="tooltip-container">
-                                    <span class="tooltip-trigger">?</span>
-                                    <span id="closet-wood-tooltip" class="tooltip-content text-right">الكونتر السادة هو ببساطة سطح عمل بدون طبقة زينة، بينما كونتر الميلامين هو لوح خشبي مغطى بطبقة من الميلامين توفر سطحاً متيناً لكنه حساس للحرارة والخدوش، بينما كونتر HPL هو الأكثر قوة ومتانة، وهو لوح ديكوري حراري عالي الضغط مقاوم للضربات والخدوش والبقع والحرارة، مما يجعله الخيار الأفضل في الأماكن التي تتطلب أداءً عالياً.</span>
-                                </span>
-                            </label>
-                            <select id="closet-wood-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                <option value="counter" data-lang-key="wood_counter">كونتر</option>
-                                <option value="counter_melamine" data-lang-key="wood_melamine">كونتر ميلامين</option>
-                                <option value="hpl_separate" data-lang-key="wood_hpl">HPL</option>
-                            </select>
-                        </div>
-                        <div id="closet-paint-option-container" class="hidden">
-                            <label id="closet-paint-type-label" for="closet-paint-type" class="text-sm font-medium text-slate-600 flex items-center">
-                                نوع الدهان
-                                <span class="tooltip-container">
-                                    <span class="tooltip-trigger">?</span>
-                                    <span id="closet-paint-tooltip" class="tooltip-content text-right">دهان الإستر يكشف عن جمال الخشب ويزيد من قيمته بلون طبيعي، بينما دهان الدوكو يغطي الخشب بلون موحد ويوفر متانة ومقاومة عالية للحرارة والرطوبة، ويُستخدم عادةً في أبواب الشقق والغرف والأثاث الذي يحتاج لتحمل.<br><br><b>*دهان الإستر</b><br>المظهر: يُبرز جمال الخشب الطبيعي وثمرته، ويعطي مظهراً فخماً.<br><br><b>*دهان الدوكو</b><br>المظهر: يُغطّي سطح الخشب بلون واحد، مما يمنح مظهراً ناعماً ومستوياً تماماً.<br>المتانة: قوي ويتحمل الظروف المختلفة كالحرارة والرطوبة.</span>
-                                </span>
-                            </label>
-                            <select id="closet-paint-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                <option value="none" selected data-lang-key="paint_none">بدون دهان</option>
-                                <option value="ester" data-lang-key="paint_ester">استر (Stain/Varnish)</option>
-                                <option value="duco" data-lang-key="paint_duco">دوكو (Lacquer/Duco)</option>
-                            </select>
-                        </div>
-                        <div class="grid grid-cols-3 gap-2">
-                            <div>
-                                <label id="closet-width-label" class="text-xs text-slate-500">العرض (سم)</label>
-                                <input type="number" id="closet-width" value="200" min="100" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                            <div>
-                                <label id="closet-height-label" class="text-xs text-slate-500">الارتفاع (سم)</label>
-                                <input type="number" id="closet-height" value="240" min="200" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                            <div>
-                                <label id="closet-depth-label" class="text-xs text-slate-500">العمق (سم)</label>
-                                <input type="number" id="closet-depth" value="60" min="50" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-3 gap-2">
-                            <div>
-                                <label id="closet-doors-label" class="text-xs text-slate-500">عدد الضُلف</label>
-                                <input type="number" id="closet-doors" value="4" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                            <div>
-                                <label id="closet-glass-doors-label" class="text-xs text-slate-500">ضلف زجاج</label>
-                                <input type="number" id="closet-glass-doors" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                            <div>
-                                <label id="closet-storage-ratio-label" class="text-sm font-medium text-slate-600">نسبة التخزين</label>
-                                <select id="closet-storage-ratio" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                    <option value="mostly_hanging" data-lang-key="storage_hanging">أغلبها تعليق (Mostly Hanging)</option>
-                                    <option value="balanced" selected data-lang-key="storage_balanced">متوازن (Balanced)</option>
-                                    <option value="mostly_folding" data-lang-key="storage_folding">أغلبها طيّ / أرفف (Mostly Folding)</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 gap-2">
-                            <div><label id="door-mechanism-label" class="text-sm font-medium text-slate-600">آلية الضُلف</label><select id="door-mechanism" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="hinged" data-lang-key="mech_hinged">مفصلي</option><option value="sliding" data-lang-key="mech_sliding">جرار</option></select></div>
-                            <div class="flex items-center pt-5"><input type="checkbox" id="closet-led" class="h-4 w-4 text-indigo-600 rounded"><label id="closet-led-label" for="closet-led" class="mr-2 text-sm text-slate-700">إضاءة ليد داخلية</label></div>
-                        </div>
+                <!-- Room Size Card -->
+                <div class="bg-indigo-100 p-6 rounded-2xl border-2 border-indigo-300 shadow-lg">
+                    <h3 id="room-size-title" class="text-2xl font-bold mb-4 text-indigo-800 flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m21 21-6-6m6 6v-4.5m0 4.5h-4.5"/><path d="M3 3h7v7H3z"/><path d="M14 3h7v7h-7z"/><path d="M3 14h7v7H3z"/></svg>
+                        <span>أبعاد الغرفة الرئيسية</span>
+                    </h3>
+                    <div>
+                        <label id="room-size-label" for="room-size" class="block text-base font-medium text-slate-700 mb-2">اختر حجم الغرفة المبدئي:</label>
+                        <select id="room-size" class="w-full p-3 bg-white rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                            <option value="small" data-lang-key="size_small">صغيرة (Small)</option>
+                            <option value="medium" selected data-lang-key="size_medium">متوسطة (Medium)</option>
+                            <option value="large" data-lang-key="size_large">كبيرة (Large)</option>
+                        </select>
+                        <p id="room-size-note" class="text-sm text-slate-500 mt-2">هذا الاختيار يحدد الأبعاد الافتراضية لجميع قطع الأثاث.</p>
                     </div>
                 </div>
 
-                <!-- 2. Bed & Nightstands Card -->
-                <div id="bed-komod-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4">
+                <!-- Main Furniture Grid -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    
+                    <!-- 1. Closet (دولاب) Card -->
+                    <div id="closet-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4">
                         <div class="flex justify-between items-center border-b pb-3">
-                            <h3 id="bed-title" class="text-xl font-bold text-slate-800 flex items-center gap-2">
-                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500" style="transform: scaleX(-1);"><path d="M12 2a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><path d="M18 10V8"/><path d="M14 10V8"/><path d="M6 10H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-4"/></svg>
-                                2. السرير
+                            <h3 id="closet-title" class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M20 2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/><path d="M9 2v20"/><path d="M15 2v20"/></svg>
+                                1. الدولاب
                             </h3>
                             <div class="flex items-center gap-2">
-                                <label id="include-bed-label" for="include-bed" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                                <input type="checkbox" id="include-bed" data-card-id="bed-komod-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
+                                <label id="include-closet-label" for="include-closet" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                <input type="checkbox" id="include-closet" data-card-id="closet-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
                             </div>
                         </div>
-                        <div id="bed-controls" class="space-y-4">
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label id="bed-count-label" class="text-sm font-medium text-slate-600">عدد السراير</label>
-                                    <input type="number" id="bed-count" value="1" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                </div>
-                                <div><label id="bed-size-label" class="text-sm font-medium text-slate-600">مقاس السرير</label><select id="bed-size" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="100">100 سم</option><option value="120">120 سم</option><option value="140">140 سم</option><option value="160" selected>160 سم</option><option value="180">180 سم</option><option value="200">200 سم</option></select></div>
-                            </div>
+                        <div id="closet-controls" class="space-y-4">
                             <div>
-                                <label id="bed-material-label" class="text-sm font-medium text-slate-600">خامة السرير</label>
-                                <select id="bed-material" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                    <option value="wood" data-lang-key="bed_wood">خشب فقط</option>
-                                    <option value="upholstered_back" data-lang-key="bed_back">تنجيد الظهر فقط</option>
-                                    <option value="upholstered_full" data-lang-key="bed_full">تنجيد كامل</option>
+                                <label id="closet-wood-type-label" for="closet-wood-type" class="text-sm font-medium text-slate-600 flex items-center">
+                                    نوع الخشب
+                                    <span class="tooltip-container">
+                                        <span class="tooltip-trigger">?</span>
+                                        <span id="closet-wood-tooltip" class="tooltip-content text-right">الكونتر السادة هو ببساطة سطح عمل بدون طبقة زينة، بينما كونتر الميلامين هو لوح خشبي مغطى بطبقة من الميلامين توفر سطحاً متيناً لكنه حساس للحرارة والخدوش، بينما كونتر HPL هو الأكثر قوة ومتانة، وهو لوح ديكوري حراري عالي الضغط مقاوم للضربات والخدوش والبقع والحرارة، مما يجعله الخيار الأفضل في الأماكن التي تتطلب أداءً عالياً.</span>
+                                    </span>
+                                </label>
+                                <select id="closet-wood-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    <option value="counter" data-lang-key="wood_counter">كونتر</option>
+                                    <option value="counter_melamine" data-lang-key="wood_melamine">كونتر ميلامين</option>
+                                    <option value="hpl_separate" data-lang-key="wood_hpl">HPL</option>
                                 </select>
                             </div>
-                            <div id="bed-paint-option-container" class="hidden">
-                                <label id="bed-paint-type-label" for="bed-paint-type" class="text-sm font-medium text-slate-600">نوع دهان السرير</label>
-                                <select id="bed-paint-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                            <div id="closet-paint-option-container" class="hidden">
+                                <label id="closet-paint-type-label" for="closet-paint-type" class="text-sm font-medium text-slate-600 flex items-center">
+                                    نوع الدهان
+                                    <span class="tooltip-container">
+                                        <span class="tooltip-trigger">?</span>
+                                        <span id="closet-paint-tooltip" class="tooltip-content text-right">دهان الإستر يكشف عن جمال الخشب ويزيد من قيمته بلون طبيعي، بينما دهان الدوكو يغطي الخشب بلون موحد ويوفر متانة ومقاومة عالية للحرارة والرطوبة، ويُستخدم عادةً في أبواب الشقق والغرف والأثاث الذي يحتاج لتحمل.<br><br><b>*دهان الإستر</b><br>المظهر: يُبرز جمال الخشب الطبيعي وثمرته، ويعطي مظهراً فخماً.<br><br><b>*دهان الدوكو</b><br>المظهر: يُغطّي سطح الخشب بلون واحد، مما يمنح مظهراً ناعماً ومستوياً تماماً.<br>المتانة: قوي ويتحمل الظروف المختلفة كالحرارة والرطوبة.</span>
+                                    </span>
+                                </label>
+                                <select id="closet-paint-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
                                     <option value="none" selected data-lang-key="paint_none">بدون دهان</option>
-                                    <option value="ester" data-lang-key="paint_ester">استر</option>
-                                    <option value="duco" data-lang-key="paint_duco">دوكو</option>
+                                    <option value="ester" data-lang-key="paint_ester">استر (Stain/Varnish)</option>
+                                    <option value="duco" data-lang-key="paint_duco">دوكو (Lacquer/Duco)</option>
                                 </select>
                             </div>
-                            <div class="grid grid-cols-2 gap-2 pt-2">
-                                <div><div class="flex items-center"><input type="checkbox" id="lifting-mechanism" class="h-4 w-4 text-indigo-600 rounded"><label id="lifting-mechanism-label" for="lifting-mechanism" class="mr-2 text-sm text-slate-700">ميكانيزم رفع</label></div></div>
-                                <div><div class="flex items-center"><input type="checkbox" id="bed-led" class="h-4 w-4 text-indigo-600 rounded"><label id="bed-led-label" for="bed-led" class="mr-2 text-sm text-slate-700">إضاءة ليد للسرير</label></div></div>
+                            <div class="grid grid-cols-3 gap-2">
+                                <div>
+                                    <label id="closet-width-label" class="text-xs text-slate-500">العرض (سم)</label>
+                                    <input type="number" id="closet-width" value="200" min="100" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                </div>
+                                <div>
+                                    <label id="closet-height-label" class="text-xs text-slate-500">الارتفاع (سم)</label>
+                                    <input type="number" id="closet-height" value="240" min="200" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                </div>
+                                <div>
+                                    <label id="closet-depth-label" class="text-xs text-slate-500">العمق (سم)</label>
+                                    <input type="number" id="closet-depth" value="60" min="50" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                </div>
                             </div>
-                            
-                            <div class="pt-4 border-t mt-4 space-y-4">
-                                <h4 id="komod-title" class="font-bold text-slate-700">الكمود (Nightstands)</h4>
+                            <div class="grid grid-cols-3 gap-2">
+                                <div>
+                                    <label id="closet-doors-label" class="text-xs text-slate-500">عدد الضُلف</label>
+                                    <input type="number" id="closet-doors" value="4" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                </div>
+                                <div>
+                                    <label id="closet-glass-doors-label" class="text-xs text-slate-500">ضلف زجاج</label>
+                                    <input type="number" id="closet-glass-doors" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                </div>
+                                <div>
+                                    <label id="closet-storage-ratio-label" class="text-sm font-medium text-slate-600">نسبة التخزين</label>
+                                    <select id="closet-storage-ratio" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <option value="mostly_hanging" data-lang-key="storage_hanging">أغلبها تعليق (Mostly Hanging)</option>
+                                        <option value="balanced" selected data-lang-key="storage_balanced">متوازن (Balanced)</option>
+                                        <option value="mostly_folding" data-lang-key="storage_folding">أغلبها طيّ / أرفف (Mostly Folding)</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 gap-2">
+                                <div><label id="door-mechanism-label" class="text-sm font-medium text-slate-600">آلية الضُلف</label><select id="door-mechanism" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="hinged" data-lang-key="mech_hinged">مفصلي</option><option value="sliding" data-lang-key="mech_sliding">جرار</option></select></div>
+                                <div class="flex items-center pt-5"><input type="checkbox" id="closet-led" class="h-4 w-4 text-indigo-600 rounded"><label id="closet-led-label" for="closet-led" class="mr-2 text-sm text-slate-700">إضاءة ليد داخلية</label></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 2. Bed & Nightstands Card -->
+                    <div id="bed-komod-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4">
+                            <div class="flex justify-between items-center border-b pb-3">
+                                <h3 id="bed-title" class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500" style="transform: scaleX(-1);"><path d="M12 2a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><path d="M18 10V8"/><path d="M14 10V8"/><path d="M6 10H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-4"/></svg>
+                                   2. السرير
+                                </h3>
+                                <div class="flex items-center gap-2">
+                                    <label id="include-bed-label" for="include-bed" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                    <input type="checkbox" id="include-bed" data-card-id="bed-komod-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
+                                </div>
+                            </div>
+                            <div id="bed-controls" class="space-y-4">
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
-                                        <label id="komod-count-label" class="text-sm font-medium text-slate-600">عدد الكمود</label>
-                                        <input type="number" id="komod-count" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <label id="bed-count-label" class="text-sm font-medium text-slate-600">عدد السراير</label>
+                                        <input type="number" id="bed-count" value="1" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    </div>
+                                    <div><label id="bed-size-label" class="text-sm font-medium text-slate-600">مقاس السرير</label><select id="bed-size" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="100">100 سم</option><option value="120">120 سم</option><option value="140">140 سم</option><option value="160" selected>160 سم</option><option value="180">180 سم</option><option value="200">200 سم</option></select></div>
+                                </div>
+                                <div>
+                                    <label id="bed-material-label" class="text-sm font-medium text-slate-600">خامة السرير</label>
+                                    <select id="bed-material" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <option value="wood" data-lang-key="bed_wood">خشب فقط</option>
+                                        <option value="upholstered_back" data-lang-key="bed_back">تنجيد الظهر فقط</option>
+                                        <option value="upholstered_full" data-lang-key="bed_full">تنجيد كامل</option>
+                                    </select>
+                                </div>
+                                <div id="bed-paint-option-container" class="hidden">
+                                    <label id="bed-paint-type-label" for="bed-paint-type" class="text-sm font-medium text-slate-600">نوع دهان السرير</label>
+                                    <select id="bed-paint-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <option value="none" selected data-lang-key="paint_none">بدون دهان</option>
+                                        <option value="ester" data-lang-key="paint_ester">استر</option>
+                                        <option value="duco" data-lang-key="paint_duco">دوكو</option>
+                                    </select>
+                                </div>
+                                <div class="grid grid-cols-2 gap-2 pt-2">
+                                    <div><div class="flex items-center"><input type="checkbox" id="lifting-mechanism" class="h-4 w-4 text-indigo-600 rounded"><label id="lifting-mechanism-label" for="lifting-mechanism" class="mr-2 text-sm text-slate-700">ميكانيزم رفع</label></div></div>
+                                    <div><div class="flex items-center"><input type="checkbox" id="bed-led" class="h-4 w-4 text-indigo-600 rounded"><label id="bed-led-label" for="bed-led" class="mr-2 text-sm text-slate-700">إضاءة ليد للسرير</label></div></div>
+                                </div>
+                                
+                                <div class="pt-4 border-t mt-4 space-y-4">
+                                    <h4 id="komod-title" class="font-bold text-slate-700">الكمود (Nightstands)</h4>
+                                    <div class="grid grid-cols-2 gap-2">
+                                        <div>
+                                            <label id="komod-count-label" class="text-sm font-medium text-slate-600">عدد الكمود</label>
+                                            <input type="number" id="komod-count" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        </div>
+                                        <div>
+                                            <label id="komod-drawers-label" class="text-sm font-medium text-slate-600">أدراج الكمود</label>
+                                            <input type="number" id="komod-drawers" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+
+                    <!-- 3. Dresser Card -->
+                    <div id="dresser-mirror-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4 lg:col-span-2">
+                        <div class="flex justify-between items-center border-b pb-3">
+                            <h3 id="dresser-title" class="text-xl font-bold text-slate-800 flex items-center gap-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M14.5 17H4a2 2 0 0 0-2 2v2h16v-2a2 2 0 0 0-2-2z"/><path d="M14.5 4h-5L6 7v3h12V7l-3.5-3z"/><path d="M4 17v-3h16v3"/><circle cx="12" cy="12" r="2.5"/></svg>
+                                3. التسريحة والمرايا
+                            </h3>
+                                <div class="flex items-center gap-2">
+                                    <label id="include-dresser-label" for="include-dresser" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                    <input type="checkbox" id="include-dresser" data-card-id="dresser-mirror-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
+                                </div>
+                        </div>
+                        <div id="dresser-controls" class="space-y-4">
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                                <div><label id="dresser-type-label" class="text-sm font-medium text-slate-600">طريقة التركيب</label><select id="dresser-type" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="hanging" data-lang-key="install_hanging">معلقة</option><option value="floor" selected data-lang-key="install_floor">على الأرض</option></select></div>
+                                <div>
+                                    <label id="dresser-drawers-label" class="text-sm font-medium text-slate-600">عدد الأدراج</label>
+                                    <input type="number" id="dresser-drawers" value="3" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                </div>
+                                <div>
+                                    <label id="dresser-width-label" class="text-xs text-slate-500">العرض (سم)</label>
+                                    <input type="number" id="dresser-width" value="120" min="60" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                </div>
+                                <div>
+                                    <label id="dresser-depth-label" class="text-xs text-slate-500">العمق (سم)</label>
+                                    <input type="number" id="dresser-depth" value="45" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                </div>
+                            </div>
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 pt-4 border-t mt-4">
+                                <div>
+                                    <label id="mirror-shape-label" for="mirror-shape" class="text-sm font-medium text-slate-600">شكل المرايا</label>
+                                    <div class="flex items-center gap-2">
+                                        <select id="mirror-shape" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                            <option value="rectangle" data-lang-key="shape_rect">مستطيل</option>
+                                            <option value="square" data-lang-key="shape_square">مربع</option>
+                                            <option value="circle" data-lang-key="shape_circle">دائري</option>
+                                        </select>
+                                        <div id="mirror-shape-icon-container" class="mt-1">
+                                            <svg id="icon-rectangle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><rect x="3" y="5" width="18" height="14" rx="2"></rect></svg>
+                                            <svg id="icon-square" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500 hidden"><rect width="18" height="18" x="3" y="3" rx="2"></rect></svg>
+                                            <svg id="icon-circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500 hidden"><circle cx="12" cy="12" r="9"></circle></svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label id="mirror-width-label" class="text-xs text-slate-500">عرض المرايا (سم)</label>
+                                    <input type="number" id="mirror-width" value="70" min="40" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                </div>
+                                <div id="mirror-height-container">
+                                    <label id="mirror-height-label" class="text-xs text-slate-500">ارتفاع المرايا (سم)</label>
+                                    <input type="number" id="mirror-height" value="100" min="60" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                </div>
+                                <div class="flex items-end pb-1"><div class="flex items-center"><input type="checkbox" id="mirror-led" class="h-4 w-4 text-indigo-600 rounded"><label id="mirror-led-label" for="mirror-led" class="mr-2 text-sm text-slate-700">إضاءة ليد للمرايا</label></div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div> <!-- End Grid -->
+
+                <!-- Additional Furniture Section -->
+                <div class="bg-white p-6 rounded-2xl shadow-md border space-y-6">
+                    <h3 id="additional-furniture-title" class="text-xl font-bold text-slate-800 border-b pb-3 flex items-center gap-2">
+                       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M20 10V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3"/><path d="M2 15h20"/><path d="M4 15v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg>
+                       4. قطع أثاث إضافية
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        
+                        <!-- TV Table -->
+                        <div id="tv-table-card" class="space-y-3 p-4 border rounded-lg bg-slate-50">
+                            <div class="flex justify-between items-center">
+                                <h4 id="tv-table-unit-title" class="font-bold text-slate-700">ترابيزة تليفزيون (TV Unit)</h4>
+                                <div class="flex items-center gap-2">
+                                    <label id="include-tv-table-label" for="include-tv-table" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                    <input type="checkbox" id="include-tv-table" data-card-id="tv-table-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                                </div>
+                            </div>
+                            <div id="tv-table-controls" class="space-y-3">
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div>
+                                        <label id="tv-table-width-label" class="text-xs text-slate-500">العرض (سم)</label>
+                                        <input type="number" id="tv-table-width" value="160" min="80" class="w-full mt-1 p-2 rounded-md border border-slate-300">
                                     </div>
                                     <div>
-                                        <label id="komod-drawers-label" class="text-sm font-medium text-slate-600">أدراج الكمود</label>
-                                        <input type="number" id="komod-drawers" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <label id="tv-table-height-label" class="text-xs text-slate-500">الارتفاع (سم)</label>
+                                        <input type="number" id="tv-table-height" value="50" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    </div>
+                                    <div>
+                                        <label id="tv-table-depth-label" class="text-xs text-slate-500">العمق (سم)</label>
+                                        <input type="number" id="tv-table-depth" value="40" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300">
                                     </div>
                                 </div>
-                            </div>
-                        </div>
-                </div>
-
-                <!-- 3. Dresser Card -->
-                <div id="dresser-mirror-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4 lg:col-span-2">
-                    <div class="flex justify-between items-center border-b pb-3">
-                        <h3 id="dresser-title" class="text-xl font-bold text-slate-800 flex items-center gap-2">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M14.5 17H4a2 2 0 0 0-2 2v2h16v-2a2 2 0 0 0-2-2z"/><path d="M14.5 4h-5L6 7v3h12V7l-3.5-3z"/><path d="M4 17v-3h16v3"/><circle cx="12" cy="12" r="2.5"/></svg>
-                            3. التسريحة والمرايا
-                        </h3>
-                            <div class="flex items-center gap-2">
-                                <label id="include-dresser-label" for="include-dresser" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                                <input type="checkbox" id="include-dresser" data-card-id="dresser-mirror-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox" checked>
-                            </div>
-                    </div>
-                    <div id="dresser-controls" class="space-y-4">
-                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
-                            <div><label id="dresser-type-label" class="text-sm font-medium text-slate-600">طريقة التركيب</label><select id="dresser-type" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="hanging" data-lang-key="install_hanging">معلقة</option><option value="floor" selected data-lang-key="install_floor">على الأرض</option></select></div>
-                            <div>
-                                <label id="dresser-drawers-label" class="text-sm font-medium text-slate-600">عدد الأدراج</label>
-                                <input type="number" id="dresser-drawers" value="3" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                            <div>
-                                <label id="dresser-width-label" class="text-xs text-slate-500">العرض (سم)</label>
-                                <input type="number" id="dresser-width" value="120" min="60" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                            <div>
-                                <label id="dresser-depth-label" class="text-xs text-slate-500">العمق (سم)</label>
-                                <input type="number" id="dresser-depth" value="45" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                        </div>
-                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 pt-4 border-t mt-4">
-                            <div>
-                                <label id="mirror-shape-label" for="mirror-shape" class="text-sm font-medium text-slate-600">شكل المرايا</label>
-                                <div class="flex items-center gap-2">
-                                    <select id="mirror-shape" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                        <option value="rectangle" data-lang-key="shape_rect">مستطيل</option>
-                                        <option value="square" data-lang-key="shape_square">مربع</option>
-                                        <option value="circle" data-lang-key="shape_circle">دائري</option>
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label id="tv-table-drawers-label" class="text-xs text-slate-500">عدد الأدراج</label>
+                                        <input type="number" id="tv-table-drawers" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    </div>
+                                    <div>
+                                        <label id="tv-table-doors-label" class="text-xs text-slate-500">عدد الدولف</label>
+                                        <input type="number" id="tv-table-doors" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    </div>
+                                </div>
+                                <div>
+                                    <label id="tv-table-type-label" class="text-sm font-medium text-slate-600">طريقة التركيب</label>
+                                    <select id="tv-table-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <option value="floor" selected data-lang-key="install_floor">على الأرض</option>
+                                        <option value="hanging" data-lang-key="install_hanging">معلقة</option>
                                     </select>
-                                    <div id="mirror-shape-icon-container" class="mt-1">
-                                        <svg id="icon-rectangle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><rect x="3" y="5" width="18" height="14" rx="2"></rect></svg>
-                                        <svg id="icon-square" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500 hidden"><rect width="18" height="18" x="3" y="3" rx="2"></rect></svg>
-                                        <svg id="icon-circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500 hidden"><circle cx="12" cy="12" r="9"></circle></svg>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Coffee Table -->
+                        <div id="coffee-table-card" class="space-y-3 p-4 border rounded-lg bg-slate-50">
+                            <div class="flex justify-between items-center">
+                                <h4 id="coffee-table-title" class="font-bold text-slate-700">ترابيزة وسط (Coffee Table)</h4>
+                                <div class="flex items-center gap-2">
+                                    <label id="include-coffee-table-label" for="include-coffee-table" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                    <input type="checkbox" id="include-coffee-table" data-card-id="coffee-table-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                                </div>
+                            </div>
+                            <div id="coffee-table-controls" class="space-y-3">
+                                <div class="grid grid-cols-3 gap-2">
+                                    <div>
+                                        <label id="coffee-table-width-label" class="text-xs text-slate-500">العرض (سم)</label>
+                                        <input type="number" id="coffee-table-width" value="100" min="50" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    </div>
+                                    <div>
+                                        <label id="coffee-table-height-label" class="text-xs text-slate-500">الارتفاع (سم)</label>
+                                        <input type="number" id="coffee-table-height" value="45" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    </div>
+                                    <div>
+                                        <label id="coffee-table-depth-label" class="text-xs text-slate-500">العمق (سم)</label>
+                                        <input type="number" id="coffee-table-depth" value="60" min="40" class="w-full mt-1 p-2 rounded-md border border-slate-300">
                                     </div>
                                 </div>
                             </div>
-                            <div>
-                                <label id="mirror-width-label" class="text-xs text-slate-500">عرض المرايا (سم)</label>
-                                <input type="number" id="mirror-width" value="70" min="40" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                            <div id="mirror-height-container">
-                                <label id="mirror-height-label" class="text-xs text-slate-500">ارتفاع المرايا (سم)</label>
-                                <input type="number" id="mirror-height" value="100" min="60" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                            <div class="flex items-end pb-1"><div class="flex items-center"><input type="checkbox" id="mirror-led" class="h-4 w-4 text-indigo-600 rounded"><label id="mirror-led-label" for="mirror-led" class="mr-2 text-sm text-slate-700">إضاءة ليد للمرايا</label></div></div>
                         </div>
+
+                        <!-- L-Shape Sofa -->
+                        <div id="l-sofa-card" class="space-y-3 p-4 border rounded-lg bg-slate-50">
+                            <div class="flex justify-between items-center">
+                                <h4 id="l-sofa-title" class="font-bold text-slate-700">ركنة حرف L (Corner Sofa)</h4>
+                                <div class="flex items-center gap-2">
+                                    <label id="include-l-sofa-label" for="include-l-sofa" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                    <input type="checkbox" id="include-l-sofa" data-card-id="l-sofa-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                                </div>
+                            </div>
+                            <div id="l-sofa-controls" class="space-y-3">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div>
+                                        <label id="l-sofa-width-label" class="text-xs text-slate-500">العرض (سم)</label>
+                                        <input type="number" id="l-sofa-width" value="250" min="150" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    </div>
+                                    <div>
+                                        <label id="l-sofa-depth-label" class="text-xs text-slate-500">العمق (سم)</label>
+                                        <input type="number" id="l-sofa-depth" value="180" min="100" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sofa -->
+                        <div id="sofa-card" class="space-y-3 p-4 border rounded-lg bg-slate-50">
+                            <div class="flex justify-between items-center">
+                                <h4 id="sofa-title" class="font-bold text-slate-700">كنبة (Sofa)</h4>
+                                <div class="flex items-center gap-2">
+                                    <label id="include-sofa-label" for="include-sofa" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                    <input type="checkbox" id="include-sofa" data-card-id="sofa-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                                </div>
+                            </div>
+                            <div id="sofa-controls" class="space-y-3">
+                                <div>
+                                    <label id="sofa-width-label" class="text-xs text-slate-500">العرض (سم)</label>
+                                    <input type="number" id="sofa-width" value="200" min="120" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Sofa Bed -->
+                        <div id="sofa-bed-card" class="space-y-3 p-4 border rounded-lg bg-slate-50 md:col-span-2">
+                            <div class="flex justify-between items-center">
+                                <h4 id="sofa-bed-title" class="font-bold text-slate-700">كنبة سرير (Sofa Bed)</h4>
+                                <div class="flex items-center gap-2">
+                                    <label id="include-sofa-bed-label" for="include-sofa-bed" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
+                                    <input type="checkbox" id="include-sofa-bed" data-card-id="sofa-bed-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
+                                </div>
+                            </div>
+                            <div id="sofa-bed-controls" class="space-y-3">
+                                <div>
+                                    <label id="sofa-bed-width-label" class="text-xs text-slate-500">العرض (سم)</label>
+                                    <input type="number" id="sofa-bed-width" value="200" min="120" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
-            </div> <!-- End Grid -->
-
-            <!-- Additional Furniture Section -->
-            <div class="bg-white p-6 rounded-2xl shadow-md border space-y-6">
-                <h3 id="additional-furniture-title" class="text-xl font-bold text-slate-800 border-b pb-3 flex items-center gap-2">
-                   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M20 10V7a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v3"/><path d="M2 15h20"/><path d="M4 15v5a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-5"/></svg>
-                   4. قطع أثاث إضافية
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    
-                    <!-- TV Table -->
-                    <div id="tv-table-card" class="space-y-3 p-4 border rounded-lg bg-slate-50">
-                        <div class="flex justify-between items-center">
-                            <h4 id="tv-table-unit-title" class="font-bold text-slate-700">ترابيزة تليفزيون (TV Unit)</h4>
-                            <div class="flex items-center gap-2">
-                                <label id="include-tv-table-label" for="include-tv-table" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                                <input type="checkbox" id="include-tv-table" data-card-id="tv-table-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
-                            </div>
-                        </div>
-                        <div id="tv-table-controls" class="space-y-3">
-                            <div class="grid grid-cols-3 gap-2">
-                                <div>
-                                    <label id="tv-table-width-label" class="text-xs text-slate-500">العرض (سم)</label>
-                                    <input type="number" id="tv-table-width" value="160" min="80" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                </div>
-                                <div>
-                                    <label id="tv-table-height-label" class="text-xs text-slate-500">الارتفاع (سم)</label>
-                                    <input type="number" id="tv-table-height" value="50" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                </div>
-                                <div>
-                                    <label id="tv-table-depth-label" class="text-xs text-slate-500">العمق (سم)</label>
-                                    <input type="number" id="tv-table-depth" value="40" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                </div>
-                            </div>
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label id="tv-table-drawers-label" class="text-xs text-slate-500">عدد الأدراج</label>
-                                    <input type="number" id="tv-table-drawers" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                </div>
-                                <div>
-                                    <label id="tv-table-doors-label" class="text-xs text-slate-500">عدد الدولف</label>
-                                    <input type="number" id="tv-table-doors" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                </div>
-                            </div>
-                            <div>
-                                <label id="tv-table-type-label" class="text-sm font-medium text-slate-600">طريقة التركيب</label>
-                                <select id="tv-table-type" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                    <option value="floor" selected data-lang-key="install_floor">على الأرض</option>
-                                    <option value="hanging" data-lang-key="install_hanging">معلقة</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Coffee Table -->
-                    <div id="coffee-table-card" class="space-y-3 p-4 border rounded-lg bg-slate-50">
-                        <div class="flex justify-between items-center">
-                            <h4 id="coffee-table-title" class="font-bold text-slate-700">ترابيزة وسط (Coffee Table)</h4>
-                            <div class="flex items-center gap-2">
-                                <label id="include-coffee-table-label" for="include-coffee-table" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                                <input type="checkbox" id="include-coffee-table" data-card-id="coffee-table-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
-                            </div>
-                        </div>
-                        <div id="coffee-table-controls" class="space-y-3">
-                            <div class="grid grid-cols-3 gap-2">
-                                <div>
-                                    <label id="coffee-table-width-label" class="text-xs text-slate-500">العرض (سم)</label>
-                                    <input type="number" id="coffee-table-width" value="100" min="50" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                </div>
-                                <div>
-                                    <label id="coffee-table-height-label" class="text-xs text-slate-500">الارتفاع (سم)</label>
-                                    <input type="number" id="coffee-table-height" value="45" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                </div>
-                                <div>
-                                    <label id="coffee-table-depth-label" class="text-xs text-slate-500">العمق (سم)</label>
-                                    <input type="number" id="coffee-table-depth" value="60" min="40" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- L-Shape Sofa -->
-                    <div id="l-sofa-card" class="space-y-3 p-4 border rounded-lg bg-slate-50">
-                        <div class="flex justify-between items-center">
-                            <h4 id="l-sofa-title" class="font-bold text-slate-700">ركنة حرف L (Corner Sofa)</h4>
-                            <div class="flex items-center gap-2">
-                                <label id="include-l-sofa-label" for="include-l-sofa" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                                <input type="checkbox" id="include-l-sofa" data-card-id="l-sofa-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
-                            </div>
-                        </div>
-                        <div id="l-sofa-controls" class="space-y-3">
-                            <div class="grid grid-cols-2 gap-2">
-                                <div>
-                                    <label id="l-sofa-width-label" class="text-xs text-slate-500">العرض (سم)</label>
-                                    <input type="number" id="l-sofa-width" value="250" min="150" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                </div>
-                                <div>
-                                    <label id="l-sofa-depth-label" class="text-xs text-slate-500">العمق (سم)</label>
-                                    <input type="number" id="l-sofa-depth" value="180" min="100" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sofa -->
-                    <div id="sofa-card" class="space-y-3 p-4 border rounded-lg bg-slate-50">
-                        <div class="flex justify-between items-center">
-                            <h4 id="sofa-title" class="font-bold text-slate-700">كنبة (Sofa)</h4>
-                            <div class="flex items-center gap-2">
-                                <label id="include-sofa-label" for="include-sofa" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                                <input type="checkbox" id="include-sofa" data-card-id="sofa-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
-                            </div>
-                        </div>
-                        <div id="sofa-controls" class="space-y-3">
-                            <div>
-                                <label id="sofa-width-label" class="text-xs text-slate-500">العرض (سم)</label>
-                                <input type="number" id="sofa-width" value="200" min="120" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Sofa Bed -->
-                    <div id="sofa-bed-card" class="space-y-3 p-4 border rounded-lg bg-slate-50 md:col-span-2">
-                        <div class="flex justify-between items-center">
-                            <h4 id="sofa-bed-title" class="font-bold text-slate-700">كنبة سرير (Sofa Bed)</h4>
-                            <div class="flex items-center gap-2">
-                                <label id="include-sofa-bed-label" for="include-sofa-bed" class="text-sm font-medium text-slate-600">إضافة للسعر</label>
-                                <input type="checkbox" id="include-sofa-bed" data-card-id="sofa-bed-card" class="h-5 w-5 text-indigo-600 rounded border-gray-300 custom-checkbox">
-                            </div>
-                        </div>
-                        <div id="sofa-bed-controls" class="space-y-3">
-                            <div>
-                                <label id="sofa-bed-width-label" class="text-xs text-slate-500">العرض (سم)</label>
-                                <input type="number" id="sofa-bed-width" value="200" min="120" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                            </div>
-                        </div>
-                    </div>
-
+                <!-- Additional Notes -->
+                <div class="bg-indigo-50 p-6 rounded-2xl border-2 border-indigo-200 shadow-inner">
+                     <h3 id="notes-title" class="text-xl font-bold mb-3 text-indigo-700">5. ملاحظات إضافية أو طلبات خاصة</h3>
+                     <textarea id="additional-notes" rows="3" data-lang-key="notes_placeholder" placeholder="اكتب هنا أي تفاصيل إضافية عن التصميم، خامات معينة، أو ملاحظات للورشة..." class="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
                 </div>
-            </div>
-
-            <!-- Additional Notes -->
-            <div class="bg-indigo-50 p-6 rounded-2xl border-2 border-indigo-200 shadow-inner">
-                 <h3 id="notes-title" class="text-xl font-bold mb-3 text-indigo-700">5. ملاحظات إضافية أو طلبات خاصة</h3>
-                 <textarea id="additional-notes" rows="3" data-lang-key="notes_placeholder" placeholder="اكتب هنا أي تفاصيل إضافية عن التصميم، خامات معينة، أو ملاحظات للورشة..." class="w-full p-3 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition"></textarea>
-            </div>
 
 
-            <div id="quote-action-container" class="text-center pt-8">
-                <button type="button" id="show-quote-btn" class="primary-btn bg-indigo-600 hover:bg-indigo-700 shadow-indigo-300 hover:shadow-indigo-400 w-full max-w-sm py-3 text-lg">
-                    عرض السعر وطلب التواصل
-                </button>
-                <p id="edit-mode-message" class="hidden mt-4 text-slate-600">
-                    <span id="edit-message-text"></span>
-                    <button type="button" id="hide-quote-link" class="text-indigo-600 font-bold hover:text-indigo-800 underline p-1">
-                        <span id="hide-quote-text">إخفاء شريط السعر</span>
+                <div id="quote-action-container" class="text-center pt-8">
+                    <button type="button" id="show-quote-btn" class="primary-btn bg-indigo-600 hover:bg-indigo-700 shadow-indigo-300 hover:shadow-indigo-400 w-full max-w-sm py-3 text-lg">
+                        عرض السعر وطلب التواصل
                     </button>
-                </p>
-            </div>
+                    <p id="edit-mode-message" class="hidden mt-4 text-slate-600">
+                        <span id="edit-message-text"></span>
+                        <button type="button" id="hide-quote-link" class="text-indigo-600 font-bold hover:text-indigo-800 underline p-1">
+                            <span id="hide-quote-text">إخفاء شريط السعر</span>
+                        </button>
+                    </p>
+                </div>
 
-        </form>
+            </form>
+        </div>
+
+        <div id="guide-view" class="hidden bg-white p-6 sm:p-8 rounded-2xl shadow-lg border">
+            <div class="flex justify-between items-center border-b pb-4 mb-6">
+                <h2 class="text-2xl font-bold text-indigo-700">دليل المستخدم: نصائح للاستفادة القصوى</h2>
+                <button type="button" id="back-to-main-btn" class="text-indigo-600 hover:bg-indigo-100 p-2 rounded-full transition">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                </button>
+            </div>
+            <div class="prose prose-lg max-w-none text-slate-700 space-y-4">
+                <p>أهلاً بك في محاكي الأسعار من "Waleed Designs"! لتصميم غرفة أحلامك والحصول على تقدير دقيق للتكلفة، اتبع هذه النصائح البسيطة:</p>
+                <ol class="list-decimal list-inside space-y-3">
+                    <li>
+                        <b>ابدأ صح: اختر حجم غرفتك المبدئي</b><br>
+                        أول اختيار في الصفحة "أبعاد الغرفة الرئيسية" (صغيرة، متوسطة، كبيرة) هو نقطة بداية سريعة. سيقوم هذا الاختيار بملء مقاسات افتراضية مناسبة لكل قطع الأثاث، مما يوفر عليك الوقت. لا تقلق، يمكنك تعديل أي مقاس لاحقًا.
+                    </li>
+                    <li>
+                        <b>التصميم ملكك: قم بتضمين أو استبعاد أي قطعة</b><br>
+                        بجانب كل قطعة أثاث (الدولاب، السرير، إلخ) ستجد خيار "إضافة للسعر". إذا كنت لا تريد قطعة معينة، ببساطة قم بإلغاء تحديدها وسيتم إزالتها من السعر الإجمالي. هذا يسمح لك بتكوين الغرفة التي تحتاجها فقط وبما يناسب ميزانيتك.
+                    </li>
+                    <li>
+                        <b>الدقة هي الأهم: أدخل مقاساتك الخاصة</b><br>
+                        المقاسات الافتراضية هي مجرد مقترحات. للحصول على أدق تقدير للسعر، ننصحك بقياس المساحة المتوفرة لديك وإدخال الأبعاد الحقيقية في خانات العرض، الارتفاع، والعمق لكل قطعة.
+                    </li>
+                    <li>
+                        <b>لا تحتار في الخامات والدهانات (دليلك السريع)</b><br>
+                        <ul class="list-disc list-inside mt-2 space-y-1 ps-6">
+                            <li><b>نوع الخشب:</b>
+                                <ul class="list-circle list-inside ps-6">
+                                    <li><b>كونتر:</b> الخيار الأمثل إذا كنت تريد دهانًا بلون معين (دوكو أو استر).</li>
+                                    <li><b>كونتر ميلامين / HPL:</b> خيارات تأتي بألوانها جاهزة، وهي ممتازة للتصميمات العصرية وسرعة التنفيذ.</li>
+                                </ul>
+                            </li>
+                            <li><b>نوع الدهان:</b>
+                                 <ul class="list-circle list-inside ps-6">
+                                    <li><b>استر (Ester):</b> اختره إذا كنت تحب رؤية شكل عروق الخشب الطبيعية لمظهر فخم وكلاسيكي.</li>
+                                    <li><b>دوكو (Duco):</b> اختره إذا كنت تريد لونًا مصمتًا وموحّدًا (مثل الأبيض، الرمادي، إلخ) لمظهر عصري وناعم.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <b>لا تفوّت التفاصيل: استخدم علامات الاستفهام (؟)</b><br>
+                        بجانب بعض الخيارات الصعبة مثل "نوع الخشب" و"نوع الدهان"، ستجد علامة استفهام صغيرة ?. مرر الماوس فوقها وستظهر لك نافذة صغيرة بها شرح تفصيلي لمساعدتك على اتخاذ القرار الأنسب لك.
+                    </li>
+                    <li>
+                        <b>الخطوة الأخيرة: عرض السعر والتواصل</b><br>
+                        بعد الانتهاء من تحديد كل المواصفات، اضغط على زر "عرض السعر وطلب التواصل" في الأسفل. سيظهر لك شريط يحتوي على السعر التقديري، ومدة التصنيع المتوقعة. كل ما عليك فعله هو كتابة اسمك ورقم هاتفك ثم الضغط على زر "إرسال الطلب عبر واتساب". سيتم تجهيز رسالة تحتوي على كل اختياراتك بالتفصيل لإرسالها لنا مباشرة.
+                    </li>
+                </ol>
+                <div class="bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 p-4 rounded-r-lg">
+                    <p class="font-bold">⭐ ملاحظة هامة جداً: السعر تقديري</p>
+                    <p>السعر الذي يظهر لك هو تقدير مبدئي دقيق بناءً على اختياراتك. السعر النهائي يتم تأكيده بعد التواصل معك، والاتفاق على التفاصيل النهائية ورفع المقاسات الفعلية من الموقع.</p>
+                </div>
+                <p>نأمل أن تساعدك هذه الأداة في تصميم غرفة أحلامك بسهولة!</p>
+            </div>
+            <div class="text-center mt-8">
+                <button type="button" id="back-to-main-btn-bottom" class="primary-btn bg-indigo-600 hover:bg-indigo-700 shadow-indigo-300 hover:shadow-indigo-400">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                    العودة إلى النموذج
+                </button>
+            </div>
+        </div>
+
+
     </div>
 
     <!-- STICKY FOOTER FOR PRICE & SUBMISSION -->
@@ -1461,5 +1533,4 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
-
 
