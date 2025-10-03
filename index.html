@@ -268,7 +268,7 @@
                 <div id="bed-komod-card" class="bg-white p-6 rounded-2xl shadow-md border space-y-4">
                         <div class="flex justify-between items-center border-b pb-3">
                             <h3 id="bed-title" class="text-xl font-bold text-slate-800 flex items-center gap-2">
-                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><path d="M2 4v16"/><path d="M2 4h20"/><path d="M14 4v10a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4"/><path d="M6 8h4"/><path d="M6 12h2"/></svg>
+                               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500" style="transform: scaleX(-1);"><path d="M12 2a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z"/><path d="M18 10V8"/><path d="M14 10V8"/><path d="M6 10H4a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-8a2 2 0 0 0-2-2h-4"/></svg>
                                 2. السرير
                             </h3>
                             <div class="flex items-center gap-2">
@@ -352,11 +352,18 @@
                         <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 pt-4 border-t mt-4">
                             <div>
                                 <label id="mirror-shape-label" for="mirror-shape" class="text-sm font-medium text-slate-600">شكل المرايا</label>
-                                <select id="mirror-shape" class="w-full mt-1 p-2 rounded-md border border-slate-300">
-                                    <option value="rectangle" data-lang-key="shape_rect">مستطيل</option>
-                                    <option value="square" data-lang-key="shape_square">مربع</option>
-                                    <option value="circle" data-lang-key="shape_circle">دائري</option>
-                                </select>
+                                <div class="flex items-center gap-2">
+                                    <select id="mirror-shape" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <option value="rectangle" data-lang-key="shape_rect">مستطيل</option>
+                                        <option value="square" data-lang-key="shape_square">مربع</option>
+                                        <option value="circle" data-lang-key="shape_circle">دائري</option>
+                                    </select>
+                                    <div id="mirror-shape-icon-container" class="mt-1">
+                                        <svg id="icon-rectangle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500"><rect x="3" y="5" width="18" height="14" rx="2"></rect></svg>
+                                        <svg id="icon-square" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500 hidden"><rect width="18" height="18" x="3" y="3" rx="2"></rect></svg>
+                                        <svg id="icon-circle" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-indigo-500 hidden"><circle cx="12" cy="12" r="9"></circle></svg>
+                                    </div>
+                                </div>
                             </div>
                             <div>
                                 <label id="mirror-width-label" class="text-xs text-slate-500">عرض المرايا (سم)</label>
@@ -543,6 +550,7 @@
                 <p id="total-price" class="text-3xl font-black text-indigo-700">0 ج.م</p>
                 <p id="delivery-estimate" class="text-sm font-bold text-green-700 mt-2">وقت التصنيع المقدر: 0 أسابيع</p>
                 <p id="footer-disclaimer" class="text-xs text-slate-500 mt-1">هذا السعر هو تقدير مبدئي غير مُلزم، ويخضع للتأكيد والقياسات النهائية</p>
+                <p id="footer-promo-message" class="text-sm font-bold text-indigo-600 mt-2"></p>
                 <p id="price-error-message" class="text-xs text-red-600 h-4"></p>
             </div>
             <!-- Contact Info & Submit -->
@@ -641,6 +649,7 @@
                         bed_title: '2. السرير', komod_title: 'الكمود (Nightstands)', bed_material_label: 'خامة السرير', bed_paint_type_label: 'نوع دهان السرير', lifting_mech_label: 'ميكانيزم رفع', bed_led_label: 'إضاءة ليد للسرير',
                         dresser_title: '3. التسريحة والمرايا', dresser_type_label: 'طريقة التركيب', mirror_shape_label: 'شكل المرايا', mirror_led_label: 'إضاءة ليد للمرايا',
                         additional_furniture_title: '4. قطع أثاث إضافية', tv_table_unit_title: 'ترابيزة تليفزيون (TV Unit)', coffee_table_title: 'ترابيزة وسط (Coffee Table)', l_sofa_title: 'ركنة حرف L (Corner Sofa)', sofa_title: 'كنبة (Sofa)', sofa_bed_title: 'كنبة سرير (Sofa Bed)',
+                        boolean: { true: 'نعم', false: 'لا' },
 
                         install_hanging: 'معلقة', install_floor: 'على الأرض', mech_hinged: 'مفصلي', mech_sliding: 'جرار',
                         wood_counter: 'كونتر', wood_melamine: 'كونتر ميلامين', wood_hpl: 'HPL',
@@ -648,20 +657,19 @@
                         bed_wood: 'خشب فقط', bed_back: 'تنجيد الظهر فقط', bed_full: 'تنجيد كامل',
                         shape_rect: 'مستطيل', shape_square: 'مربع', shape_circle: 'دائري',
                         storage_hanging: 'أغلبها تعليق (Mostly Hanging)', storage_balanced: 'متوازن (Balanced)', storage_folding: 'أغلبها طيّ / أرفف (Mostly Folding)',
-                        boolean: { true: 'نعم', false: 'لا' },
                         
                         notes_title: '5. ملاحظات إضافية أو طلبات خاصة', notes_placeholder: 'اكتب هنا أي تفاصيل إضافية عن التصميم، خامات معينة، أو ملاحظات للورشة...',
                         show_quote_btn: 'عرض السعر وطلب التواصل', placeholder_name: 'الاسم بالكامل *', placeholder_phone: 'رقم التليفون *', request_quote_text: 'إرسال الطلب عبر واتساب',
                         footer_price_label: 'السعر التقديري المحدد', footer_disclaimer: 'هذا السعر هو تقدير مبدئي غير مُلزم، ويخضع للتأكيد والقياسات النهائية',
                         delivery_estimate_text: 'وقت التصنيع المقدر:', delivery_weeks_unit: 'أسابيع',
                         modal_alert: 'تنبيه', modal_error: 'خطأ', modal_ok: 'حسنًا',
-                        validation_invalid_value: 'القيمة غير صالحة. يجب أن تكون {minRequiredMessage}.', validation_positive_or_zero: 'صفر أو موجبة', validation_greater_than_or_equal: 'أكبر من أو تساوي {min}',
-                        validation_glass_doors_error: 'عدد الضلف الزجاجية لا يمكن أن يتجاوز العدد الكلي للضلف.', validation_additional_error: 'هناك قيم غير صالحة في قسم الأثاث الإضافي.', validation_send_error: 'لا يمكن إرسال الطلب. {error}', validation_input_error: 'خطأ في الإدخال', validation_specs_error: 'خطأ في المواصفات', validation_success: 'تم بنجاح', validation_success_message: 'تم تجهيز طلبك بنجاح! سيتم الآن فتح واتساب لإتمام الإرسال.',
+                        validation_send_error: 'لا يمكن إرسال الطلب. {error}', validation_input_error: 'خطأ في الإدخال', validation_specs_error: 'خطأ في المواصفات', validation_success: 'تم بنجاح', validation_success_message: 'تم تجهيز طلبك بنجاح! سيتم الآن فتح واتساب لإتمام الإرسال.',
                         validation_fix_fields: 'الرجاء تصحيح الحقول غير الصالحة.',
                         edit_mode_message: 'يمكنك تعديل المواصفات في أي وقت.',
                         hide_quote_link: 'إخفاء شريط السعر',
                         facebook_page: 'صفحتنا على فيسبوك',
                         customer_service: 'خدمة العملاء',
+                        footer_promo_message: 'أرسل طلبك الآن لتحصل على معاينة مجانية.',
                     },
                     en: {
                         dir: 'ltr', langName: 'العربية',
@@ -699,6 +707,7 @@
                         hide_quote_link: 'Hide Price Bar',
                         facebook_page: 'Our Facebook Page',
                         customer_service: 'Customer Service',
+                        footer_promo_message: 'Send your request now for a free consultation.',
                     }
                 }
             }
@@ -939,7 +948,9 @@
 
             // 2. Update button text
             const oppositeLang = newLang === 'ar' ? 'en' : 'ar';
-            App.elements.langToggleButton.textContent = App.config.LANGUAGES[oppositeLang].langName;
+            if (App.elements.langToggleButton) {
+                App.elements.langToggleButton.textContent = App.config.LANGUAGES[oppositeLang].langName;
+            }
             
             // 3. Update element texts and placeholders
             $$('[id]').forEach(el => {
@@ -955,8 +966,9 @@
                 else if (el.id === 'request-quote-text') el.textContent = langData.request_quote_text;
                 else if (el.id === 'footer-price-label') el.textContent = langData.footer_price_label;
                 else if (el.id === 'footer-disclaimer') el.textContent = langData.footer_disclaimer;
+                else if (el.id === 'footer-promo-message') el.textContent = langData.footer_promo_message;
                 else if (el.id === 'notes-title') el.textContent = langData.notes_title;
-                else if (el.id === 'edit-message-text') el.textContent = langData.edit_mode_message;
+                else if (el.id === 'edit-mode-message') el.textContent = langData.edit_mode_message;
                 else if (el.id === 'hide-quote-text') el.textContent = langData.hide_quote_link;
                 
                 // Update specific labels
@@ -1076,6 +1088,15 @@
             const cardElement = $(`#${cardId}`);
             const itemKey = cardId.replace('-card', '');
             const isChecked = checkbox.checked;
+            
+            // Mapping checkbox ID to its translation key for Liked List
+            const itemTranslationMap = {
+                'include-tv-table': 'tv_table_unit_title',
+                'include-coffee-table': 'coffee_table_title',
+                'include-l-sofa': 'l_sofa_title',
+                'include-sofa': 'sofa_title',
+                'include-sofa-bed': 'sofa_bed_title',
+            };
 
             if (isChecked) {
                 // Visual highlight effect
@@ -1132,6 +1153,12 @@
                  widthLabel.textContent = t('dim_mirror_width');
                 heightContainer.style.display = 'block';
             }
+            
+            // NEW: Toggle mirror shape icon visibility
+            if(App.elements.mirrorShapeIconRect) App.elements.mirrorShapeIconRect.classList.toggle('hidden', mirrorShape !== 'rectangle');
+            if(App.elements.mirrorShapeIconSquare) App.elements.mirrorShapeIconSquare.classList.toggle('hidden', mirrorShape !== 'square');
+            if(App.elements.mirrorShapeIconCircle) App.elements.mirrorShapeIconCircle.classList.toggle('hidden', mirrorShape !== 'circle');
+
 
             // 4. Enable/disable submit button based on contact info
             const name = App.elements.customerName.value.trim();
@@ -1286,11 +1313,18 @@ https://facebook.com/waleed.designs.furniture
         function initialize() {
             // Mapping elements
             App.elements = {
+                mainView: $('#main-view'),
+                guideView: $('#guide-view'),
+                showGuideBtn: $('#show-guide-btn'),
+                backToMainBtn: $('#back-to-main-btn'),
+                backToMainBtnBottom: $('#back-to-main-btn-bottom'),
+
                 footer: $('footer'), totalPrice: $('#total-price'), priceErrorMessage: $('#price-error-message'), deliveryEstimate: $('#delivery-estimate'),
+                footerPromoMessage: $('#footer-promo-message'),
                 requestQuoteBtn: $('#request-quote-btn'), showQuoteBtn: $('#show-quote-btn'), langToggleButton: $('#lang-toggle-btn'),
                 customerName: $('#customer-name'), customerPhone: $('#customer-phone'), roomSize: $('#room-size'),
                 additionalNotes: $('#additional-notes'),
-                editModeMessage: $('#edit-mode-message'), hideQuoteLink: $('#hide-quote-link'), // NEW ELEMENTS
+                editModeMessage: $('#edit-mode-message'), hideQuoteLink: $('#hide-quote-link'), 
                 
                 // Closet
                 includeCloset: $('#include-closet'), closetWoodType: $('#closet-wood-type'), closetWidth: $('#closet-width'), closetHeight: $('#closet-height'), closetDepth: $('#closet-depth'), closetDoors: $('#closet-doors'), closetGlassDoors: $('#closet-glass-doors'), closetStorageRatio: $('#closet-storage-ratio'), doorMechanism: $('#door-mechanism'), closetLed: $('#closet-led'),
@@ -1302,7 +1336,8 @@ https://facebook.com/waleed.designs.furniture
                 // Dresser & Mirror
                 includeDresser: $('#include-dresser'), dresserType: $('#dresser-type'), dresserDrawers: $('#dresser-drawers'), dresserWidth: $('#dresser-width'), dresserDepth: $('#dresser-depth'),
                 mirrorShape: $('#mirror-shape'), mirrorWidth: $('#mirror-width'), mirrorHeight: $('#mirror-height'), mirrorLed: $('#mirror-led'),
-                
+                mirrorShapeIconRect: $('#icon-rectangle'), mirrorShapeIconSquare: $('#icon-square'), mirrorShapeIconCircle: $('#icon-circle'),
+
                 // Additional Items
                 includeTvTable: $('#include-tv-table'), tvTableWidth: $('#tv-table-width'), tvTableHeight: $('#tv-table-height'), tvTableDepth: $('#tv-table-depth'), tvTableDrawers: $('#tv-table-drawers'), tvTableDoors: $('#tv-table-doors'), tvTableType: $('#tv-table-type'),
                 includeCoffeeTable: $('#include-coffee-table'), coffeeTableWidth: $('#coffee-table-width'), coffeeTableHeight: $('#coffee-table-height'), coffeeTableDepth: $('#coffee-table-depth'),
@@ -1363,6 +1398,19 @@ https://facebook.com/waleed.designs.furniture
             if (App.elements.showQuoteBtn) App.elements.showQuoteBtn.addEventListener('click', showQuoteFooter);
             if (App.elements.requestQuoteBtn) App.elements.requestQuoteBtn.addEventListener('click', submitQuote);
             if (App.elements.hideQuoteLink) App.elements.hideQuoteLink.addEventListener('click', hideQuoteFooter); 
+            if (App.elements.showGuideBtn) App.elements.showGuideBtn.addEventListener('click', () => {
+                App.elements.mainView.classList.add('hidden');
+                App.elements.guideView.classList.remove('hidden');
+            });
+            if (App.elements.backToMainBtn) App.elements.backToMainBtn.addEventListener('click', () => {
+                App.elements.guideView.classList.add('hidden');
+                App.elements.mainView.classList.remove('hidden');
+            });
+            if (App.elements.backToMainBtnBottom) App.elements.backToMainBtnBottom.addEventListener('click', () => {
+                App.elements.guideView.classList.add('hidden');
+                App.elements.mainView.classList.remove('hidden');
+            });
+
             
             $$('#customer-name, #customer-phone').forEach(el => el.addEventListener('input', updateUI)); 
             
@@ -1413,8 +1461,5 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
-
-
-
 
 
