@@ -590,7 +590,15 @@
                         'internal_drawer_cost': 400, 
                         'shelf_cost': 80 
                     }, 
-                    BED: { 'base_price_unit_160': 4800, 'lifting_mechanism': 3600, 'upholstered_back': 1600, 'upholstered_full': 3200, 'led': 640 }, 
+                    BED: { 'lifting_mechanism': 3600, 'upholstered_back': 1600, 'upholstered_full': 3200, 'led': 640 }, 
+                    BED_SIZE_PRICES: {
+                        '100': 9000,
+                        '120': 9000,
+                        '140': 12000,
+                        '160': 14000,
+                        '180': 15500,
+                        '200': 18000
+                    },
                     KOMOD: { 'base_price': 1440, 'drawer_cost': 480 }, 
                     DRESSER: { 'hanging_premium': 400, 'drawer_cost': 560 },
                     MIRROR: { 'base_area_cost_per_sqm': 800, 'led': 960 }, 
@@ -834,7 +842,8 @@
                 const be = formConfig.bed;
                 const ko = formConfig.komod;
                 if (be.count > 0 && be.size > 0) {
-                    let bedPrice = C.BED.base_price_unit_160 * (be.size / 160);
+                    // Look up the base price from the new BED_SIZE_PRICES object
+                    let bedPrice = C.BED_SIZE_PRICES[be.size] || 0;
                     if (be.material === 'upholstered_back') bedPrice += C.BED.upholstered_back;
                     if (be.material === 'upholstered_full') bedPrice += C.BED.upholstered_full;
                     if (be.hasLiftingMechanism) bedPrice += C.BED.lifting_mechanism;
@@ -1404,5 +1413,8 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
+
+
+
 
 
