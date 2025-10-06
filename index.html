@@ -942,17 +942,22 @@
 
             // 1. Closet
             if (formConfig.includeCloset) {
+                let closetTotal = 0;
                 const cl = formConfig.closet;
                 if (cl.glassDoors > cl.doors) {
                     error = t('validation_glass_doors_error');
                 } else {
                     const area = calculateSurfaceArea(cl.width, cl.height, cl.depth);
-                    total += area * (C.WOOD_BASE[cl.woodType] + C.PAINT[cl.paintType]);
-                    total += cl.internalDrawers * C.CLOSET.internal_drawer_cost;
-                    total += cl.shelves * C.CLOSET.shelf_cost;
-                    if (cl.mechanism === 'sliding') total += cl.doors * C.CLOSET.sliding;
-                    if (cl.hasLed) total += C.CLOSET.led;
-                    total += cl.glassDoors * (C.CLOSET.glass_door - C.CLOSET.wood_door_deduction);
+                    closetTotal += area * (C.WOOD_BASE[cl.woodType] + C.PAINT[cl.paintType]);
+                    closetTotal += cl.internalDrawers * C.CLOSET.internal_drawer_cost;
+                    closetTotal += cl.shelves * C.CLOSET.shelf_cost;
+                    if (cl.mechanism === 'sliding') closetTotal += cl.doors * C.CLOSET.sliding;
+                    if (cl.hasLed) closetTotal += C.CLOSET.led;
+                    closetTotal += cl.glassDoors * (C.CLOSET.glass_door - C.CLOSET.wood_door_deduction);
+
+                    // Apply 10% discount specifically to the closet
+                    closetTotal *= 0.90;
+                    total += closetTotal;
                 }
             }
 
@@ -1488,4 +1493,5 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
+
 
