@@ -184,9 +184,9 @@
         <!-- HEADER -->
         <header class="mb-8 border-b-2 border-indigo-200 pb-6 relative flex justify-center items-center">
              <div class="absolute start-0 top-1/2 -translate-y-1/2">
-                 <button id="lang-toggle-btn" class="text-indigo-600 hover:text-indigo-800 font-bold p-2 rounded-lg transition text-sm border border-indigo-300 bg-white/50 hover:bg-white">
+                 <button id="lang-toggle-btn" class="text-indigo-600 hover:text-indigo-800 font-bold p-1 sm:p-2 rounded-lg transition text-xs sm:text-sm border border-indigo-300 bg-white/50 hover:bg-white">
                      <span id="current-lang-text">English</span>
-                 </button>
+                  </button>
              </div>
              <div class="text-center">
                  <h1 id="header-title" class="text-4xl sm:text-5xl font-black text-indigo-800">Waleed Designs</h1>
@@ -1510,56 +1510,47 @@
             const roundedTotal = Math.round(total);
             const deliveryWeeks = calculateDeliveryEstimate(fullConfig);
             
-            let summary = `*${T.app_title}*
-*${T.delivery_estimate_text} ${deliveryWeeks} ${T.delivery_weeks_unit}*
-*User ID: ${App.currentUserId || 'Unknown'}*
----------------------------------------------
-*${T.placeholder_name}:* ${name}
-*${T.placeholder_phone}:* ${phone}
-*${T.room_size_label}:* ${T[`size_${fullConfig.roomSize}`] || fullConfig.roomSize}`;
+            const summaryParts = [
+                `*${T.app_title}*`,
+                `*${T.delivery_estimate_text} ${deliveryWeeks} ${T.delivery_weeks_unit}*`,
+                `*User ID: ${App.currentUserId || 'Unknown'}*`,
+                '---------------------------------------------',
+                `*${T.placeholder_name}:* ${name}`,
+                `*${T.placeholder_phone}:* ${phone}`,
+                `*${T.room_size_label}:* ${T[`size_${fullConfig.roomSize}`] || fullConfig.roomSize}`
+            ];
 
             if(fullConfig.includeCloset){
                 const ratioDetails = S[fullConfig.closet.storageRatio];
                 const ratioDesc = ratioDetails.description[App.currentLang];
-                
-                // FIX: Correctly map wood type value to its translation key
-                const closetWoodKeyMap = {
-                    'counter': 'wood_counter',
-                    'counter_melamine': 'wood_melamine',
-                    'hpl_separate': 'wood_hpl'
-                };
+                const closetWoodKeyMap = { 'counter': 'wood_counter', 'counter_melamine': 'wood_melamine', 'hpl_separate': 'wood_hpl' };
                 let closetWoodLine = `- ${T.closet_wood_type_label}: ${T[closetWoodKeyMap[fullConfig.closet.woodType]]}`;
                 if (fullConfig.closet.woodType === 'counter') {
                     closetWoodLine += `\n- ${T.closet_paint_type_label}: ${T[`paint_${fullConfig.closet.paintType}`]}`;
                 }
 
-                summary += `
----------------------------------------------
+                summaryParts.push(
+`---------------------------------------------
 *-- ${T.closet_title} --*
 ${closetWoodLine}
 - ${T.dim_width}×${T.dim_height}×${T.dim_depth}: ${fullConfig.closet.width}×${fullConfig.closet.height}×${fullConfig.closet.depth} cm
 - ${T.door_mech_label}: ${T[`mech_${fullConfig.closet.mechanism}`]} (${fullConfig.closet.doors} ${T.dim_doors})
 - ${T.dim_glass_doors}: ${fullConfig.closet.glassDoors}
 - ${T.storage_ratio_label}: ${ratioDesc}
-- ${T.closet_led_label}: ${T.boolean[String(fullConfig.closet.hasLed)]}`;
+- ${T.closet_led_label}: ${T.boolean[String(fullConfig.closet.hasLed)]}`
+                );
             }
 
             if(fullConfig.includeBed){
                 const be = fullConfig.bed;
-                
-                // FIX: Correctly map bed material value to its translation key
-                const bedMaterialKeyMap = {
-                    'wood': 'bed_wood',
-                    'upholstered_back': 'bed_back',
-                    'upholstered_full': 'bed_full'
-                };
+                const bedMaterialKeyMap = { 'wood': 'bed_wood', 'upholstered_back': 'bed_back', 'upholstered_full': 'bed_full' };
                 let bedMaterialLine = `- ${T.bed_material_label}: ${T[bedMaterialKeyMap[be.material]]}`;
                 if (be.material === 'wood') {
                     bedMaterialLine += `\n- ${T.bed_paint_type_label}: ${T[`paint_${be.paintType}`]}`;
                 }
 
-                 summary += `
----------------------------------------------
+                summaryParts.push(
+`---------------------------------------------
 *-- ${T.bed_title} --*
 - ${T.dim_bed_count}: ${be.count}
 - ${T.dim_bed_size}: ${be.size} cm
@@ -1568,34 +1559,40 @@ ${bedMaterialLine}
 - ${T.bed_led_label}: ${T.boolean[String(be.hasLed)]}
 *-- ${T.komod_title} --*
 - ${T.dim_komod_count}: ${fullConfig.komod.count}
-- ${T.dim_komod_drawers}: ${fullConfig.komod.drawers}`;
+- ${T.dim_komod_drawers}: ${fullConfig.komod.drawers}`
+                );
             }
 
             if(fullConfig.includeDresser){
-                // FIX: Correctly map mirror shape value to its translation key
-                const mirrorShapeKeyMap = {
-                    'rectangle': 'shape_rect',
-                    'square': 'shape_square',
-                    'circle': 'shape_circle'
-                };
-                 summary += `
----------------------------------------------
+                const mirrorShapeKeyMap = { 'rectangle': 'shape_rect', 'square': 'shape_square', 'circle': 'shape_circle' };
+                summaryParts.push(
+`---------------------------------------------
 *-- ${T.dresser_title} --*
 - ${T.dresser_type_label}: ${T[`install_${fullConfig.dresser.type}`]}
 - ${T.dim_drawers}: ${fullConfig.dresser.drawers}
 - ${T.dim_width}×${T.dim_depth} (${T.dresser_title}): ${fullConfig.dresser.width}×${fullConfig.dresser.depth} cm
 - ${T.mirror_shape_label}: ${T[mirrorShapeKeyMap[fullConfig.dresser.mirrorShape]]}
-- ${T.mirror_led_label}: ${T.boolean[String(fullConfig.dresser.hasMirrorLed)]}`;
+- ${T.mirror_led_label}: ${T.boolean[String(fullConfig.dresser.hasMirrorLed)]}`
+                );
             }
 
             // Additional items
             const additionalItemsSummary = [];
 
             if(fullConfig.includeTvTable){
-                additionalItemsSummary.push(`- *${T.tv_table_unit_title}:*\n  - ${T.dresser_type_label}: ${T[`install_${fullConfig.tvTable.type}`]}\n  - ${T.dim_width}×${T.dim_height}×${T.dim_depth}: ${fullConfig.tvTable.width}×${fullConfig.tvTable.height}×${fullConfig.tvTable.depth} cm\n  - ${T.dim_drawers}: ${fullConfig.tvTable.drawers}\n  - ${T.dim_doors}: ${fullConfig.tvTable.doors}`);
+                const tv = fullConfig.tvTable;
+                const details = [
+                    `- *${T.tv_table_unit_title}:*`,
+                    `  - ${T.dresser_type_label}: ${T[`install_${tv.type}`]}`,
+                    `  - ${T.dim_width}×${T.dim_height}×${T.dim_depth}: ${tv.width}×${tv.height}×${tv.depth} cm`,
+                ];
+                if (tv.drawers > 0) details.push(`  - ${T.dim_drawers}: ${tv.drawers}`);
+                if (tv.doors > 0) details.push(`  - ${T.dim_doors}: ${tv.doors}`);
+                additionalItemsSummary.push(details.join('\n'));
             }
             if(fullConfig.includeCoffeeTable){
-                additionalItemsSummary.push(`- *${T.coffee_table_title}:*\n  - ${T.dim_width}×${T.dim_height}×${T.dim_depth}: ${fullConfig.coffeeTable.width}×${fullConfig.coffeeTable.height}×${fullConfig.coffeeTable.depth} cm`);
+                const coffee = fullConfig.coffeeTable;
+                additionalItemsSummary.push(`- *${T.coffee_table_title}:*\n  - ${T.dim_width}×${T.dim_height}×${T.dim_depth}: ${coffee.width}×${coffee.height}×${coffee.depth} cm`);
             }
             if(fullConfig.includeLSofa){
                 additionalItemsSummary.push(`- *${T.l_sofa_title}:*\n  - ${T.dim_width}×${T.dim_depth}: ${fullConfig.lSofa.width}×${fullConfig.lSofa.depth} cm`);
@@ -1608,22 +1605,23 @@ ${bedMaterialLine}
             }
             
             if (additionalItemsSummary.length > 0) {
-                summary += `
----------------------------------------------
+                summaryParts.push(
+`---------------------------------------------
 *-- ${T.additional_furniture_title} --*
-${additionalItemsSummary.join('\n')}`;
+${additionalItemsSummary.join('\n\n')}` // Use double newline for better separation between items
+                );
             }
             
             if (fullConfig.additionalNotes.trim()) {
-                 summary += `
----------------------------------------------
+                summaryParts.push(
+`---------------------------------------------
 *-- ${T.notes_title} --*
-${fullConfig.additionalNotes.trim()}`;
+${fullConfig.additionalNotes.trim()}`
+                );
             }
 
-
-            summary += `
----------------------------------------------
+            summaryParts.push(
+`---------------------------------------------
 *${T.footer_price_label}: ${roundedTotal.toLocaleString(App.currentLang === 'ar' ? 'ar-EG' : 'en-US')} ج.م*
 ---------------------------------------------
 ${T.footer_disclaimer}
@@ -1633,8 +1631,10 @@ ${T.footer_disclaimer}
 https://facebook.com/waleed.designs.furniture
 *${T.customer_service}:*
 01110846333
-01220431043`;
+01220431043`
+            );
 
+            const summary = summaryParts.join('\n');
             const whatsappUrl = `https://wa.me/${App.config.WHATSAPP_NUMBER}?text=${encodeURIComponent(summary.trim())}`;
             window.open(whatsappUrl, '_blank');
             showAlert(t('validation_success_message'), t('validation_success'));
@@ -2188,7 +2188,17 @@ https://facebook.com/waleed.designs.furniture
             handleMechanismButtons();
 
             $$('#configurator-form select, #configurator-form input[type="checkbox"]').forEach(el => el.addEventListener('change', updateUI));
-            $$('#configurator-form input[type="number"], #configurator-form input[type="text"]').forEach(el => el.addEventListener('input', debouncedRecalculate));
+            
+            // For text inputs (like customer name/phone), only run debounced recalculate to check button state.
+            $$('#configurator-form input[type="text"]').forEach(el => el.addEventListener('input', debouncedRecalculate));
+            
+            // For number inputs, combine validation and recalculation.
+            $$('#configurator-form input[type="number"]').forEach(el => {
+                el.addEventListener('input', () => {
+                    validateInput(el); // Validate on every input
+                    debouncedRecalculate(); // Recalculate price after a short delay
+                });
+            });
             
             App.elements.configuratorForm.addEventListener('input', debouncedSaveState);
             
@@ -2307,6 +2317,8 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
+
+
 
 
 
