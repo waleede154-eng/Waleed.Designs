@@ -1521,10 +1521,22 @@
             if(fullConfig.includeCloset){
                 const ratioDetails = S[fullConfig.closet.storageRatio];
                 const ratioDesc = ratioDetails.description[App.currentLang];
+                
+                // FIX: Correctly map wood type value to its translation key
+                const closetWoodKeyMap = {
+                    'counter': 'wood_counter',
+                    'counter_melamine': 'wood_melamine',
+                    'hpl_separate': 'wood_hpl'
+                };
+                let closetWoodLine = `- ${T.closet_wood_type_label}: ${T[closetWoodKeyMap[fullConfig.closet.woodType]]}`;
+                if (fullConfig.closet.woodType === 'counter') {
+                    closetWoodLine += `\n- ${T.closet_paint_type_label}: ${T[`paint_${fullConfig.closet.paintType}`]}`;
+                }
+
                 summary += `
 ---------------------------------------------
 *-- ${T.closet_title} --*
-- ${T.closet_wood_type_label}: ${T[`wood_${fullConfig.closet.woodType}`]} | ${T.closet_paint_type_label}: ${T[`paint_${fullConfig.closet.paintType}`]}
+${closetWoodLine}
 - ${T.dim_width}×${T.dim_height}×${T.dim_depth}: ${fullConfig.closet.width}×${fullConfig.closet.height}×${fullConfig.closet.depth} cm
 - ${T.door_mech_label}: ${T[`mech_${fullConfig.closet.mechanism}`]} (${fullConfig.closet.doors} ${T.dim_doors})
 - ${T.dim_glass_doors}: ${fullConfig.closet.glassDoors}
@@ -1534,41 +1546,65 @@
 
             if(fullConfig.includeBed){
                 const be = fullConfig.bed;
+                
+                // FIX: Correctly map bed material value to its translation key
+                const bedMaterialKeyMap = {
+                    'wood': 'bed_wood',
+                    'upholstered_back': 'bed_back',
+                    'upholstered_full': 'bed_full'
+                };
+                let bedMaterialLine = `- ${T.bed_material_label}: ${T[bedMaterialKeyMap[be.material]]}`;
+                if (be.material === 'wood') {
+                    bedMaterialLine += `\n- ${T.bed_paint_type_label}: ${T[`paint_${be.paintType}`]}`;
+                }
+
                  summary += `
 ---------------------------------------------
 *-- ${T.bed_title} --*
-- ${T.dim_bed_count}: ${fullConfig.bed.count} | ${T.dim_bed_size}: ${be.size} cm
-- ${T.bed_material_label}: ${T[`bed_${be.material}`]} | ${T.bed_paint_type_label}: ${T[`paint_${be.paintType}`]}
-- ${T.lifting_mech_label}: ${T.boolean[String(fullConfig.bed.hasLiftingMechanism)]} | ${T.bed_led_label}: ${T.boolean[String(fullConfig.bed.hasLed)]}
-- ${T.dim_komod_count}: ${fullConfig.komod.count} | ${T.dim_komod_drawers}: ${fullConfig.komod.drawers}`;
+- ${T.dim_bed_count}: ${be.count}
+- ${T.dim_bed_size}: ${be.size} cm
+${bedMaterialLine}
+- ${T.lifting_mech_label}: ${T.boolean[String(be.hasLiftingMechanism)]}
+- ${T.bed_led_label}: ${T.boolean[String(be.hasLed)]}
+*-- ${T.komod_title} --*
+- ${T.dim_komod_count}: ${fullConfig.komod.count}
+- ${T.dim_komod_drawers}: ${fullConfig.komod.drawers}`;
             }
 
             if(fullConfig.includeDresser){
+                // FIX: Correctly map mirror shape value to its translation key
+                const mirrorShapeKeyMap = {
+                    'rectangle': 'shape_rect',
+                    'square': 'shape_square',
+                    'circle': 'shape_circle'
+                };
                  summary += `
 ---------------------------------------------
 *-- ${T.dresser_title} --*
-- ${T.dresser_type_label}: ${T[`install_${fullConfig.dresser.type}`]} | ${T.dim_drawers}: ${fullConfig.dresser.drawers}
+- ${T.dresser_type_label}: ${T[`install_${fullConfig.dresser.type}`]}
+- ${T.dim_drawers}: ${fullConfig.dresser.drawers}
 - ${T.dim_width}×${T.dim_depth} (${T.dresser_title}): ${fullConfig.dresser.width}×${fullConfig.dresser.depth} cm
-- ${T.mirror_shape_label}: ${T[`shape_${fullConfig.dresser.mirrorShape}`]} | ${T.mirror_led_label}: ${T.boolean[String(fullConfig.dresser.hasMirrorLed)]}`;
+- ${T.mirror_shape_label}: ${T[mirrorShapeKeyMap[fullConfig.dresser.mirrorShape]]}
+- ${T.mirror_led_label}: ${T.boolean[String(fullConfig.dresser.hasMirrorLed)]}`;
             }
 
             // Additional items
             const additionalItemsSummary = [];
 
             if(fullConfig.includeTvTable){
-                additionalItemsSummary.push(`- ${T.tv_table_unit_title}: ${T[`install_${fullConfig.tvTable.type}`]} | ${T.dim_width}×${T.dim_height}×${T.dim_depth}: ${fullConfig.tvTable.width}×${fullConfig.tvTable.height}×${fullConfig.tvTable.depth} cm | ${T.dim_drawers}: ${fullConfig.tvTable.drawers} | ${T.dim_doors}: ${fullConfig.tvTable.doors}`);
+                additionalItemsSummary.push(`- *${T.tv_table_unit_title}:*\n  - ${T.dresser_type_label}: ${T[`install_${fullConfig.tvTable.type}`]}\n  - ${T.dim_width}×${T.dim_height}×${T.dim_depth}: ${fullConfig.tvTable.width}×${fullConfig.tvTable.height}×${fullConfig.tvTable.depth} cm\n  - ${T.dim_drawers}: ${fullConfig.tvTable.drawers}\n  - ${T.dim_doors}: ${fullConfig.tvTable.doors}`);
             }
             if(fullConfig.includeCoffeeTable){
-                additionalItemsSummary.push(`- ${T.coffee_table_title}: ${T.dim_width}×${T.dim_height}×${T.dim_depth}: ${fullConfig.coffeeTable.width}×${fullConfig.coffeeTable.height}×${fullConfig.coffeeTable.depth} cm`);
+                additionalItemsSummary.push(`- *${T.coffee_table_title}:*\n  - ${T.dim_width}×${T.dim_height}×${T.dim_depth}: ${fullConfig.coffeeTable.width}×${fullConfig.coffeeTable.height}×${fullConfig.coffeeTable.depth} cm`);
             }
             if(fullConfig.includeLSofa){
-                additionalItemsSummary.push(`- ${T.l_sofa_title}: ${T.dim_width}×${T.dim_depth}: ${fullConfig.lSofa.width}×${fullConfig.lSofa.depth} cm`);
+                additionalItemsSummary.push(`- *${T.l_sofa_title}:*\n  - ${T.dim_width}×${T.dim_depth}: ${fullConfig.lSofa.width}×${fullConfig.lSofa.depth} cm`);
             }
             if(fullConfig.includeSofa){
-                additionalItemsSummary.push(`- ${T.sofa_title}: ${T.dim_width}: ${fullConfig.sofa.width} cm`);
+                additionalItemsSummary.push(`- *${T.sofa_title}:*\n  - ${T.dim_width}: ${fullConfig.sofa.width} cm`);
             }
             if(fullConfig.includeSofaBed){
-                additionalItemsSummary.push(`- ${T.sofa_bed_title}: ${T.dim_width}: ${fullConfig.sofaBed.width} cm`);
+                additionalItemsSummary.push(`- *${T.sofa_bed_title}:*\n  - ${T.dim_width}: ${fullConfig.sofaBed.width} cm`);
             }
             
             if (additionalItemsSummary.length > 0) {
@@ -2271,5 +2307,7 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
+
+
 
 
