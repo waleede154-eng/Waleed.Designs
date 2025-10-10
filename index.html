@@ -798,13 +798,12 @@
                     ar: {
                         dir: 'rtl', langName: 'English', 
                         app_title: 'Waleed Designs - مُحاكي تصميم غرف النوم', header_subtitle: 'محاكي الأسعار التفاعلي',
-                        guide_button_text: 'دليل الاستخدام', reset_button_text: 'إعادة تعيين', print_design_btn: 'مشاركة/حفظ',
+                        guide_button_text: 'دليل الاستخدام', reset_button_text: 'إعادة تعيين', print_design_btn: 'حفظ/مشاركة',
                         summary_title: 'ملخص التصميم',
                         visualizer_title: 'تصور مبدئي للغرفة',
                         visualizer_closet_details_title: 'تصور تفصيلي للدولاب',
                         visualizer_closet: 'دولاب', visualizer_bed: 'سرير', visualizer_komod: 'كمود',
-                        print_button_text: 'حفظ كـ PDF',
-                        generating_pdf: 'جاري إنشاء الملف...',
+                        print_button_text: 'حفظ/مشاركة',
                         guide_title: 'دليل المستخدم: نصائح للاستفادة القصوى',
                         guide_intro: 'أهلاً بك في محاكي الأسعار من "Waleed Designs"! لتصميم غرفة أحلامك والحصول على تقدير دقيق للتكلفة، اتبع هذه النصائح البسيطة:',
                         guide_step1: '<b>ابدأ صح: اختر حجم غرفتك المبدئي</b><br>أول اختيار في الصفحة "أبعاد الغرفة الرئيسية" (صغيرة، متوسطة، كبيرة) هو نقطة بداية سريعة. سيقوم هذا الاختيار بملء مقاسات افتراضية مناسبة لكل قطع الأثاث، مما يوفر عليك الوقت. لا تقلق، يمكنك تعديل أي مقاس لاحقًا.',
@@ -869,13 +868,12 @@
                     en: {
                         dir: 'ltr', langName: 'العربية',
                         app_title: 'Waleed Designs - Bedroom Design Simulator', header_subtitle: 'Interactive Price Estimator',
-                        guide_button_text: 'User Guide', reset_button_text: 'Reset', print_design_btn: 'Share / Save',
+                        guide_button_text: 'User Guide', reset_button_text: 'Reset', print_design_btn: 'Save / Share',
                         summary_title: 'Design Summary',
                         visualizer_title: 'Room Layout Preview',
                         visualizer_closet_details_title: 'Closet Details',
                         visualizer_closet: 'Closet', visualizer_bed: 'Bed', visualizer_komod: 'Nightstand',
-                        print_button_text: 'Save as PDF',
-                        generating_pdf: 'Generating PDF...',
+                        print_button_text: 'Save / Share',
                         guide_title: 'User Guide: Tips for Maximum Benefit',
                         guide_intro: 'Welcome to the Price Simulator from "Waleed Designs"! To design your dream room and get an accurate cost estimate, follow these simple tips:',
                         guide_step1: '<b>1. Start Right: Choose Your Initial Room Size</b><br>The first choice, "Main Room Dimensions" (Small, Medium, Large), is a quick starting point. This sets suitable default sizes for all furniture, saving you time. You can edit any size later.',
@@ -1861,11 +1859,8 @@ https://facebook.com/waleed.designs.furniture
                     <script src="https://cdn.tailwindcss.com"><\/script>
                     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
                     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>
-                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><\/script>
                     <style>
-                        body { font-family: 'Cairo', 'Inter', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                        body[dir="ltr"] { font-family: 'Inter', 'Cairo', sans-serif; }
+                        body { font-family: '${lang === 'ar' ? 'Cairo' : 'Inter'}', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
                         @media print { .no-print { display: none !important; } }
                     </style>
                 </head>
@@ -1904,53 +1899,17 @@ https://facebook.com/waleed.designs.furniture
                         </footer>
                     </div>
                     <div class="text-center my-8 no-print">
-                        <button id="save-pdf-btn" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700 transition text-lg">
+                        <button onclick="window.print()" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700 transition text-lg">
                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                             ${T.print_button_text}
                         </button>
                     </div>
                     <script>
-                        document.getElementById('save-pdf-btn').addEventListener('click', function() {
-                            const { jsPDF } = window.jspdf;
-                            const element = document.getElementById('summary-content');
-                            const button = this;
-
-                            button.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"><\/circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"><\/path><\/svg> ' + '${T.generating_pdf}';
-                            button.disabled = true;
-
-                            html2canvas(element, { scale: 2, useCORS: true }).then(canvas => {
-                                const imgData = canvas.toDataURL('image/png');
-                                const pdf = new jsPDF('p', 'mm', 'a4');
-                                const pdfWidth = pdf.internal.pageSize.getWidth();
-                                const pdfHeight = pdf.internal.pageSize.getHeight();
-                                const canvasAspectRatio = canvas.width / canvas.height;
-                                
-                                const imgWidth = pdfWidth;
-                                const imgHeight = pdfWidth / canvasAspectRatio;
-                                
-                                let heightLeft = imgHeight;
-                                let position = 0;
-
-                                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                                heightLeft -= pdfHeight;
-
-                                while (heightLeft > 0) {
-                                    position -= pdfHeight;
-                                    pdf.addPage();
-                                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
-                                    heightLeft -= pdfHeight;
-                                }
-                                
-                                pdf.save('Waleed-Designs-Summary.pdf');
-                                
-                                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg> ' + '${T.print_button_text}';
-                                button.disabled = false;
-                            }).catch(err => {
-                                console.error('PDF generation failed:', err);
-                                button.innerHTML = '${T.print_button_text}';
-                                button.disabled = false;
-                            });
-                        });
+                        window.onload = () => {
+                            setTimeout(() => {
+                                window.print();
+                            }, 500);
+                        };
                     <\/script>
                 </body>
                 </html>`;
@@ -2209,6 +2168,7 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
+
 
 
 
