@@ -795,6 +795,8 @@
                         app_title: 'Waleed Designs - مُحاكي تصميم غرف النوم', header_subtitle: 'محاكي الأسعار التفاعلي',
                         guide_button_text: 'دليل الاستخدام', reset_button_text: 'إعادة تعيين', print_design_btn: 'مشاركة/حفظ',
                         summary_title: 'ملخص التصميم',
+                        visualizer_title: 'تصور مبدئي للغرفة (منظر علوي)',
+                        visualizer_closet: 'دولاب', visualizer_bed: 'سرير', visualizer_komod: 'كمود',
                         guide_title: 'دليل المستخدم: نصائح للاستفادة القصوى',
                         guide_intro: 'أهلاً بك في محاكي الأسعار من "Waleed Designs"! لتصميم غرفة أحلامك والحصول على تقدير دقيق للتكلفة، اتبع هذه النصائح البسيطة:',
                         guide_step1: '<b>ابدأ صح: اختر حجم غرفتك المبدئي</b><br>أول اختيار في الصفحة "أبعاد الغرفة الرئيسية" (صغيرة، متوسطة، كبيرة) هو نقطة بداية سريعة. سيقوم هذا الاختيار بملء مقاسات افتراضية مناسبة لكل قطع الأثاث، مما يوفر عليك الوقت. لا تقلق، يمكنك تعديل أي مقاس لاحقًا.',
@@ -861,6 +863,8 @@
                         app_title: 'Waleed Designs - Bedroom Design Simulator', header_subtitle: 'Interactive Price Estimator',
                         guide_button_text: 'User Guide', reset_button_text: 'Reset', print_design_btn: 'Share / Save',
                         summary_title: 'Design Summary',
+                        visualizer_title: 'Room Layout Preview (Top View)',
+                        visualizer_closet: 'Closet', visualizer_bed: 'Bed', visualizer_komod: 'Nightstand',
                         guide_title: 'User Guide: Tips for Maximum Benefit',
                         guide_intro: 'Welcome to the Price Simulator from "Waleed Designs"! To design your dream room and get an accurate cost estimate, follow these simple tips:',
                         guide_step1: '<b>1. Start Right: Choose Your Initial Room Size</b><br>The first choice, "Main Room Dimensions" (Small, Medium, Large), is a quick starting point. This sets suitable default sizes for all furniture, saving you time. You can edit any size later.',
@@ -1517,7 +1521,7 @@
                  summary += `
 ---------------------------------------------
 *-- ${T.bed_title} --*
-- ${T.dim_bed_count}: ${fullConfig.bed.count} | ${T.dim_bed_size}: ${fullConfig.bed.size} cm
+- ${T.dim_bed_count}: ${fullConfig.bed.count} | ${T.dim_bed_size}: ${be.size} cm
 - ${T.bed_material_label}: ${T[`bed_${fullConfig.bed.material}`]} | ${T.bed_paint_type_label}: ${T[`paint_${fullConfig.bed.paintType}`]}
 - ${T.lifting_mech_label}: ${T.boolean[String(fullConfig.bed.hasLiftingMechanism)]} | ${T.bed_led_label}: ${T.boolean[String(fullConfig.bed.hasLed)]}
 - ${T.dim_komod_count}: ${fullConfig.komod.count} | ${T.dim_komod_drawers}: ${fullConfig.komod.drawers}`;
@@ -1658,12 +1662,128 @@ https://facebook.com/waleed.designs.furniture
             return html;
         }
 
+        function generateVisualizerSVG(config) {
+            const T = App.config.LANGUAGES[App.currentLang];
+            const scale = 0.1; // 100cm -> 10 units
+
+            // Define a reasonable room size for visualization
+            const roomWidth = 400; // 4 meters
+            const roomDepth = 500; // 5 meters
+
+            let elements = [];
+            let maxY = 0;
+
+            // Room outline
+            elements.push(`<rect x="0" y="0" width="${roomWidth * scale}" height="${roomDepth * scale}" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.5" />`);
+
+            // 1. Closet
+            if (config.includeCloset) {
+                const cl = config.closet;
+                const w = cl.width * scale;
+                const d = cl.depth * scale;
+                const x = (roomWidth * scale - w) / 2;
+                const y = 1; // Against the top wall
+
+                elements.push(`<g transform="translate(${x}, ${y})">`);
+                elements.push(`<rect width="${w}" height="${d}" fill="#a5b4fc" stroke="#6366f1" stroke-width="0.3" />`);
+                elements.push(`<text x="${w / 2}" y="${d / 2}" font-size="2.5" text-anchor="middle" dominant-baseline="middle" fill="#1e1b4b">${T.visualizer_closet || 'Closet'}</text>`);
+                elements.push(`<text x="${w / 2}" y="${d + 3}" font-size="2" text-anchor="middle" fill="#475569">${cl.width}x${cl.depth} cm</text>`);
+                elements.push(`</g>`);
+                maxY = Math.max(maxY, y + d);
+            }
+
+            // 2. Bed and Nightstands
+            if (config.includeBed) {
+                const be = config.bed;
+                const ko = config.komod;
+                const bedW = be.size * scale;
+                const bedL = 200 * scale; // Standard length
+                const komodW = 50 * scale; // Assume 50cm width for visual
+                const komodD = 40 * scale; // Assume 40cm depth for visual
+                const spacing = 2 * scale;
+                const bedY = maxY + (50 * scale);
+
+                if (be.count >= 2) {
+                    // Logic for 2 beds with a nightstand in between
+                    const totalGroupWidth = (bedW * 2) + (ko.count > 0 ? komodW : 0) + (spacing * 2);
+                    let currentX = (roomWidth * scale - totalGroupWidth) / 2;
+
+                    // Draw Bed 1
+                    elements.push(`<g transform="translate(${currentX}, ${bedY})">`);
+                    elements.push(`<rect width="${bedW}" height="${bedL}" fill="#a5b4fc" stroke="#6366f1" stroke-width="0.3" />`);
+                    elements.push(`<rect x="1" y="1" width="${bedW - 2}" height="5" fill="#c7d2fe" />`); // Pillow
+                    elements.push(`<text x="${bedW / 2}" y="${bedL / 2}" font-size="2.5" text-anchor="middle" dominant-baseline="middle" fill="#1e1b4b">${T.visualizer_bed || 'Bed'}</text>`);
+                    elements.push(`<text x="${bedW / 2}" y="${bedL + 3}" font-size="2" text-anchor="middle" fill="#475569">${be.size}x200 cm</text>`);
+                    elements.push(`</g>`);
+                    currentX += bedW + spacing;
+
+                    // Draw Komod
+                    if (ko.count > 0) {
+                        elements.push(`<g transform="translate(${currentX}, ${bedY})">`);
+                        elements.push(`<rect width="${komodW}" height="${komodD}" fill="#c7d2fe" stroke="#818cf8" stroke-width="0.3" />`);
+                        elements.push(`<text x="${komodW / 2}" y="${komodD / 2}" font-size="2" text-anchor="middle" dominant-baseline="middle" fill="#312e81">${T.visualizer_komod || 'Komod'}</text>`);
+                        elements.push(`</g>`);
+                        currentX += komodW + spacing;
+                    }
+
+                    // Draw Bed 2
+                    elements.push(`<g transform="translate(${currentX}, ${bedY})">`);
+                    elements.push(`<rect width="${bedW}" height="${bedL}" fill="#a5b4fc" stroke="#6366f1" stroke-width="0.3" />`);
+                    elements.push(`<rect x="1" y="1" width="${bedW - 2}" height="5" fill="#c7d2fe" />`); // Pillow
+                    elements.push(`<text x="${bedW / 2}" y="${bedL / 2}" font-size="2.5" text-anchor="middle" dominant-baseline="middle" fill="#1e1b4b">${T.visualizer_bed || 'Bed'}</text>`);
+                    elements.push(`<text x="${bedW / 2}" y="${bedL + 3}" font-size="2" text-anchor="middle" fill="#475569">${be.size}x200 cm</text>`);
+                    elements.push(`</g>`);
+                    
+                    maxY = Math.max(maxY, bedY + bedL);
+
+                } else {
+                    // Original logic for 1 bed
+                    const bedX = (roomWidth * scale - bedW) / 2;
+                    
+                    // Bed
+                    elements.push(`<g transform="translate(${bedX}, ${bedY})">`);
+                    elements.push(`<rect width="${bedW}" height="${bedL}" fill="#a5b4fc" stroke="#6366f1" stroke-width="0.3" />`);
+                    elements.push(`<rect x="1" y="1" width="${bedW - 2}" height="5" fill="#c7d2fe" />`); // Pillow
+                    elements.push(`<text x="${bedW / 2}" y="${bedL / 2}" font-size="2.5" text-anchor="middle" dominant-baseline="middle" fill="#1e1b4b">${T.visualizer_bed || 'Bed'}</text>`);
+                    elements.push(`<text x="${bedW / 2}" y="${bedL + 3}" font-size="2" text-anchor="middle" fill="#475569">${be.size}x200 cm</text>`);
+                    elements.push(`</g>`);
+                    maxY = Math.max(maxY, bedY + bedL);
+                    
+                    // Nightstands
+                    if (ko.count > 0) {
+                        if (ko.count >= 1) {
+                            const k1X = bedX - komodW - spacing;
+                            const kY = bedY;
+                             elements.push(`<g transform="translate(${k1X}, ${kY})">`);
+                            elements.push(`<rect width="${komodW}" height="${komodD}" fill="#c7d2fe" stroke="#818cf8" stroke-width="0.3" />`);
+                            elements.push(`<text x="${komodW / 2}" y="${komodD / 2}" font-size="2" text-anchor="middle" dominant-baseline="middle" fill="#312e81">${T.visualizer_komod || 'Komod'}</text>`);
+                             elements.push(`</g>`);
+                        }
+                         if (ko.count >= 2) {
+                            const k2X = bedX + bedW + spacing;
+                            const kY = bedY;
+                             elements.push(`<g transform="translate(${k2X}, ${kY})">`);
+                            elements.push(`<rect width="${komodW}" height="${komodD}" fill="#c7d2fe" stroke="#818cf8" stroke-width="0.3" />`);
+                            elements.push(`<text x="${komodW / 2}" y="${komodD / 2}" font-size="2" text-anchor="middle" dominant-baseline="middle" fill="#312e81">${T.visualizer_komod || 'Komod'}</text>`);
+                             elements.push(`</g>`);
+                        }
+                    }
+                }
+            }
+            
+            const finalHeight = Math.max(roomDepth * scale, maxY + 10);
+
+            return `<svg viewBox="0 0 ${roomWidth * scale} ${finalHeight}" xmlns="http://www.w3.org/2000/svg" font-family="${App.currentLang === 'ar' ? 'Cairo' : 'Inter'}">${elements.join('')}</svg>`;
+        }
+
+
         function generatePrintableHTML(config, total, deliveryWeeks) {
             const T = App.config.LANGUAGES[App.currentLang];
             const lang = App.currentLang;
             const dir = T.dir;
             const roundedTotal = Math.round(total);
             const summaryHTML = generateSummaryHTML(config);
+            const visualizerSVG = generateVisualizerSVG(config);
 
             return `<!DOCTYPE html>
                 <html lang="${lang}" dir="${dir}">
@@ -1672,6 +1792,7 @@ https://facebook.com/waleed.designs.furniture
                     <title>${T.summary_title} - Waleed Designs</title>
                     <script src="https://cdn.tailwindcss.com"><\/script>
                     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
+                     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
                     <style>
                         body { font-family: 'Cairo', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
                         body[dir="ltr"] { font-family: 'Inter', sans-serif; }
@@ -1696,6 +1817,12 @@ https://facebook.com/waleed.designs.furniture
                                 <p class="font-bold text-slate-800">${T.customer_service}: 01110846333 / 01220431043</p>
                                 <p class="text-slate-600">${T.facebook_page}: facebook.com/waleed.designs.furniture</p>
                              </div>
+                             <div class="mt-8 pt-8 border-t-2">
+                                <h2 class="text-xl font-bold text-center text-indigo-800 mb-4">${T.visualizer_title}</h2>
+                                <div class="w-full bg-slate-100 p-4 rounded-lg border">
+                                    ${visualizerSVG}
+                                </div>
+                            </div>
                         </footer>
                     </div>
                     <div class="text-center my-8 no-print">
