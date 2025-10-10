@@ -784,6 +784,11 @@
                     'medium': { closet: { w: 200, h: 240 }, bed_size: '160', dresser: { w: 120, d: 45, drawers: 3 }, mirror: { w: 70, h: 100 } },
                     'large': { closet: { w: 250, h: 250 }, bed_size: '180', dresser: { w: 140, d: 50, drawers: 4 }, mirror: { w: 80, h: 120 } }
                 },
+                 ROOM_VISUAL_DIMS: { // Dimensions for the 2D visualizer in cm
+                    'small': { w: 350, d: 450 },
+                    'medium': { w: 400, d: 500 },
+                    'large': { w: 500, d: 600 }
+                },
                 STORAGE_RATIOS: { // Maps ratio to internal drawers/shelves for pricing
                     'mostly_hanging': { drawers: 1, shelves: 2, description: {ar: 'أغلبها تعليق', en: 'Mostly Hanging'} },
                     'balanced': { drawers: 3, shelves: 6, description: {ar: 'متوازن', en: 'Balanced'} },
@@ -795,8 +800,11 @@
                         app_title: 'Waleed Designs - مُحاكي تصميم غرف النوم', header_subtitle: 'محاكي الأسعار التفاعلي',
                         guide_button_text: 'دليل الاستخدام', reset_button_text: 'إعادة تعيين', print_design_btn: 'مشاركة/حفظ',
                         summary_title: 'ملخص التصميم',
-                        visualizer_title: 'تصور مبدئي للغرفة (منظر علوي)',
+                        visualizer_title: 'تصور مبدئي للغرفة',
+                        visualizer_closet_details_title: 'تصور تفصيلي للدولاب',
                         visualizer_closet: 'دولاب', visualizer_bed: 'سرير', visualizer_komod: 'كمود',
+                        print_button_text: 'حفظ كـ PDF',
+                        generating_pdf: 'جاري إنشاء الملف...',
                         guide_title: 'دليل المستخدم: نصائح للاستفادة القصوى',
                         guide_intro: 'أهلاً بك في محاكي الأسعار من "Waleed Designs"! لتصميم غرفة أحلامك والحصول على تقدير دقيق للتكلفة، اتبع هذه النصائح البسيطة:',
                         guide_step1: '<b>ابدأ صح: اختر حجم غرفتك المبدئي</b><br>أول اختيار في الصفحة "أبعاد الغرفة الرئيسية" (صغيرة، متوسطة، كبيرة) هو نقطة بداية سريعة. سيقوم هذا الاختيار بملء مقاسات افتراضية مناسبة لكل قطع الأثاث، مما يوفر عليك الوقت. لا تقلق، يمكنك تعديل أي مقاس لاحقًا.',
@@ -863,8 +871,11 @@
                         app_title: 'Waleed Designs - Bedroom Design Simulator', header_subtitle: 'Interactive Price Estimator',
                         guide_button_text: 'User Guide', reset_button_text: 'Reset', print_design_btn: 'Share / Save',
                         summary_title: 'Design Summary',
-                        visualizer_title: 'Room Layout Preview (Top View)',
+                        visualizer_title: 'Room Layout Preview',
+                        visualizer_closet_details_title: 'Closet Details',
                         visualizer_closet: 'Closet', visualizer_bed: 'Bed', visualizer_komod: 'Nightstand',
+                        print_button_text: 'Save as PDF',
+                        generating_pdf: 'Generating PDF...',
                         guide_title: 'User Guide: Tips for Maximum Benefit',
                         guide_intro: 'Welcome to the Price Simulator from "Waleed Designs"! To design your dream room and get an accurate cost estimate, follow these simple tips:',
                         guide_step1: '<b>1. Start Right: Choose Your Initial Room Size</b><br>The first choice, "Main Room Dimensions" (Small, Medium, Large), is a quick starting point. This sets suitable default sizes for all furniture, saving you time. You can edit any size later.',
@@ -1518,11 +1529,12 @@
             }
 
             if(fullConfig.includeBed){
+                const be = fullConfig.bed;
                  summary += `
 ---------------------------------------------
 *-- ${T.bed_title} --*
 - ${T.dim_bed_count}: ${fullConfig.bed.count} | ${T.dim_bed_size}: ${be.size} cm
-- ${T.bed_material_label}: ${T[`bed_${fullConfig.bed.material}`]} | ${T.bed_paint_type_label}: ${T[`paint_${fullConfig.bed.paintType}`]}
+- ${T.bed_material_label}: ${T[`bed_${be.material}`]} | ${T.bed_paint_type_label}: ${T[`paint_${fullConfig.bed.paintType}`]}
 - ${T.lifting_mech_label}: ${T.boolean[String(fullConfig.bed.hasLiftingMechanism)]} | ${T.bed_led_label}: ${T.boolean[String(fullConfig.bed.hasLed)]}
 - ${T.dim_komod_count}: ${fullConfig.komod.count} | ${T.dim_komod_drawers}: ${fullConfig.komod.drawers}`;
             }
@@ -1662,13 +1674,15 @@ https://facebook.com/waleed.designs.furniture
             return html;
         }
 
-        function generateVisualizerSVG(config) {
+        function generateLayoutVisualizerSVG(config) {
             const T = App.config.LANGUAGES[App.currentLang];
-            const scale = 0.1; // 100cm -> 10 units
+            const scale = 0.05; // 100cm -> 5 units
+            
+            if (!config.includeCloset && !config.includeBed) return ''; // Only generate if there are items for the layout view
 
-            // Define a reasonable room size for visualization
-            const roomWidth = 400; // 4 meters
-            const roomDepth = 500; // 5 meters
+            const roomDims = App.config.ROOM_VISUAL_DIMS[config.roomSize] || App.config.ROOM_VISUAL_DIMS['medium'];
+            const roomWidth = roomDims.w;
+            const roomDepth = roomDims.d;
 
             let elements = [];
             let maxY = 0;
@@ -1676,23 +1690,21 @@ https://facebook.com/waleed.designs.furniture
             // Room outline
             elements.push(`<rect x="0" y="0" width="${roomWidth * scale}" height="${roomDepth * scale}" fill="#f1f5f9" stroke="#cbd5e1" stroke-width="0.5" />`);
 
-            // 1. Closet
+            // 1. Draw Closet at the top
             if (config.includeCloset) {
                 const cl = config.closet;
-                const w = cl.width * scale;
-                const d = cl.depth * scale;
-                const x = (roomWidth * scale - w) / 2;
-                const y = 1; // Against the top wall
-
-                elements.push(`<g transform="translate(${x}, ${y})">`);
-                elements.push(`<rect width="${w}" height="${d}" fill="#a5b4fc" stroke="#6366f1" stroke-width="0.3" />`);
-                elements.push(`<text x="${w / 2}" y="${d / 2}" font-size="2.5" text-anchor="middle" dominant-baseline="middle" fill="#1e1b4b">${T.visualizer_closet || 'Closet'}</text>`);
-                elements.push(`<text x="${w / 2}" y="${d + 3}" font-size="2" text-anchor="middle" fill="#475569">${cl.width}x${cl.depth} cm</text>`);
+                const closetW = cl.width * scale;
+                const closetD = cl.depth * scale;
+                const closetX = (roomWidth * scale - closetW) / 2;
+                const closetY = 1 * scale; // Padding from top wall
+                elements.push(`<g transform="translate(${closetX}, ${closetY})">`);
+                elements.push(`<rect width="${closetW}" height="${closetD}" fill="#d1d5db" stroke="#6b7280" stroke-width="0.3" />`);
+                elements.push(`<text x="${closetW / 2}" y="${closetD / 2}" font-size="0.75" text-anchor="middle" dominant-baseline="middle" fill="#1f2937">${T.visualizer_closet || 'Closet'}</text>`);
                 elements.push(`</g>`);
-                maxY = Math.max(maxY, y + d);
+                maxY = closetY + closetD;
             }
 
-            // 2. Bed and Nightstands
+            // 2. Draw Beds and Komods below the closet
             if (config.includeBed) {
                 const be = config.bed;
                 const ko = config.komod;
@@ -1701,79 +1713,134 @@ https://facebook.com/waleed.designs.furniture
                 const komodW = 50 * scale; // Assume 50cm width for visual
                 const komodD = 40 * scale; // Assume 40cm depth for visual
                 const spacing = 2 * scale;
-                const bedY = maxY + (50 * scale);
+                const bedY = maxY + 15 * scale; // Position below closet with spacing
 
                 if (be.count >= 2) {
-                    // Logic for 2 beds with a nightstand in between
                     const totalGroupWidth = (bedW * 2) + (ko.count > 0 ? komodW : 0) + (spacing * 2);
                     let currentX = (roomWidth * scale - totalGroupWidth) / 2;
-
-                    // Draw Bed 1
+                    // First bed
                     elements.push(`<g transform="translate(${currentX}, ${bedY})">`);
                     elements.push(`<rect width="${bedW}" height="${bedL}" fill="#a5b4fc" stroke="#6366f1" stroke-width="0.3" />`);
-                    elements.push(`<rect x="1" y="1" width="${bedW - 2}" height="5" fill="#c7d2fe" />`); // Pillow
-                    elements.push(`<text x="${bedW / 2}" y="${bedL / 2}" font-size="2.5" text-anchor="middle" dominant-baseline="middle" fill="#1e1b4b">${T.visualizer_bed || 'Bed'}</text>`);
-                    elements.push(`<text x="${bedW / 2}" y="${bedL + 3}" font-size="2" text-anchor="middle" fill="#475569">${be.size}x200 cm</text>`);
+                    elements.push(`<rect x="1" y="1" width="${bedW - 2}" height="5" fill="#c7d2fe" />`);
+                    elements.push(`<text x="${bedW / 2}" y="${bedL / 2}" font-size="0.9" text-anchor="middle" dominant-baseline="middle" fill="#1e1b4b">${T.visualizer_bed || 'Bed'}</text>`);
                     elements.push(`</g>`);
                     currentX += bedW + spacing;
-
-                    // Draw Komod
+                    // Komod in the middle
                     if (ko.count > 0) {
                         elements.push(`<g transform="translate(${currentX}, ${bedY})">`);
                         elements.push(`<rect width="${komodW}" height="${komodD}" fill="#c7d2fe" stroke="#818cf8" stroke-width="0.3" />`);
-                        elements.push(`<text x="${komodW / 2}" y="${komodD / 2}" font-size="2" text-anchor="middle" dominant-baseline="middle" fill="#312e81">${T.visualizer_komod || 'Komod'}</text>`);
+                        elements.push(`<text x="${komodW / 2}" y="${komodD / 2}" font-size="0.75" text-anchor="middle" dominant-baseline="middle" fill="#312e81">${T.visualizer_komod || 'Komod'}</text>`);
                         elements.push(`</g>`);
                         currentX += komodW + spacing;
                     }
-
-                    // Draw Bed 2
+                    // Second bed
                     elements.push(`<g transform="translate(${currentX}, ${bedY})">`);
                     elements.push(`<rect width="${bedW}" height="${bedL}" fill="#a5b4fc" stroke="#6366f1" stroke-width="0.3" />`);
-                    elements.push(`<rect x="1" y="1" width="${bedW - 2}" height="5" fill="#c7d2fe" />`); // Pillow
-                    elements.push(`<text x="${bedW / 2}" y="${bedL / 2}" font-size="2.5" text-anchor="middle" dominant-baseline="middle" fill="#1e1b4b">${T.visualizer_bed || 'Bed'}</text>`);
-                    elements.push(`<text x="${bedW / 2}" y="${bedL + 3}" font-size="2" text-anchor="middle" fill="#475569">${be.size}x200 cm</text>`);
+                    elements.push(`<rect x="1" y="1" width="${bedW - 2}" height="5" fill="#c7d2fe" />`);
+                    elements.push(`<text x="${bedW / 2}" y="${bedL / 2}" font-size="0.9" text-anchor="middle" dominant-baseline="middle" fill="#1e1b4b">${T.visualizer_bed || 'Bed'}</text>`);
                     elements.push(`</g>`);
-                    
                     maxY = Math.max(maxY, bedY + bedL);
-
-                } else {
-                    // Original logic for 1 bed
+                } else { // Single bed
                     const bedX = (roomWidth * scale - bedW) / 2;
-                    
-                    // Bed
                     elements.push(`<g transform="translate(${bedX}, ${bedY})">`);
                     elements.push(`<rect width="${bedW}" height="${bedL}" fill="#a5b4fc" stroke="#6366f1" stroke-width="0.3" />`);
-                    elements.push(`<rect x="1" y="1" width="${bedW - 2}" height="5" fill="#c7d2fe" />`); // Pillow
-                    elements.push(`<text x="${bedW / 2}" y="${bedL / 2}" font-size="2.5" text-anchor="middle" dominant-baseline="middle" fill="#1e1b4b">${T.visualizer_bed || 'Bed'}</text>`);
-                    elements.push(`<text x="${bedW / 2}" y="${bedL + 3}" font-size="2" text-anchor="middle" fill="#475569">${be.size}x200 cm</text>`);
+                    elements.push(`<rect x="1" y="1" width="${bedW - 2}" height="5" fill="#c7d2fe" />`);
+                    elements.push(`<text x="${bedW / 2}" y="${bedL / 2}" font-size="0.9" text-anchor="middle" dominant-baseline="middle" fill="#1e1b4b">${T.visualizer_bed || 'Bed'}</text>`);
                     elements.push(`</g>`);
                     maxY = Math.max(maxY, bedY + bedL);
-                    
-                    // Nightstands
+                    // Komods on the sides
                     if (ko.count > 0) {
                         if (ko.count >= 1) {
                             const k1X = bedX - komodW - spacing;
-                            const kY = bedY;
-                             elements.push(`<g transform="translate(${k1X}, ${kY})">`);
+                            elements.push(`<g transform="translate(${k1X}, ${bedY})">`);
                             elements.push(`<rect width="${komodW}" height="${komodD}" fill="#c7d2fe" stroke="#818cf8" stroke-width="0.3" />`);
-                            elements.push(`<text x="${komodW / 2}" y="${komodD / 2}" font-size="2" text-anchor="middle" dominant-baseline="middle" fill="#312e81">${T.visualizer_komod || 'Komod'}</text>`);
-                             elements.push(`</g>`);
+                            elements.push(`<text x="${komodW / 2}" y="${komodD / 2}" font-size="0.75" text-anchor="middle" dominant-baseline="middle" fill="#312e81">${T.visualizer_komod || 'Komod'}</text>`);
+                            elements.push(`</g>`);
                         }
-                         if (ko.count >= 2) {
+                        if (ko.count >= 2) {
                             const k2X = bedX + bedW + spacing;
-                            const kY = bedY;
-                             elements.push(`<g transform="translate(${k2X}, ${kY})">`);
+                            elements.push(`<g transform="translate(${k2X}, ${bedY})">`);
                             elements.push(`<rect width="${komodW}" height="${komodD}" fill="#c7d2fe" stroke="#818cf8" stroke-width="0.3" />`);
-                            elements.push(`<text x="${komodW / 2}" y="${komodD / 2}" font-size="2" text-anchor="middle" dominant-baseline="middle" fill="#312e81">${T.visualizer_komod || 'Komod'}</text>`);
-                             elements.push(`</g>`);
+                            elements.push(`<text x="${komodW / 2}" y="${komodD / 2}" font-size="0.75" text-anchor="middle" dominant-baseline="middle" fill="#312e81">${T.visualizer_komod || 'Komod'}</text>`);
+                            elements.push(`</g>`);
                         }
                     }
                 }
             }
             
-            const finalHeight = Math.max(roomDepth * scale, maxY + 10);
-
+            const finalHeight = Math.max(roomDepth * scale, maxY + (10 * scale));
             return `<svg viewBox="0 0 ${roomWidth * scale} ${finalHeight}" xmlns="http://www.w3.org/2000/svg" font-family="${App.currentLang === 'ar' ? 'Cairo' : 'Inter'}">${elements.join('')}</svg>`;
+        }
+        
+        function generateClosetVisualizerSVG(config) {
+            if (!config.includeCloset) return '';
+
+            const T = App.config.LANGUAGES[App.currentLang];
+            const cl = config.closet;
+            if (!cl || cl.width <= 0 || cl.height <= 0 || cl.doors <= 0) return '';
+            const scale = 0.1; // 100cm -> 10 units
+
+            const svgWidth = cl.width * scale;
+            const svgHeight = cl.height * scale;
+            const doorWidth = svgWidth / cl.doors;
+
+            let elements = [];
+
+            elements.push(`<rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="#e2e8f0" stroke="#94a3b8" stroke-width="0.5" />`);
+
+            let hangingSections, foldingSections;
+            const totalSections = cl.doors;
+
+            switch (cl.storageRatio) {
+                case 'mostly_hanging':
+                    hangingSections = Math.ceil(totalSections * 0.66);
+                    foldingSections = totalSections - hangingSections;
+                    break;
+                case 'mostly_folding':
+                    foldingSections = Math.ceil(totalSections * 0.66);
+                    hangingSections = totalSections - foldingSections;
+                    break;
+                case 'balanced':
+                default:
+                    hangingSections = Math.floor(totalSections / 2);
+                    foldingSections = totalSections - hangingSections;
+                    break;
+            }
+
+            let currentSection = 0;
+            const drawHanging = (x) => {
+                elements.push(`<line x1="${x + 2}" y1="5" x2="${x + doorWidth - 2}" y2="5" stroke="#94a3b8" stroke-width="0.4" />`);
+                elements.push(`<path d="M ${x + doorWidth/2 - 2},5 L ${x + doorWidth/2},7 L ${x + doorWidth/2 + 2},5 M ${x + doorWidth/2 - 3},7 L ${x + doorWidth/2 + 3},7" stroke="#94a3b8" stroke-width="0.3" fill="none" />`);
+            };
+            const drawFolding = (x) => {
+                 for (let k = 1; k < 5; k++) {
+                    const shelfY = k * (svgHeight / 5);
+                    elements.push(`<line x1="${x + 2}" y1="${shelfY}" x2="${x + doorWidth - 2}" y2="${shelfY}" stroke="#94a3b8" stroke-width="0.4" />`);
+                 }
+            };
+            
+            // Draw sections from left to right: hanging first, then folding
+            for (let j = 0; j < hangingSections; j++) {
+                drawHanging(currentSection * doorWidth);
+                currentSection++;
+            }
+            for (let j = 0; j < foldingSections; j++) {
+                drawFolding(currentSection * doorWidth);
+                currentSection++;
+            }
+
+            for (let i = 1; i < cl.doors; i++) {
+                const x = i * doorWidth;
+                elements.push(`<line x1="${x}" y1="0" x2="${x}" y2="${svgHeight}" stroke="#94a3b8" stroke-width="0.3" stroke-dasharray="1,1" />`);
+            }
+
+            elements.push(`<path d="M -3,0 L -1,0 M -2,0 L -2,${svgHeight} M -3,${svgHeight} L -1,${svgHeight}" stroke="#475569" stroke-width="0.2" fill="none" />`);
+            elements.push(`<text x="-4" y="${svgHeight/2}" font-size="2.5" text-anchor="end" dominant-baseline="middle" fill="#475569" writing-mode="vertical-rl">${cl.height} cm</text>`);
+            elements.push(`<path d="M 0,${svgHeight+3} L 0,${svgHeight+1} M 0,${svgHeight+2} L ${svgWidth},${svgHeight+2} M ${svgWidth},${svgHeight+3} L ${svgWidth},${svgHeight+1}" stroke="#475569" stroke-width="0.2" fill="none" />`);
+            elements.push(`<text x="${svgWidth/2}" y="${svgHeight+5}" font-size="2.5" text-anchor="middle" fill="#475569">${cl.width} cm</text>`);
+
+            const padding = 10;
+            return `<svg viewBox="${-padding} 0 ${svgWidth + padding*2} ${svgHeight + padding*2}" xmlns="http://www.w3.org/2000/svg" font-family="${App.currentLang === 'ar' ? 'Cairo' : 'Inter'}">${elements.join('')}</svg>`;
         }
 
 
@@ -1783,7 +1850,8 @@ https://facebook.com/waleed.designs.furniture
             const dir = T.dir;
             const roundedTotal = Math.round(total);
             const summaryHTML = generateSummaryHTML(config);
-            const visualizerSVG = generateVisualizerSVG(config);
+            const layoutSVG = generateLayoutVisualizerSVG(config);
+            const closetSVG = generateClosetVisualizerSVG(config);
 
             return `<!DOCTYPE html>
                 <html lang="${lang}" dir="${dir}">
@@ -1792,15 +1860,17 @@ https://facebook.com/waleed.designs.furniture
                     <title>${T.summary_title} - Waleed Designs</title>
                     <script src="https://cdn.tailwindcss.com"><\/script>
                     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
-                     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+                    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"><\/script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"><\/script>
                     <style>
-                        body { font-family: 'Cairo', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                        body[dir="ltr"] { font-family: 'Inter', sans-serif; }
+                        body { font-family: 'Cairo', 'Inter', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+                        body[dir="ltr"] { font-family: 'Inter', 'Cairo', sans-serif; }
                         @media print { .no-print { display: none !important; } }
                     </style>
                 </head>
                 <body class="bg-gray-100 p-4 sm:p-8">
-                    <div class="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-lg shadow-lg">
+                    <div class="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-lg shadow-lg" id="summary-content">
                         <header class="text-center border-b-2 pb-4 mb-8">
                             <h1 class="text-4xl font-black text-indigo-800">Waleed Designs</h1>
                             <p class="text-xl text-slate-600 mt-2">${T.summary_title}</p>
@@ -1817,20 +1887,71 @@ https://facebook.com/waleed.designs.furniture
                                 <p class="font-bold text-slate-800">${T.customer_service}: 01110846333 / 01220431043</p>
                                 <p class="text-slate-600">${T.facebook_page}: facebook.com/waleed.designs.furniture</p>
                              </div>
+                            ${closetSVG ? `
+                             <div class="mt-8 pt-8 border-t-2">
+                                <h2 class="text-xl font-bold text-center text-indigo-800 mb-4">${T.visualizer_closet_details_title}</h2>
+                                <div class="w-full bg-slate-100 p-4 rounded-lg border flex justify-center">
+                                    ${closetSVG}
+                                </div>
+                            </div>` : ''}
+                            ${layoutSVG ? `
                              <div class="mt-8 pt-8 border-t-2">
                                 <h2 class="text-xl font-bold text-center text-indigo-800 mb-4">${T.visualizer_title}</h2>
                                 <div class="w-full bg-slate-100 p-4 rounded-lg border">
-                                    ${visualizerSVG}
+                                    ${layoutSVG}
                                 </div>
-                            </div>
+                            </div>` : ''}
                         </footer>
                     </div>
                     <div class="text-center my-8 no-print">
-                        <button onclick="window.print()" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700 transition text-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2"><path d="M6 9V2h12v7"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v8H6z"/></svg>
-                            ${T.print_design_btn}
+                        <button id="save-pdf-btn" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700 transition text-lg">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                            ${T.print_button_text}
                         </button>
                     </div>
+                    <script>
+                        document.getElementById('save-pdf-btn').addEventListener('click', function() {
+                            const { jsPDF } = window.jspdf;
+                            const element = document.getElementById('summary-content');
+                            const button = this;
+
+                            button.innerHTML = '<svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"><\/circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"><\/path><\/svg> ' + '${T.generating_pdf}';
+                            button.disabled = true;
+
+                            html2canvas(element, { scale: 2, useCORS: true }).then(canvas => {
+                                const imgData = canvas.toDataURL('image/png');
+                                const pdf = new jsPDF('p', 'mm', 'a4');
+                                const pdfWidth = pdf.internal.pageSize.getWidth();
+                                const pdfHeight = pdf.internal.pageSize.getHeight();
+                                const canvasAspectRatio = canvas.width / canvas.height;
+                                
+                                const imgWidth = pdfWidth;
+                                const imgHeight = pdfWidth / canvasAspectRatio;
+                                
+                                let heightLeft = imgHeight;
+                                let position = 0;
+
+                                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                                heightLeft -= pdfHeight;
+
+                                while (heightLeft > 0) {
+                                    position -= pdfHeight;
+                                    pdf.addPage();
+                                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                                    heightLeft -= pdfHeight;
+                                }
+                                
+                                pdf.save('Waleed-Designs-Summary.pdf');
+                                
+                                button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg> ' + '${T.print_button_text}';
+                                button.disabled = false;
+                            }).catch(err => {
+                                console.error('PDF generation failed:', err);
+                                button.innerHTML = '${T.print_button_text}';
+                                button.disabled = false;
+                            });
+                        });
+                    <\/script>
                 </body>
                 </html>`;
         }
@@ -1855,9 +1976,6 @@ https://facebook.com/waleed.designs.furniture
             printWindow.document.write(printableHTML);
             printWindow.document.close();
             printWindow.focus(); // for some browsers
-            setTimeout(() => {
-                printWindow.print();
-            }, 500); // Timeout to allow assets to load
         }
         
         // --- LOCAL STORAGE & SESSION ---
@@ -2091,5 +2209,6 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
+
 
 
