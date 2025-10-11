@@ -184,7 +184,25 @@
         <!-- HEADER -->
         <header class="mb-8 border-b-2 border-indigo-200 pb-6 relative flex justify-center items-center">
              <div class="absolute start-0 top-1/2 -translate-y-1/2">
-                 <button id="lang-toggle-btn" class="text-indigo-600 hover:text-indigo-800 font-bold p-1 sm:p-2 rounded-lg transition text-xs sm:text-sm border border-indigo-300 bg-white/50 hover:bg-white">
+                 <button id="lang-toggle-btn" class="text-indigo-600 hover:text-indigo-800 font-bold p-1 sm:p-2 rounded-lg transition text-xs sm:text-sm border border-indigo-300 bg-white/50 hover:bg-white flex items-center gap-2">
+                     <!-- English Flag (UK) -->
+                     <svg id="icon-lang-en" xmlns="http://www.w3.org/2000/svg" width="20" height="15" viewBox="0 0 60 30" class="hidden">
+                         <rect width="60" height="30" fill="#012169"/>
+                         <path d="M0,0 L60,30 M60,0 L0,30" stroke="#FFFFFF" stroke-width="6"/>
+                         <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="4"/>
+                         <path d="M30,0 V30 M0,15 H60" stroke="#FFFFFF" stroke-width="10"/>
+                         <path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/>
+                     </svg>
+                     <!-- Arabic Flag (Egypt) -->
+                     <svg id="icon-lang-ar" xmlns="http://www.w3.org/2000/svg" width="20" height="15" viewBox="0 0 900 600" class="hidden">
+                        <rect width="900" height="200" y="0" fill="#ce1126"/>
+                        <rect width="900" height="200" y="200" fill="#fff"/>
+                        <rect width="900" height="200" y="400" fill="#000"/>
+                        <g transform="translate(450 300) scale(1.7)" fill="#c09300">
+                           <path d="M-19.43 1.12c-3.13-1.25-11.43-1.12-11.43-1.12s-1.88-3.75-1.88-6.25c0-12.5 13.13-10.62 13.13-10.62s3.13-2.5 6.25-2.5 6.25 2.5 6.25 2.5 13.13-1.88 13.13 10.62c0 2.5-1.88 6.25-1.88 6.25s-8.3 0-11.43 1.12c-3.13 1.25-3.13 6.25-3.13 6.25s0-5-3.13-6.25z"/>
+                           <path d="M-11.25 10.13h22.5v3.75h-22.5z"/>
+                        </g>
+                     </svg>
                      <span id="current-lang-text">English</span>
                   </button>
              </div>
@@ -705,12 +723,22 @@
                 <p id="price-error-message" class="text-xs text-red-600 h-4"></p>
             </div>
             <!-- Contact Info & Submit -->
-            <div class="flex-shrink-0 w-full sm:w-auto flex flex-col items-center gap-2">
-                <div class="w-full flex flex-col sm:flex-row gap-2">
-                    <input type="text" id="customer-name" placeholder="الاسم بالكامل *" class="w-full sm:w-40 p-2 text-sm rounded-md border border-slate-300 animate-pulse-shadow" required data-lang-key="placeholder_name">
-                    <input type="tel" id="customer-phone" placeholder="رقم التليفون *" class="w-full sm:w-40 p-2 text-sm rounded-md border border-slate-300 animate-pulse-shadow" required data-lang-key="placeholder_phone">
+            <div class="flex-shrink-0 w-full sm:w-auto flex flex-col items-center sm:items-stretch gap-2">
+                <div class="w-full grid grid-cols-1 sm:grid-cols-3 gap-2">
+                    <input type="text" id="customer-name" placeholder="الاسم بالكامل *" class="w-full p-2 text-sm rounded-md border border-slate-300 animate-pulse-shadow" required data-lang-key="placeholder_name">
+                    <input type="tel" id="customer-phone" placeholder="رقم التليفون *" class="w-full p-2 text-sm rounded-md border border-slate-300 animate-pulse-shadow" required data-lang-key="placeholder_phone">
+                    <input type="text" id="customer-city" placeholder="المدينة / المحافظة *" class="w-full p-2 text-sm rounded-md border border-slate-300 animate-pulse-shadow" required data-lang-key="placeholder_city">
                 </div>
-                 <button type="button" id="request-quote-btn" class="primary-btn w-full" disabled>
+                <div class="w-full mt-2 text-center sm:text-right">
+                    <div class="inline-flex items-center gap-2">
+                        <input type="checkbox" id="request-appointment" class="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500">
+                        <label for="request-appointment" data-lang-key="request_appointment_label" class="text-sm text-slate-700 select-none cursor-pointer">اقتراح موعد لرفع المقاسات</label>
+                    </div>
+                    <div id="appointment-date-container" class="mt-2 hidden">
+                        <input type="date" id="appointment-date" class="p-2 text-sm rounded-md border border-slate-300 w-full sm:w-auto">
+                    </div>
+                </div>
+                 <button type="button" id="request-quote-btn" class="primary-btn w-full mt-2" disabled>
                      <span id="request-quote-text" data-lang-key="request_quote_text">إرسال الطلب عبر واتساب</span>
                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
                  </button>
@@ -796,7 +824,7 @@
                 },
                 LANGUAGES: {
                     ar: {
-                        dir: 'rtl', langName: 'English', 
+                        dir: 'rtl', langName: 'English', langShortName: 'AR', 
                         app_title: 'Waleed Designs - مُحاكي تصميم غرف النوم', header_subtitle: 'محاكي الأسعار التفاعلي',
                         guide_button_text: 'دليل الاستخدام', reset_button_text: 'إعادة تعيين', print_design_btn: 'حفظ/مشاركة',
                         summary_title: 'ملخص التصميم',
@@ -848,6 +876,9 @@
                         
                         notes_title: '5. ملاحظات إضافية أو طلبات خاصة', notes_placeholder: 'اكتب هنا أي تفاصيل إضافية عن التصميم، خامات معينة، أو ملاحظات للورشة...',
                         show_quote_btn: 'عرض السعر وطلب التواصل', placeholder_name: 'الاسم بالكامل *', placeholder_phone: 'رقم التليفون *', request_quote_text: 'إرسال الطلب عبر واتساب',
+                        placeholder_city: 'المدينة / المحافظة *',
+                        request_appointment_label: 'اقتراح موعد لرفع المقاسات',
+                        whatsapp_appointment_date: 'موعد مقترح لرفع المقاسات',
                         footer_price_label: 'السعر التقديري المحدد', footer_disclaimer: 'هذا السعر هو تقدير مبدئي غير مُلزم، ويخضع للتأكيد والقياسات النهائية',
                         delivery_estimate_text: 'وقت التصنيع المقدر:', delivery_weeks_unit: 'أسابيع',
                         modal_alert: 'تنبيه', modal_error: 'خطأ', modal_ok: 'حسنًا',
@@ -870,7 +901,7 @@
                         popup_blocker_alert: 'يرجى السماح بظهور النوافذ المنبثقة لهذا الموقع لعرض ملخص التصميم.',
                     },
                     en: {
-                        dir: 'ltr', langName: 'العربية',
+                        dir: 'ltr', langName: 'العربية', langShortName: 'EN',
                         app_title: 'Waleed Designs - Bedroom Design Simulator', header_subtitle: 'Interactive Price Estimator',
                         guide_button_text: 'User Guide', reset_button_text: 'Reset', print_design_btn: 'Save / Share',
                         summary_title: 'Design Summary',
@@ -922,6 +953,9 @@
 
                         notes_title: '5. Additional Notes or Special Requests', notes_placeholder: 'Write any extra design details, specific materials, or notes for the workshop here...',
                         show_quote_btn: 'View Price & Request Contact', placeholder_name: 'Full Name *', placeholder_phone: 'Phone Number *', request_quote_text: 'Send Request via WhatsApp',
+                        placeholder_city: 'City / Governorate *',
+                        request_appointment_label: 'Suggest an appointment for measurements',
+                        whatsapp_appointment_date: 'Suggested Appointment Date',
                         footer_price_label: 'Estimated Price', footer_disclaimer: 'This price is a preliminary, non-binding estimate, subject to final confirmation and measurements.',
                         delivery_estimate_text: 'Estimated Manufacturing Time:', delivery_weeks_unit: 'weeks',
                         modal_alert: 'Alert', modal_error: 'Error', modal_ok: 'OK',
@@ -1199,9 +1233,11 @@
             document.documentElement.dir = langData.dir;
             document.body.dir = langData.dir;
 
-            // 2. Update button text
+            // 2. Update button text and icon
             if (App.elements.langToggleButton) {
-                App.elements.langToggleButton.textContent = langData.langName;
+                App.elements.langToggleButton.querySelector('span').textContent = langData.langShortName;
+                App.elements.langIconEn.classList.toggle('hidden', newLang === 'ar');
+                App.elements.langIconAr.classList.toggle('hidden', newLang === 'en');
             }
             
             // 3. Update element texts and placeholders
@@ -1349,7 +1385,8 @@
             // 6. Enable/disable submit button based on contact info
             const name = App.elements.customerName.value.trim();
             const phone = App.elements.customerPhone.value.trim();
-            App.elements.requestQuoteBtn.disabled = !(name && phone);
+            const city = App.elements.customerCity.value.trim();
+            App.elements.requestQuoteBtn.disabled = !(name && phone && city);
 
             // 7. Always recalculate after a UI change
             recalculate();
@@ -1498,9 +1535,10 @@
             
             const name = App.elements.customerName.value.trim();
             const phone = App.elements.customerPhone.value.trim();
+            const city = App.elements.customerCity.value.trim();
             
-            if (!name || !phone) {
-                showAlert(t('placeholder_name') + ' ' + t('placeholder_phone'), t('validation_input_error'));
+            if (!name || !phone || !city) {
+                showAlert(t('placeholder_name') + ', ' + t('placeholder_phone') + ', ' + t('placeholder_city'), t('validation_input_error'));
                 return;
             }
             
@@ -1523,8 +1561,14 @@
                 '---------------------------------------------',
                 `*${T.placeholder_name}:* ${name}`,
                 `*${T.placeholder_phone}:* ${phone}`,
+                `*${T.placeholder_city.replace(' *', '')}:* ${city}`,
                 `*${T.room_size_label}:* ${T[`size_${fullConfig.roomSize}`] || fullConfig.roomSize}`
             ];
+
+            const appointmentDate = App.elements.appointmentDateInput.value;
+            if (App.elements.requestAppointmentCheckbox.checked && appointmentDate) {
+                summaryParts.splice(6, 0, `*${T.whatsapp_appointment_date}:* ${appointmentDate}`);
+            }
 
             if(fullConfig.includeCloset){
                 const ratioDetails = S[fullConfig.closet.storageRatio];
@@ -1772,11 +1816,7 @@ https://facebook.com/waleed.designs.furniture
             
             const furniture = [];
             
-            const defs = `<defs>
-                <marker id="dim-arrow" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
-                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" />
-                </marker>
-            </defs>`;
+            const defs = ``; // No defs needed
             
             // Helper to get clean Arabic names
             const getArabicName = (key) => {
@@ -1788,26 +1828,6 @@ https://facebook.com/waleed.designs.furniture
                 return text.trim();
             };
 
-            // Helper for dimension lines
-            const dimensionLine = (x1, y1, x2, y2, text, vertical = false) => {
-                const offset = 18 * scale;
-                if (vertical) { // Vertical line on the left
-                    return `<g class="dimension">
-                        <line x1="${x1 - offset}" y1="${y1}" x2="${x1 - offset}" y2="${y2}" stroke="#64748b" stroke-width="0.5" marker-start="url(#dim-arrow)" marker-end="url(#dim-arrow)" />
-                        <line x1="${x1 - offset - 3*scale}" y1="${y1}" x2="${x1}" y2="${y1}" stroke="#64748b" stroke-width="0.5" />
-                        <line x1="${x1 - offset - 3*scale}" y1="${y2}" x2="${x1}" y2="${y2}" stroke="#64748b" stroke-width="0.5" />
-                        <text x="${x1 - offset - 4*scale}" y="${y1 + (y2-y1)/2}" font-size="${9*scale}" text-anchor="end" dominant-baseline="middle" fill="#334155">${text}</text>
-                    </g>`;
-                } else { // Horizontal line below
-                    return `<g class="dimension">
-                        <line x1="${x1}" y1="${y1 + offset}" x2="${x2}" y2="${y1 + offset}" stroke="#64748b" stroke-width="0.5" marker-start="url(#dim-arrow)" marker-end="url(#dim-arrow)" />
-                        <line x1="${x1}" y1="${y1}" x2="${x1}" y2="${y1 + offset + 3*scale}" stroke="#64748b" stroke-width="0.5" />
-                        <line x1="${x2}" y1="${y1}" x2="${x2}" y2="${y1 + offset + 3*scale}" stroke="#64748b" stroke-width="0.5" />
-                        <text x="${x1 + (x2-x1)/2}" y="${y1 + offset + 9*scale}" font-size="${9*scale}" text-anchor="middle" fill="#334155">${text}</text>
-                    </g>`;
-                }
-            };
-            
             // Add closet
             if (config.includeCloset) {
                 const cl = config.closet;
@@ -1819,8 +1839,8 @@ https://facebook.com/waleed.designs.furniture
                     html: `<g>
                            <rect x="${x}" y="${y}" width="${w}" height="${d}" fill="#c7d2fe" stroke="#4f46e5" stroke-width="0.5"/>
                            <text x="${x + w/2}" y="${y + d/2}" font-size="${10*scale}" text-anchor="middle" dominant-baseline="middle" fill="#312e81" font-weight="bold">${getArabicName('closet_title')}</text>
-                           </g>
-                           ${dimensionLine(x, y-1, x + w, y-1, `${cl.width} cm`)}`
+                           <text x="${x + w/2}" y="${y - (5 * scale)}" font-size="${9*scale}" text-anchor="middle" fill="#334155">${cl.width} cm</text>
+                           </g>`
                 });
             }
 
@@ -1835,8 +1855,8 @@ https://facebook.com/waleed.designs.furniture
                     html: `<g>
                             <rect x="${x}" y="${y}" width="${dresserD_scaled}" height="${dresserW_scaled}" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.5"/>
                             <text x="${x + dresserD_scaled / 2}" y="${y + dresserW_scaled / 2}" font-size="${8 * scale}" text-anchor="middle" dominant-baseline="middle" fill="#1f2937" font-weight="bold">${getArabicName('dresser_title')}</text>
-                           </g>
-                           ${dimensionLine(svgWidth, y, svgWidth, y + dresserW_scaled, `${dr.width} cm`, true)}`
+                            <text x="${svgWidth + (12 * scale)}" y="${y + dresserW_scaled / 2}" font-size="${9*scale}" text-anchor="middle" dominant-baseline="middle" fill="#334155" transform="rotate(90, ${svgWidth + (12 * scale)}, ${y + dresserW_scaled / 2})">${dr.width} cm</text>
+                           </g>`
                 });
             }
 
@@ -1855,7 +1875,7 @@ https://facebook.com/waleed.designs.furniture
                 const bedHTML = (x, y) => `<g>
                         <rect x="${x}" y="${y}" width="${bedW}" height="${bedL}" fill="#a5b4fc" stroke="#4f46e5" stroke-width="0.5"/>
                         <text x="${x + bedW/2}" y="${y + bedL/2}" font-size="${10*scale}" text-anchor="middle" dominant-baseline="middle" fill="#312e81" font-weight="bold">${getArabicName('bed_title')}</text>
-                        ${dimensionLine(x, y + bedL, x + bedW, y + bedL, `${be.size} cm`)}
+                        <text x="${x + bedW/2}" y="${y + bedL + (12 * scale)}" font-size="${9*scale}" text-anchor="middle" fill="#334155">${be.size} cm</text>
                     </g>`;
                 
                 const komodHTML = (x, y) => `<g>
@@ -2257,10 +2277,15 @@ https://facebook.com/waleed.designs.furniture
                 footer: $('footer'), totalPrice: $('#total-price'), priceErrorMessage: $('#price-error-message'), deliveryEstimate: $('#delivery-estimate'),
                 priceBreakdown: $('#price-breakdown'),
                 footerPromoMessage: $('#footer-promo-message'),
-                requestQuoteBtn: $('#request-quote-btn'), showQuoteBtn: $('#show-quote-btn'), langToggleButton: $('#lang-toggle-btn'),
-                customerName: $('#customer-name'), customerPhone: $('#customer-phone'), roomSize: $('#room-size'),
+                requestQuoteBtn: $('#request-quote-btn'), showQuoteBtn: $('#show-quote-btn'), 
+                langToggleButton: $('#lang-toggle-btn'), langIconEn: $('#icon-lang-en'), langIconAr: $('#icon-lang-ar'),
+                customerName: $('#customer-name'), customerPhone: $('#customer-phone'), customerCity: $('#customer-city'),
+                roomSize: $('#room-size'),
                 additionalNotes: $('#additional-notes'),
                 editModeMessage: $('#edit-mode-message'), hideQuoteLink: $('#hide-quote-link'), 
+                requestAppointmentCheckbox: $('#request-appointment'),
+                appointmentDateContainer: $('#appointment-date-container'),
+                appointmentDateInput: $('#appointment-date'),
 
                 // Closet
                 includeCloset: $('#include-closet'), closetWoodType: $('#closet-wood-type'), closetWidth: $('#closet-width'), closetHeight: $('#closet-height'), closetDepth: $('#closet-depth'), closetDoors: $('#closet-doors'), closetGlassDoors: $('#closet-glass-doors'), closetStorageRatio: $('#closet-storage-ratio'), doorMechanism: $('#door-mechanism'), closetLed: $('#closet-led'),
@@ -2296,7 +2321,7 @@ https://facebook.com/waleed.designs.furniture
             $$('#configurator-form select, #configurator-form input[type="checkbox"]').forEach(el => el.addEventListener('change', updateUI));
             
             // For text inputs (like customer name/phone), only run debounced recalculate to check button state.
-            $$('#configurator-form input[type="text"]').forEach(el => el.addEventListener('input', debouncedRecalculate));
+            $$('#configurator-form input[type="text"], #configurator-form input[type="tel"]').forEach(el => el.addEventListener('input', updateUI));
             
             // For number inputs, combine validation and recalculation.
             $$('#configurator-form input[type="number"]').forEach(el => {
@@ -2365,11 +2390,24 @@ https://facebook.com/waleed.designs.furniture
             });
 
             
-            $$('#customer-name, #customer-phone').forEach(el => el.addEventListener('input', updateUI)); 
+            $$('#customer-name, #customer-phone, #customer-city').forEach(el => el.addEventListener('input', updateUI)); 
             
             if (App.elements.modalCloseBtn) App.elements.modalCloseBtn.addEventListener('click', hideAlert);
             if (App.elements.alertModal) App.elements.alertModal.addEventListener('click', e => { if (e.target === App.elements.alertModal) hideAlert(); });
             
+            if (App.elements.requestAppointmentCheckbox) {
+                App.elements.requestAppointmentCheckbox.addEventListener('change', (e) => {
+                    App.elements.appointmentDateContainer.classList.toggle('hidden', !e.target.checked);
+                    if(e.target.checked) {
+                        // Set min date to tomorrow
+                        const today = new Date();
+                        today.setDate(today.getDate() + 1);
+                        App.elements.appointmentDateInput.min = today.toISOString().split('T')[0];
+                        App.elements.appointmentDateInput.value = today.toISOString().split('T')[0];
+                    }
+                });
+            }
+
             // --- Firebase Init ---
             const firebaseConfig = typeof __firebase_config !== 'undefined' && __firebase_config ? JSON.parse(__firebase_config) : null;
             if (firebaseConfig && Object.keys(firebaseConfig).length > 0) {
@@ -2423,5 +2461,9 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
+
+
+
+
 
 
