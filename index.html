@@ -277,12 +277,12 @@
                             <div class="grid grid-cols-3 gap-2">
                                 <div>
                                     <label id="closet-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                    <input type="number" id="closet-width" value="200" min="100" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    <input type="number" id="closet-width" value="200" min="100" max="400" class="w-full mt-1 p-2 rounded-md border border-slate-300">
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
                                     <label id="closet-height-label" data-lang-key="dim_height" class="text-xs text-slate-500">الارتفاع (سم)</label>
-                                    <input type="number" id="closet-height" value="240" min="200" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    <input type="number" id="closet-height" value="240" min="190" max="300" class="w-full mt-1 p-2 rounded-md border border-slate-300">
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
@@ -854,6 +854,7 @@
                         validation_invalid_value: 'قيمة غير صالحة. يجب أن تكون {minRequiredMessage}.',
                         validation_positive_or_zero: 'صفر أو أكثر',
                         validation_greater_than_or_equal: '{min} أو أكثر',
+                        validation_less_than_or_equal: '{max} أو أقل',
                         validation_glass_doors_error: 'عدد ضلف الزجاج لا يمكن أن يتجاوز العدد الإجمالي للضلف.',
                         validation_send_error: 'لا يمكن إرسال الطلب. {error}', validation_input_error: 'خطأ في الإدخال', validation_specs_error: 'خطأ في المواصفات', validation_success: 'تم بنجاح', validation_success_message: 'تم تجهيز طلبك بنجاح! سيتم الآن فتح واتساب لإتمام الإرسال.',
                         validation_fix_fields: 'الرجاء تصحيح الحقول التي تحتوي على أخطاء.',
@@ -927,6 +928,7 @@
                         validation_invalid_value: 'Invalid value. Must be {minRequiredMessage}.',
                         validation_positive_or_zero: 'positive or zero',
                         validation_greater_than_or_equal: 'greater than or equal to {min}',
+                        validation_less_than_or_equal: 'less than or equal to {max}',
                         validation_glass_doors_error: 'Number of glass doors cannot exceed total number of doors.',
                         validation_additional_error: 'There are invalid values in the Additional Furniture section.', validation_send_error: 'Cannot send request. {error}', validation_input_error: 'Input Error', validation_specs_error: 'Specification Error', validation_success: 'Success', validation_success_message: 'Your request is ready! WhatsApp will now open to complete the submission.',
                         validation_fix_fields: 'Please correct the invalid fields highlighted in red.',
@@ -1378,19 +1380,23 @@
 
         // --- VALIDATION ---
         function validateInput(inputElement) {
-            if (!inputElement || inputElement.closest('.hidden')) return true; // Don't validate hidden inputs
+            if (!inputElement || inputElement.closest('.hidden')) return true;
 
             const value = parseFloat(inputElement.value);
             const min = parseFloat(inputElement.min);
+            const max = parseFloat(inputElement.max);
             const errorContainer = inputElement.nextElementSibling;
             let errorMessage = '';
 
-            if (value < 0) { // All values should be positive
-                 let minRequiredMessage = t('validation_positive_or_zero');
-                 errorMessage = t('validation_invalid_value', { minRequiredMessage: minRequiredMessage });
+            if (value < 0) {
+                let minRequiredMessage = t('validation_positive_or_zero');
+                errorMessage = t('validation_invalid_value', { minRequiredMessage: minRequiredMessage });
             } else if (!isNaN(min) && value < min) {
-                 let minRequiredMessage = t('validation_greater_than_or_equal', { min: min });
-                 errorMessage = t('validation_invalid_value', { minRequiredMessage: minRequiredMessage });
+                let minRequiredMessage = t('validation_greater_than_or_equal', { min: min });
+                errorMessage = t('validation_invalid_value', { minRequiredMessage: minRequiredMessage });
+            } else if (!isNaN(max) && value > max) {
+                 let maxRequiredMessage = t('validation_less_than_or_equal', { max: max });
+                 errorMessage = t('validation_invalid_value', { minRequiredMessage: maxRequiredMessage });
             }
 
             // Clear previous error state
@@ -1762,9 +1768,45 @@ https://facebook.com/waleed.designs.furniture
             const scale = svgWidth / roomW;
             const svgHeight = roomH * scale;
 
-            const viewBox = `-40 -20 ${svgWidth + 80} ${svgHeight + 40}`; // Add padding for labels
+            const viewBox = `-50 -20 ${svgWidth + 100} ${svgHeight + 60}`; // Add padding for labels
             
             const furniture = [];
+            
+            const defs = `<defs>
+                <marker id="dim-arrow" viewBox="0 0 10 10" refX="1" refY="5" markerWidth="3" markerHeight="3" orient="auto-start-reverse">
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b" />
+                </marker>
+            </defs>`;
+            
+            // Helper to get clean Arabic names
+            const getArabicName = (key) => {
+                let text = T[key] || '';
+                // Handle cases like "1. الدولاب"
+                if (text.includes('.')) text = text.split('.')[1];
+                // Handle cases like "اسم (Name)"
+                if (text.includes('(')) text = text.split('(')[0];
+                return text.trim();
+            };
+
+            // Helper for dimension lines
+            const dimensionLine = (x1, y1, x2, y2, text, vertical = false) => {
+                const offset = 18 * scale;
+                if (vertical) { // Vertical line on the left
+                    return `<g class="dimension">
+                        <line x1="${x1 - offset}" y1="${y1}" x2="${x1 - offset}" y2="${y2}" stroke="#64748b" stroke-width="0.5" marker-start="url(#dim-arrow)" marker-end="url(#dim-arrow)" />
+                        <line x1="${x1 - offset - 3*scale}" y1="${y1}" x2="${x1}" y2="${y1}" stroke="#64748b" stroke-width="0.5" />
+                        <line x1="${x1 - offset - 3*scale}" y1="${y2}" x2="${x1}" y2="${y2}" stroke="#64748b" stroke-width="0.5" />
+                        <text x="${x1 - offset - 4*scale}" y="${y1 + (y2-y1)/2}" font-size="${9*scale}" text-anchor="end" dominant-baseline="middle" fill="#334155">${text}</text>
+                    </g>`;
+                } else { // Horizontal line below
+                    return `<g class="dimension">
+                        <line x1="${x1}" y1="${y1 + offset}" x2="${x2}" y2="${y1 + offset}" stroke="#64748b" stroke-width="0.5" marker-start="url(#dim-arrow)" marker-end="url(#dim-arrow)" />
+                        <line x1="${x1}" y1="${y1}" x2="${x1}" y2="${y1 + offset + 3*scale}" stroke="#64748b" stroke-width="0.5" />
+                        <line x1="${x2}" y1="${y1}" x2="${x2}" y2="${y1 + offset + 3*scale}" stroke="#64748b" stroke-width="0.5" />
+                        <text x="${x1 + (x2-x1)/2}" y="${y1 + offset + 9*scale}" font-size="${9*scale}" text-anchor="middle" fill="#334155">${text}</text>
+                    </g>`;
+                }
+            };
             
             // Add closet
             if (config.includeCloset) {
@@ -1776,9 +1818,9 @@ https://facebook.com/waleed.designs.furniture
                 furniture.push({
                     html: `<g>
                            <rect x="${x}" y="${y}" width="${w}" height="${d}" fill="#c7d2fe" stroke="#4f46e5" stroke-width="0.5"/>
-                           <text x="${x + w/2}" y="${y + d/2}" font-size="${10*scale}" text-anchor="middle" dominant-baseline="middle" fill="#312e81" font-weight="bold">${T.visualizer_closet}</text>
-                           <text x="${x + w/2}" y="${y + d + 8*scale}" font-size="${8*scale}" text-anchor="middle" fill="#4338ca">${cl.width}x${cl.depth}</text>
-                           </g>`
+                           <text x="${x + w/2}" y="${y + d/2}" font-size="${10*scale}" text-anchor="middle" dominant-baseline="middle" fill="#312e81" font-weight="bold">${getArabicName('closet_title')}</text>
+                           </g>
+                           ${dimensionLine(x, y-1, x + w, y-1, `${cl.width} cm`)}`
                 });
             }
 
@@ -1792,9 +1834,9 @@ https://facebook.com/waleed.designs.furniture
                 furniture.push({
                     html: `<g>
                             <rect x="${x}" y="${y}" width="${dresserD_scaled}" height="${dresserW_scaled}" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.5"/>
-                            <text x="${x + dresserD_scaled / 2}" y="${y + dresserW_scaled / 2}" font-size="${8 * scale}" text-anchor="middle" dominant-baseline="middle" fill="#1f2937" font-weight="bold">${T.visualizer_dresser}</text>
-                            <text x="${x - 10 * scale}" y="${y + dresserW_scaled / 2}" font-size="${8 * scale}" text-anchor="middle" dominant-baseline="middle" transform="rotate(-90, ${x - 10 * scale}, ${y + dresserW_scaled / 2})" fill="#4b5563">${dr.width}x${dr.depth}</text>
-                           </g>`
+                            <text x="${x + dresserD_scaled / 2}" y="${y + dresserW_scaled / 2}" font-size="${8 * scale}" text-anchor="middle" dominant-baseline="middle" fill="#1f2937" font-weight="bold">${getArabicName('dresser_title')}</text>
+                           </g>
+                           ${dimensionLine(svgWidth, y, svgWidth, y + dresserW_scaled, `${dr.width} cm`, true)}`
                 });
             }
 
@@ -1812,14 +1854,13 @@ https://facebook.com/waleed.designs.furniture
 
                 const bedHTML = (x, y) => `<g>
                         <rect x="${x}" y="${y}" width="${bedW}" height="${bedL}" fill="#a5b4fc" stroke="#4f46e5" stroke-width="0.5"/>
-                        <text x="${x + bedW/2}" y="${y + bedL/2}" font-size="${10*scale}" text-anchor="middle" dominant-baseline="middle" fill="#312e81" font-weight="bold">${T.visualizer_bed}</text>
-                        <text x="${x + bedW/2}" y="${y - 8*scale}" font-size="${8*scale}" text-anchor="middle" fill="#4338ca">${be.size}x200</text>
+                        <text x="${x + bedW/2}" y="${y + bedL/2}" font-size="${10*scale}" text-anchor="middle" dominant-baseline="middle" fill="#312e81" font-weight="bold">${getArabicName('bed_title')}</text>
+                        ${dimensionLine(x, y + bedL, x + bedW, y + bedL, `${be.size} cm`)}
                     </g>`;
                 
                 const komodHTML = (x, y) => `<g>
                         <rect x="${x}" y="${y}" width="${komodW}" height="${komodD}" fill="#e0e7ff" stroke="#a5b4fc" stroke-width="0.5"/>
-                        <text x="${x + komodW/2}" y="${y + komodD/2}" font-size="${8*scale}" text-anchor="middle" dominant-baseline="middle" fill="#312e81">${T.visualizer_komod}</text>
-                        <text x="${x + komodW/2}" y="${y - 8*scale}" font-size="${8*scale}" text-anchor="middle" fill="#64748b">50x40</text>
+                        <text x="${x + komodW/2}" y="${y + komodD/2}" font-size="${8*scale}" text-anchor="middle" dominant-baseline="middle" fill="#312e81">${getArabicName('komod_title')}</text>
                     </g>`;
 
                 if (be.count === 1) {
@@ -1862,14 +1903,82 @@ https://facebook.com/waleed.designs.furniture
                     furniture.push({ html: bedHTML(currentX, y_back - bedL) });
                 }
             }
+            
+            // --- Additional Furniture ---
+            const sofaDefaultDepth = 90 * scale;
+
+            // L-Sofa (takes priority for seating)
+            if (config.includeLSofa) {
+                const sofa = config.lSofa;
+                const w = sofa.width * scale;
+                const d = sofa.depth * scale;
+                const x = 0;
+                const y = (svgHeight - d) / 2;
+                furniture.push({ html: `<g>
+                        <rect x="${x}" y="${y}" width="${w}" height="${sofaDefaultDepth}" fill="#d1d5db" stroke="#4b5563" stroke-width="0.5"/>
+                        <rect x="${x}" y="${y}" width="${sofaDefaultDepth}" height="${d}" fill="#d1d5db" stroke="#4b5563" stroke-width="0.5"/>
+                        <text x="${x + w/2}" y="${y + d/2}" font-size="${8*scale}" text-anchor="middle" dominant-baseline="middle" fill="#1f2937">${getArabicName('l_sofa_title')}</text>
+                    </g>` });
+            } 
+            // Sofa or Sofa Bed
+            else if (config.includeSofa || config.includeSofaBed) {
+                const sofa = config.includeSofa ? config.sofa : config.sofaBed;
+                const title = config.includeSofa ? getArabicName('sofa_title') : getArabicName('sofa_bed_title');
+                const w = sofa.width * scale;
+                const x = 0;
+                const y = (svgHeight - w) / 2; // Rotated against left wall
+                furniture.push({ html: `<g>
+                        <rect x="${x}" y="${y}" width="${sofaDefaultDepth}" height="${w}" fill="#d1d5db" stroke="#4b5563" stroke-width="0.5"/>
+                        <text x="${x + sofaDefaultDepth/2}" y="${y + w/2}" font-size="${8*scale}" text-anchor="middle" dominant-baseline="middle" fill="#1f2937">${title}</text>
+                    </g>` });
+            }
+            
+            // TV Unit
+            if (config.includeTvTable) {
+                const tv = config.tvTable;
+                const w = tv.width * scale;
+                const d = tv.depth * scale;
+                const x = (svgWidth - w) / 2;
+                const closetDepth = config.includeCloset ? config.closet.depth * scale : 0;
+                const y = closetDepth + (20 * scale); // Positioned below the closet, with a gap
+                furniture.push({ html: `<g>
+                        <rect x="${x}" y="${y}" width="${w}" height="${d}" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.5"/>
+                        <text x="${x + w/2}" y="${y + d/2}" font-size="${8*scale}" text-anchor="middle" dominant-baseline="middle" fill="#1f2937">${getArabicName('tv_table_unit_title')}</text>
+                    </g>` });
+            }
+            
+            // Coffee Table
+            if (config.includeCoffeeTable) {
+                const coffee = config.coffeeTable;
+                const w = coffee.width * scale;
+                const d = coffee.depth * scale;
+                let x, y;
+
+                const hasSofa = config.includeLSofa || config.includeSofa || config.includeSofaBed;
+                if (hasSofa) {
+                    // If there's a sofa, place coffee table in front of it
+                    x = sofaDefaultDepth + (40 * scale);
+                    y = (svgHeight - d) / 2;
+                } else {
+                    // If no sofa, place it in a safe central area, avoiding other furniture
+                    x = (svgWidth - w) / 2; // Horizontally centered
+                    y = svgHeight * 0.6;   // Position in the lower-middle part of the room
+                }
+
+
+                furniture.push({ html: `<g>
+                        <rect x="${x}" y="${y}" width="${w}" height="${d}" fill="#f3f4f6" stroke="#9ca3af" stroke-width="0.5"/>
+                        <text x="${x + w/2}" y="${y + d/2}" font-size="${8*scale}" text-anchor="middle" dominant-baseline="middle" fill="#1f2937">${getArabicName('coffee_table_title')}</text>
+                    </g>` });
+            }
 
 
             let furnitureHTML = furniture.map(f => f.html).join('');
             
             return `<svg viewBox="${viewBox}" xmlns="http://www.w3.org/2000/svg" class="mx-auto" style="overflow: visible; font-family: '${App.currentLang === 'ar' ? 'Cairo' : 'Inter'}', sans-serif;">
+                ${defs}
                 <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="#94a3b8" stroke-width="1"/>
-                <text x="${svgWidth/2}" y="-8" text-anchor="middle" font-size="12" fill="#475569">${roomW} cm</text>
-                <text x="-8" y="${svgHeight/2}" transform="rotate(-90, -8, ${svgHeight/2})" text-anchor="middle" font-size="12" fill="#475569">${roomH} cm</text>
+                <text x="${svgWidth/2}" y="-8" text-anchor="middle" font-size="12" fill="#475569">${T.room_size_label} ${roomW}x${roomH} cm</text>
                 ${furnitureHTML}
             </svg>`;
         }
@@ -2039,11 +2148,8 @@ https://facebook.com/waleed.designs.furniture
                         <p class="mt-4 text-slate-500 text-sm">${T.print_share_tip_mobile}</p>
                     </div>
                      <script>
-                        window.onload = () => {
-                            setTimeout(() => {
-                                window.print();
-                            }, 500);
-                        };
+                        // Removed auto-print on load for better mobile compatibility.
+                        // User must click the button to print/save.
                     <\/script>
                 </body>
                 </html>`;
@@ -2317,9 +2423,5 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
-
-
-
-
 
 
