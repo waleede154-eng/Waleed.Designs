@@ -15,9 +15,9 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-32MKV2L3P1');
     </script>
+    <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
             c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
@@ -41,32 +41,6 @@
         ::-webkit-scrollbar-track { background: #f1f5f9; }
         ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
-
-        /* Style for primary buttons for a more modern feel */
-        .primary-btn {
-            background-color: #25D366; /* WhatsApp Green */
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.75rem;
-            font-weight: bold;
-            transition: background-color 0.2s, transform 0.1s, box-shadow 0.2s;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            box-shadow: 0 4px 14px 0 rgba(37, 211, 102, 0.39);
-        }
-        .primary-btn:hover {
-            background-color: #1DA851; 
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px 0 rgba(37, 211, 102, 0.23);
-        }
-        .primary-btn:disabled {
-            background-color: #9ca3af;
-            cursor: not-allowed;
-            transform: none;
-            box-shadow: none;
-        }
 
         /* Custom Modal Styles */
         .modal-backdrop {
@@ -175,6 +149,13 @@
         .mechanism-btn:not(.active):hover {
             background-color: #f1f5f9; /* slate-100 */
         }
+        /* Number input stepper styles */
+        input[type="number"] { -moz-appearance: textfield; }
+        input[type="number"]::-webkit-inner-spin-button, 
+        input[type="number"]::-webkit-outer-spin-button { 
+            -webkit-appearance: none; 
+            margin: 0; 
+        }
     </style>
 </head>
 <body class="bg-slate-50">
@@ -183,47 +164,47 @@
         
         <!-- HEADER -->
         <header class="mb-8 border-b-2 border-indigo-200 pb-6 relative flex justify-center items-center">
-             <div class="absolute start-0 top-1/2 -translate-y-1/2">
-                 <button id="lang-toggle-btn" class="text-indigo-600 hover:text-indigo-800 font-bold p-1 sm:p-2 rounded-lg transition text-xs sm:text-sm border border-indigo-300 bg-white/50 hover:bg-white flex items-center gap-2">
-                     <!-- English Flag (UK) -->
-                     <svg id="icon-lang-en" xmlns="http://www.w3.org/2000/svg" width="20" height="15" viewBox="0 0 60 30" class="hidden">
-                         <rect width="60" height="30" fill="#012169"/>
-                         <path d="M0,0 L60,30 M60,0 L0,30" stroke="#FFFFFF" stroke-width="6"/>
-                         <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="4"/>
-                         <path d="M30,0 V30 M0,15 H60" stroke="#FFFFFF" stroke-width="10"/>
-                         <path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/>
-                     </svg>
-                     <!-- Arabic Flag (Egypt) -->
-                     <svg id="icon-lang-ar" xmlns="http://www.w3.org/2000/svg" width="20" height="15" viewBox="0 0 900 600" class="hidden">
+            <div class="absolute start-0 top-1/2 -translate-y-1/2">
+                <button id="lang-toggle-btn" class="text-indigo-600 hover:text-indigo-800 font-bold p-1 sm:p-2 rounded-lg transition text-xs sm:text-sm border border-indigo-300 bg-white/50 hover:bg-white flex items-center gap-2">
+                    <!-- English Flag (UK) -->
+                    <svg id="icon-lang-en" xmlns="http://www.w3.org/2000/svg" width="20" height="15" viewBox="0 0 60 30" class="hidden">
+                        <rect width="60" height="30" fill="#012169"/>
+                        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#FFFFFF" stroke-width="6"/>
+                        <path d="M0,0 L60,30 M60,0 L0,30" stroke="#C8102E" stroke-width="4"/>
+                        <path d="M30,0 V30 M0,15 H60" stroke="#FFFFFF" stroke-width="10"/>
+                        <path d="M30,0 V30 M0,15 H60" stroke="#C8102E" stroke-width="6"/>
+                    </svg>
+                    <!-- Arabic Flag (Egypt) -->
+                    <svg id="icon-lang-ar" xmlns="http://www.w3.org/2000/svg" width="20" height="15" viewBox="0 0 900 600" class="hidden">
                         <rect width="900" height="200" y="0" fill="#ce1126"/>
                         <rect width="900" height="200" y="200" fill="#fff"/>
                         <rect width="900" height="200" y="400" fill="#000"/>
                         <g transform="translate(450 300) scale(1.7)" fill="#c09300">
-                           <path d="M-19.43 1.12c-3.13-1.25-11.43-1.12-11.43-1.12s-1.88-3.75-1.88-6.25c0-12.5 13.13-10.62 13.13-10.62s3.13-2.5 6.25-2.5 6.25 2.5 6.25 2.5 13.13-1.88 13.13 10.62c0 2.5-1.88 6.25-1.88 6.25s-8.3 0-11.43 1.12c-3.13 1.25-3.13 6.25-3.13 6.25s0-5-3.13-6.25z"/>
-                           <path d="M-11.25 10.13h22.5v3.75h-22.5z"/>
+                            <path d="M-19.43 1.12c-3.13-1.25-11.43-1.12-11.43-1.12s-1.88-3.75-1.88-6.25c0-12.5 13.13-10.62 13.13-10.62s3.13-2.5 6.25-2.5 6.25 2.5 6.25 2.5 13.13-1.88 13.13 10.62c0 2.5-1.88 6.25-1.88 6.25s-8.3 0-11.43 1.12c-3.13 1.25-3.13 6.25-3.13 6.25s0-5-3.13-6.25z"/>
+                            <path d="M-11.25 10.13h22.5v3.75h-22.5z"/>
                         </g>
-                     </svg>
-                     <span id="current-lang-text">English</span>
-                  </button>
-             </div>
-             <div class="text-center">
-                 <h1 id="header-title" class="text-4xl sm:text-5xl font-black text-indigo-800">Waleed Designs</h1>
-                 <p id="header-subtitle" data-lang-key="header_subtitle" class="text-lg text-slate-600 mt-2">محاكي الأسعار التفاعلي</p>
-                  <div class="mt-4 flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
-                     <button type="button" id="show-guide-btn" class="text-indigo-600 font-bold hover:underline flex items-center gap-2 text-sm md:text-base">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-help-circle"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
-                         <span id="guide-button-text" data-lang-key="guide_button_text">دليل الاستخدام</span>
-                     </button>
-                     <button type="button" id="export-share-btn" class="text-indigo-600 font-bold hover:underline flex items-center gap-2 text-sm md:text-base">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                        <span data-lang-key="export_share_btn">تصدير/مشاركة</span>
-                     </button>
-                     <button type="button" id="reset-form-btn" class="text-red-600 font-bold hover:underline flex items-center gap-2 text-sm md:text-base">
-                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-cw"><path d="M21 2v6h-6"/><path d="M21.17 12a10 10 0 1 1-3.97-8.36"/></svg>
-                         <span id="reset-button-text" data-lang-key="reset_button_text">إعادة تعيين</span>
-                     </button>
-                 </div>
-             </div>
+                    </svg>
+                    <span id="current-lang-text">English</span>
+                </button>
+            </div>
+            <div class="text-center">
+                <h1 id="header-title" class="text-4xl sm:text-5xl font-black text-indigo-800">Waleed Designs</h1>
+                <p id="header-subtitle" data-lang-key="header_subtitle" class="text-lg text-slate-600 mt-2">محاكي الأسعار التفاعلي</p>
+                 <div class="mt-4 flex flex-wrap justify-center items-center gap-x-4 gap-y-2">
+                    <button type="button" id="show-guide-btn" class="text-indigo-600 font-bold hover:underline flex items-center gap-2 text-sm md:text-base">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-help-circle"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
+                        <span id="guide-button-text" data-lang-key="guide_button_text">دليل الاستخدام</span>
+                    </button>
+                    <button type="button" id="export-share-btn" class="text-indigo-600 font-bold hover:underline flex items-center gap-2 text-sm md:text-base">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                      <span data-lang-key="export_share_btn">التصميم 2D / مشاركة</span>
+                    </button>
+                    <button type="button" id="reset-form-btn" class="text-red-600 font-bold hover:underline flex items-center gap-2 text-sm md:text-base">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-cw"><path d="M21 2v6h-6"/><path d="M21.17 12a10 10 0 1 1-3.97-8.36"/></svg>
+                        <span id="reset-button-text" data-lang-key="reset_button_text">إعادة تعيين</span>
+                    </button>
+                </div>
+            </div>
         </header>
         
         <div id="main-view">
@@ -295,29 +276,49 @@
                             <div class="grid grid-cols-3 gap-2">
                                 <div>
                                     <label id="closet-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                    <input type="number" id="closet-width" value="200" min="100" max="400" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    <div class="flex items-center mt-1">
+                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="closet-width">-</button>
+                                        <input type="number" id="closet-width" value="200" min="100" max="400" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                        <button type="button" class="stepper-btn" data-action="increment" data-target="closet-width">+</button>
+                                    </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
                                     <label id="closet-height-label" data-lang-key="dim_height" class="text-xs text-slate-500">الارتفاع (سم)</label>
-                                    <input type="number" id="closet-height" value="240" min="190" max="300" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                     <div class="flex items-center mt-1">
+                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="closet-height">-</button>
+                                        <input type="number" id="closet-height" value="240" min="190" max="300" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                        <button type="button" class="stepper-btn" data-action="increment" data-target="closet-height">+</button>
+                                    </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
                                     <label id="closet-depth-label" data-lang-key="dim_depth" class="text-xs text-slate-500">العمق (سم)</label>
-                                    <input type="number" id="closet-depth" value="60" min="50" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                     <div class="flex items-center mt-1">
+                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="closet-depth">-</button>
+                                        <input type="number" id="closet-depth" value="60" min="50" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                        <button type="button" class="stepper-btn" data-action="increment" data-target="closet-depth">+</button>
+                                    </div>
                                     <div class="input-error-message"></div>
                                 </div>
                             </div>
                             <div class="grid grid-cols-3 gap-2">
                                 <div>
                                     <label id="closet-doors-label" data-lang-key="dim_doors" class="text-xs text-slate-500">عدد الضُلف</label>
-                                    <input type="number" id="closet-doors" value="4" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                     <div class="flex items-center mt-1">
+                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="closet-doors">-</button>
+                                        <input type="number" id="closet-doors" value="4" min="1" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                        <button type="button" class="stepper-btn" data-action="increment" data-target="closet-doors">+</button>
+                                    </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
                                     <label id="closet-glass-doors-label" data-lang-key="dim_glass_doors" class="text-xs text-slate-500">ضلف زجاج</label>
-                                    <input type="number" id="closet-glass-doors" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                     <div class="flex items-center mt-1">
+                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="closet-glass-doors">-</button>
+                                        <input type="number" id="closet-glass-doors" value="0" min="0" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                        <button type="button" class="stepper-btn" data-action="increment" data-target="closet-glass-doors">+</button>
+                                    </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
@@ -329,6 +330,7 @@
                                     </select>
                                 </div>
                             </div>
+                            <div id="closet-smart-alert" class="hidden smart-alert"></div>
                             <div class="grid grid-cols-2 gap-2">
                                 <div>
                                     <label data-lang-key="door_mech_label" class="text-sm font-medium text-slate-600">آلية الضُلف</label>
@@ -363,11 +365,16 @@
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
                                         <label id="bed-count-label" data-lang-key="dim_bed_count" class="text-sm font-medium text-slate-600">عدد السراير</label>
-                                        <input type="number" id="bed-count" value="1" min="1" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                         <div class="flex items-center mt-1">
+                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="bed-count">-</button>
+                                            <input type="number" id="bed-count" value="1" min="1" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                            <button type="button" class="stepper-btn" data-action="increment" data-target="bed-count">+</button>
+                                        </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div><label id="bed-size-label" data-lang-key="dim_bed_size" class="text-sm font-medium text-slate-600">مقاس السرير</label><select id="bed-size" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="100">100 سم</option><option value="120">120 سم</option><option value="140">140 سم</option><option value="160" selected>160 سم</option><option value="180">180 سم</option><option value="200">200 سم</option></select></div>
                                 </div>
+                                <div id="bed-smart-alert" class="hidden smart-alert"></div>
                                 <div>
                                     <label id="bed-material-label" data-lang-key="bed_material_label" class="text-sm font-medium text-slate-600">خامة السرير</label>
                                     <select id="bed-material" class="w-full mt-1 p-2 rounded-md border border-slate-300">
@@ -394,12 +401,20 @@
                                     <div class="grid grid-cols-2 gap-2">
                                         <div>
                                             <label id="komod-count-label" data-lang-key="dim_komod_count" class="text-sm font-medium text-slate-600">عدد الكمود</label>
-                                            <input type="number" id="komod-count" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                             <div class="flex items-center mt-1">
+                                                <button type="button" class="stepper-btn" data-action="decrement" data-target="komod-count">-</button>
+                                                <input type="number" id="komod-count" value="2" min="0" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                                <button type="button" class="stepper-btn" data-action="increment" data-target="komod-count">+</button>
+                                            </div>
                                             <div class="input-error-message"></div>
                                         </div>
                                         <div>
                                             <label id="komod-drawers-label" data-lang-key="dim_komod_drawers" class="text-sm font-medium text-slate-600">أدراج الكمود</label>
-                                            <input type="number" id="komod-drawers" value="2" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                             <div class="flex items-center mt-1">
+                                                <button type="button" class="stepper-btn" data-action="decrement" data-target="komod-drawers">-</button>
+                                                <input type="number" id="komod-drawers" value="2" min="0" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                                <button type="button" class="stepper-btn" data-action="increment" data-target="komod-drawers">+</button>
+                                            </div>
                                             <div class="input-error-message"></div>
                                         </div>
                                     </div>
@@ -424,17 +439,29 @@
                                 <div><label id="dresser-type-label" data-lang-key="dresser_type_label" class="text-sm font-medium text-slate-600">طريقة التركيب</label><select id="dresser-type" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="hanging" data-lang-key="install_hanging">معلقة</option><option value="floor" selected data-lang-key="install_floor">على الأرض</option></select></div>
                                 <div>
                                     <label id="dresser-drawers-label" data-lang-key="dim_drawers" class="text-sm font-medium text-slate-600">عدد الأدراج</label>
-                                    <input type="number" id="dresser-drawers" value="3" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                     <div class="flex items-center mt-1">
+                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="dresser-drawers">-</button>
+                                        <input type="number" id="dresser-drawers" value="3" min="0" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                        <button type="button" class="stepper-btn" data-action="increment" data-target="dresser-drawers">+</button>
+                                    </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
                                     <label id="dresser-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                    <input type="number" id="dresser-width" value="120" min="60" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                     <div class="flex items-center mt-1">
+                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="dresser-width">-</button>
+                                        <input type="number" id="dresser-width" value="120" min="60" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                        <button type="button" class="stepper-btn" data-action="increment" data-target="dresser-width">+</button>
+                                    </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
                                     <label id="dresser-depth-label" data-lang-key="dim_depth" class="text-xs text-slate-500">العمق (سم)</label>
-                                    <input type="number" id="dresser-depth" value="45" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                     <div class="flex items-center mt-1">
+                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="dresser-depth">-</button>
+                                        <input type="number" id="dresser-depth" value="45" min="30" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                        <button type="button" class="stepper-btn" data-action="increment" data-target="dresser-depth">+</button>
+                                    </div>
                                     <div class="input-error-message"></div>
                                 </div>
                             </div>
@@ -456,12 +483,20 @@
                                 </div>
                                 <div>
                                     <label id="mirror-width-label" data-lang-key="dim_mirror_width" class="text-xs text-slate-500">عرض المرايا (سم)</label>
-                                    <input type="number" id="mirror-width" value="70" min="40" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                     <div class="flex items-center mt-1">
+                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="mirror-width">-</button>
+                                        <input type="number" id="mirror-width" value="70" min="40" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                        <button type="button" class="stepper-btn" data-action="increment" data-target="mirror-width">+</button>
+                                    </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div id="mirror-height-container">
                                     <label id="mirror-height-label" data-lang-key="dim_mirror_height" class="text-xs text-slate-500">ارتفاع المرايا (سم)</label>
-                                    <input type="number" id="mirror-height" value="100" min="60" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                     <div class="flex items-center mt-1">
+                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="mirror-height">-</button>
+                                        <input type="number" id="mirror-height" value="100" min="60" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                        <button type="button" class="stepper-btn" data-action="increment" data-target="mirror-height">+</button>
+                                    </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div class="flex items-end pb-1"><div class="flex items-center"><input type="checkbox" id="mirror-led" class="h-4 w-4 text-indigo-600 rounded"><label id="mirror-led-label" data-lang-key="mirror_led_label" for="mirror-led" class="mr-2 text-sm text-slate-700">إضاءة ليد للمرايا</label></div></div>
@@ -492,29 +527,49 @@
                                 <div class="grid grid-cols-3 gap-2">
                                     <div>
                                         <label id="tv-table-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                        <input type="number" id="tv-table-width" value="160" min="80" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <div class="flex items-center mt-1">
+                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="tv-table-width">-</button>
+                                            <input type="number" id="tv-table-width" value="160" min="80" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                            <button type="button" class="stepper-btn" data-action="increment" data-target="tv-table-width">+</button>
+                                        </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div>
                                         <label id="tv-table-height-label" data-lang-key="dim_height" class="text-xs text-slate-500">الارتفاع (سم)</label>
-                                        <input type="number" id="tv-table-height" value="50" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <div class="flex items-center mt-1">
+                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="tv-table-height">-</button>
+                                            <input type="number" id="tv-table-height" value="50" min="30" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                            <button type="button" class="stepper-btn" data-action="increment" data-target="tv-table-height">+</button>
+                                        </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div>
                                         <label id="tv-table-depth-label" data-lang-key="dim_depth" class="text-xs text-slate-500">العمق (سم)</label>
-                                        <input type="number" id="tv-table-depth" value="40" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <div class="flex items-center mt-1">
+                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="tv-table-depth">-</button>
+                                            <input type="number" id="tv-table-depth" value="40" min="30" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                            <button type="button" class="stepper-btn" data-action="increment" data-target="tv-table-depth">+</button>
+                                        </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                 </div>
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
                                         <label id="tv-table-drawers-label" data-lang-key="dim_drawers" class="text-xs text-slate-500">عدد الأدراج</label>
-                                        <input type="number" id="tv-table-drawers" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <div class="flex items-center mt-1">
+                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="tv-table-drawers">-</button>
+                                            <input type="number" id="tv-table-drawers" value="0" min="0" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                            <button type="button" class="stepper-btn" data-action="increment" data-target="tv-table-drawers">+</button>
+                                        </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div>
                                         <label id="tv-table-doors-label" data-lang-key="dim_doors" class="text-xs text-slate-500">عدد الدولف</label>
-                                        <input type="number" id="tv-table-doors" value="0" min="0" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <div class="flex items-center mt-1">
+                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="tv-table-doors">-</button>
+                                            <input type="number" id="tv-table-doors" value="0" min="0" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                            <button type="button" class="stepper-btn" data-action="increment" data-target="tv-table-doors">+</button>
+                                        </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                 </div>
@@ -541,17 +596,29 @@
                                 <div class="grid grid-cols-3 gap-2">
                                     <div>
                                         <label id="coffee-table-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                        <input type="number" id="coffee-table-width" value="100" min="50" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <div class="flex items-center mt-1">
+                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="coffee-table-width">-</button>
+                                            <input type="number" id="coffee-table-width" value="100" min="50" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                            <button type="button" class="stepper-btn" data-action="increment" data-target="coffee-table-width">+</button>
+                                        </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div>
                                         <label id="coffee-table-height-label" data-lang-key="dim_height" class="text-xs text-slate-500">الارتفاع (سم)</label>
-                                        <input type="number" id="coffee-table-height" value="45" min="30" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <div class="flex items-center mt-1">
+                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="coffee-table-height">-</button>
+                                            <input type="number" id="coffee-table-height" value="45" min="30" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                            <button type="button" class="stepper-btn" data-action="increment" data-target="coffee-table-height">+</button>
+                                        </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div>
                                         <label id="coffee-table-depth-label" data-lang-key="dim_depth" class="text-xs text-slate-500">العمق (سم)</label>
-                                        <input type="number" id="coffee-table-depth" value="60" min="40" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <div class="flex items-center mt-1">
+                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="coffee-table-depth">-</button>
+                                            <input type="number" id="coffee-table-depth" value="60" min="40" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                            <button type="button" class="stepper-btn" data-action="increment" data-target="coffee-table-depth">+</button>
+                                        </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                 </div>
@@ -571,12 +638,20 @@
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
                                         <label id="l-sofa-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                        <input type="number" id="l-sofa-width" value="250" min="150" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <div class="flex items-center mt-1">
+                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="l-sofa-width">-</button>
+                                            <input type="number" id="l-sofa-width" value="250" min="150" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                            <button type="button" class="stepper-btn" data-action="increment" data-target="l-sofa-width">+</button>
+                                        </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div>
                                         <label id="l-sofa-depth-label" data-lang-key="dim_depth" class="text-xs text-slate-500">العمق (سم)</label>
-                                        <input type="number" id="l-sofa-depth" value="180" min="100" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                        <div class="flex items-center mt-1">
+                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="l-sofa-depth">-</button>
+                                            <input type="number" id="l-sofa-depth" value="180" min="100" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                            <button type="button" class="stepper-btn" data-action="increment" data-target="l-sofa-depth">+</button>
+                                        </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                 </div>
@@ -595,7 +670,11 @@
                             <div id="sofa-controls" class="space-y-3">
                                 <div>
                                     <label id="sofa-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                    <input type="number" id="sofa-width" value="200" min="120" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    <div class="flex items-center mt-1">
+                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="sofa-width">-</button>
+                                        <input type="number" id="sofa-width" value="200" min="120" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                        <button type="button" class="stepper-btn" data-action="increment" data-target="sofa-width">+</button>
+                                    </div>
                                     <div class="input-error-message"></div>
                                 </div>
                             </div>
@@ -613,7 +692,11 @@
                             <div id="sofa-bed-controls" class="space-y-3">
                                 <div>
                                     <label id="sofa-bed-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                    <input type="number" id="sofa-bed-width" value="200" min="120" class="w-full mt-1 p-2 rounded-md border border-slate-300">
+                                    <div class="flex items-center mt-1">
+                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="sofa-bed-width">-</button>
+                                        <input type="number" id="sofa-bed-width" value="200" min="120" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
+                                        <button type="button" class="stepper-btn" data-action="increment" data-target="sofa-bed-width">+</button>
+                                    </div>
                                     <div class="input-error-message"></div>
                                 </div>
                             </div>
@@ -630,7 +713,7 @@
 
 
                 <div id="quote-action-container" class="text-center pt-8">
-                    <button type="button" id="show-quote-btn" data-lang-key="show_quote_btn" class="primary-btn bg-indigo-600 hover:bg-indigo-700 shadow-indigo-300 hover:shadow-indigo-400 w-full max-w-sm py-3 text-lg">
+                    <button type="button" id="show-quote-btn" data-lang-key="show_quote_btn" class="bg-indigo-600 text-white font-bold transition duration-200 hover:bg-indigo-700 shadow-lg hover:shadow-xl shadow-indigo-300 hover:shadow-indigo-400 w-full max-w-sm py-3 px-6 text-lg rounded-xl inline-flex items-center justify-center gap-2">
                         عرض السعر وطلب التواصل
                     </button>
                     <p id="edit-mode-message" class="hidden mt-4 text-slate-600">
@@ -647,7 +730,7 @@
         <div id="guide-view" class="hidden bg-white p-6 sm:p-8 rounded-2xl shadow-lg border">
             <div class="flex justify-between items-center border-b pb-4 mb-6">
                 <h2 id="guide-title" data-lang-key="guide_title" class="text-2xl font-bold text-indigo-700">دليل المستخدم: نصائح للاستفادة القصوى</h2>
-                <button type="button" id="back-to-main-btn" class="text-indigo-600 hover:bg-indigo-100 p-2 rounded-full transition">
+                <button type="button" class="back-to-main-btn text-indigo-600 hover:bg-indigo-100 p-2 rounded-full transition">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
                 </button>
             </div>
@@ -676,7 +759,7 @@
                                 </ul>
                             </li>
                             <li id="guide-step4-paint" data-lang-key="guide_step4_paint"><b>نوع الدهان:</b>
-                                 <ul class="list-circle list-inside ps-6">
+                               <ul class="list-circle list-inside ps-6">
                                     <li id="guide-step4-paint-ester" data-lang-key="guide_step4_paint_ester"><b>استر (Ester):</b> اختره إذا كنت تحب رؤية شكل عروق الخشب الطبيعية لمظهر فخم وكلاسيكي.</li>
                                     <li id="guide-step4-paint-duco" data-lang-key="guide_step4_paint_duco"><b>دوكو (Duco):</b> اختره إذا كنت تريد لونًا مصمتًا وموحّدًا (مثل الأبيض، الرمادي، إلخ) لمظهر عصري وناعم.</li>
                                 </ul>
@@ -699,7 +782,7 @@
                 <p id="guide-outro" data-lang-key="guide_outro">نأمل أن تساعدك هذه الأداة في تصميم غرفة أحلامك بسهولة!</p>
             </div>
             <div class="text-center mt-8">
-                <button type="button" id="back-to-main-btn-bottom" class="primary-btn bg-indigo-600 hover:bg-indigo-700 shadow-indigo-300 hover:shadow-indigo-400">
+                <button type="button" class="back-to-main-btn bg-indigo-600 text-white font-bold transition duration-200 hover:bg-indigo-700 shadow-lg hover:shadow-xl shadow-indigo-300 hover:shadow-indigo-400 py-2 px-6 rounded-xl inline-flex items-center justify-center gap-2">
                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
                     <span id="guide-back-button-text" data-lang-key="guide_back_button_text">العودة إلى النموذج</span>
                 </button>
@@ -738,7 +821,7 @@
                         <input type="date" id="appointment-date" class="p-2 text-sm rounded-md border border-slate-300 w-full sm:w-auto">
                     </div>
                 </div>
-                 <button type="button" id="request-quote-btn" class="primary-btn w-full mt-2" disabled>
+                 <button type="button" id="request-quote-btn" class="bg-green-500 text-white font-bold transition duration-200 hover:bg-green-600 disabled:bg-slate-400 disabled:cursor-not-allowed disabled:shadow-none shadow-lg hover:shadow-xl shadow-green-300 hover:shadow-green-400 w-full py-2 px-6 mt-2 rounded-xl inline-flex items-center justify-center gap-2" disabled>
                      <span id="request-quote-text" data-lang-key="request_quote_text">إرسال الطلب عبر واتساب</span>
                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
                  </button>
@@ -771,16 +854,19 @@
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, deleteDoc, setLogLevel } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
         
         // --- GLOBAL APP STATE & CONFIG ---
         const App = {
+            db: null,
             auth: null,
             currentUserId: null,
+            appId: typeof __app_id !== 'undefined' ? __app_id : 'default-app-id',
             elements: {},
             currentLang: 'ar', // Default language
             config: {
                 WHATSAPP_NUMBER: "201110846333", // Business WhatsApp number
-                LOCAL_STORAGE_KEY: 'waleedDesignsConfiguratorState',
+                DESIGN_DOC_ID: 'current_design', // Firestore document ID
                 COSTS: {
                     // Prices are estimates per square/linear meter in EGP
                     WOOD_BASE: { 'counter': 2800, 'counter_melamine': 2320, 'hpl_separate': 2720 }, // Price per m²
@@ -826,7 +912,7 @@
                     ar: {
                         dir: 'rtl', langName: 'English', langShortName: 'AR', 
                         app_title: 'Waleed Designs - مُحاكي تصميم غرف النوم', header_subtitle: 'محاكي الأسعار التفاعلي',
-                        guide_button_text: 'دليل الاستخدام', reset_button_text: 'إعادة تعيين', export_share_btn: 'تصدير/مشاركة',
+                        guide_button_text: 'دليل الاستخدام', reset_button_text: 'إعادة تعيين', export_share_btn: 'التصميم 2D / مشاركة',
                         summary_title: 'ملخص التصميم',
                         visualizer_title: 'تصور مبدئي للغرفة',
                         visualizer_closet_details_title: 'تصور تفصيلي للدولاب',
@@ -899,11 +985,13 @@
                         restore_yes: 'نعم، استكمل',
                         restore_no: 'لا، ابدأ من جديد',
                         popup_blocker_alert: 'يرجى السماح بظهور النوافذ المنبثقة لهذا الموقع لعرض ملخص التصميم.',
+                        smart_alert_bed_wider_than_closet: 'ملاحظة: مقاس السرير الذي اخترته أعرض من الدولاب. تأكد من أن مساحة الغرفة كافية.',
+                        smart_alert_closet_doors_too_many: 'نصيحة: عدد الضلف كبير جداً بالنسبة للعرض ({doorWidth} سم للضلفة). للحصول على أفضل استخدام، نقترح تقليل العدد إلى {suggestedDoors} ضلف.',
                     },
                     en: {
                         dir: 'ltr', langName: 'العربية', langShortName: 'EN',
                         app_title: 'Waleed Designs - Bedroom Design Simulator', header_subtitle: 'Interactive Price Estimator',
-                        guide_button_text: 'User Guide', reset_button_text: 'Reset', export_share_btn: 'Export/Share',
+                        guide_button_text: 'User Guide', reset_button_text: 'Reset', export_share_btn: '2D Design / Share',
                         summary_title: 'Design Summary',
                         visualizer_title: 'Room Layout Preview',
                         visualizer_closet_details_title: 'Closet Details',
@@ -976,6 +1064,8 @@
                         restore_yes: 'Yes, Restore',
                         restore_no: 'No, Start New',
                         popup_blocker_alert: 'Please allow pop-ups for this site to display the design summary.',
+                        smart_alert_bed_wider_than_closet: 'Note: The selected bed size is wider than the closet. Please ensure your room has enough space.',
+                        smart_alert_closet_doors_too_many: 'Tip: The number of doors is too high for the width ({doorWidth} cm per door). For best results, we suggest reducing the count to {suggestedDoors} doors.',
                     }
                 }
             }
@@ -1030,7 +1120,7 @@
 
                 // Closet
                 closet: { 
-                    woodType: elements.closetWoodType.value, paintType: $('#closet-paint-type').value || 'none', 
+                    woodType: elements.closetWoodType.value, paintType: elements.closetPaintType.value || 'none', 
                     width: float(elements.closetWidth), height: float(elements.closetHeight), depth: float(elements.closetDepth), 
                     doors: int(elements.closetDoors), glassDoors: int(elements.closetGlassDoors), 
                     storageRatio: elements.closetStorageRatio.value, // New ratio field
@@ -1039,7 +1129,7 @@
                     mechanism: elements.doorMechanism.value, hasLed: elements.closetLed.checked 
                 },
                 // Bed & Komod
-                bed: { count: int(elements.bedCount), size: int(elements.bedSize), material: elements.bedMaterial.value, paintType: $('#bed-paint-type').value || 'none', hasLiftingMechanism: elements.liftingMechanism.checked, hasLed: elements.bedLed.checked },
+                bed: { count: int(elements.bedCount), size: int(elements.bedSize), material: elements.bedMaterial.value, paintType: elements.bedPaintType.value || 'none', hasLiftingMechanism: elements.liftingMechanism.checked, hasLed: elements.bedLed.checked },
                 komod: { count: int(elements.komodCount), drawers: int(elements.komodDrawers) },
                 // Dresser & Mirror
                 dresser: { type: elements.dresserType.value, drawers: int(elements.dresserDrawers), width: float(elements.dresserWidth), depth: float(elements.dresserDepth), mirrorWidth: float(elements.mirrorWidth), mirrorHeight: float(elements.mirrorHeight), mirrorShape: elements.mirrorShape.value, hasMirrorLed: elements.mirrorLed.checked },
@@ -1191,6 +1281,38 @@
 
             return { total: !error ? total : -1, error, breakdown };
         }
+        
+        function runSmartChecks() {
+            const config = getFullConfiguration();
+            const closetAlertEl = App.elements.closetSmartAlert;
+            const bedAlertEl = App.elements.bedSmartAlert;
+
+            // Clear previous alerts
+            closetAlertEl.innerHTML = '';
+            closetAlertEl.style.display = 'none';
+            bedAlertEl.innerHTML = '';
+            bedAlertEl.style.display = 'none';
+
+            // 1. Bed vs Closet check
+            if (config.includeBed && config.includeCloset && config.bed.size > config.closet.width) {
+                bedAlertEl.innerHTML = `💡 ${t('smart_alert_bed_wider_than_closet')}`;
+                bedAlertEl.style.display = 'block';
+            }
+
+            // 2. Closet doors check
+            if (config.includeCloset && config.closet.doors > 1) {
+                const doorWidth = Math.round(config.closet.width / config.closet.doors);
+                const MIN_DOOR_WIDTH = 40; // Minimum practical door width in cm
+
+                if (doorWidth < MIN_DOOR_WIDTH) {
+                    const suggestedDoors = Math.floor(config.closet.width / 50); // Suggest doors around 50cm wide
+                    if (suggestedDoors > 0 && suggestedDoors < config.closet.doors) {
+                         closetAlertEl.innerHTML = `💡 ${t('smart_alert_closet_doors_too_many', { doorWidth: doorWidth, suggestedDoors: suggestedDoors })}`;
+                         closetAlertEl.style.display = 'block';
+                    }
+                }
+            }
+        }
 
         function recalculate() {
             const result = calculateTotal();
@@ -1215,6 +1337,7 @@
             }
             breakdownContainer.textContent = breakdownHtml;
 
+            runSmartChecks();
         }
 
         const debouncedRecalculate = debounce(recalculate, 300);
@@ -1286,8 +1409,7 @@
         
         // --- UI MANIPULATION ---
         function setMechanismButtonState(value) {
-            const buttons = $$('.mechanism-btn');
-            buttons.forEach(btn => {
+            $$('.mechanism-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.dataset.value === value);
             });
             if(App.elements.doorMechanism) App.elements.doorMechanism.value = value;
@@ -1347,16 +1469,16 @@
         function updateUI() {
             // 1. Closet Paint Option visibility
             const closetWoodType = App.elements.closetWoodType.value;
-            $('#closet-paint-option-container').style.display = (closetWoodType === 'counter') ? 'block' : 'none';
+            App.elements.closetPaintOptionContainer.style.display = (closetWoodType === 'counter') ? 'block' : 'none';
             
             // 2. Bed Paint Option visibility
             const bedMaterial = App.elements.bedMaterial.value;
-            $('#bed-paint-option-container').style.display = (bedMaterial === 'wood') ? 'block' : 'none';
+            App.elements.bedPaintOptionContainer.style.display = (bedMaterial === 'wood') ? 'block' : 'none';
 
             // 3. Mirror dimensions based on shape
             const mirrorShape = App.elements.mirrorShape.value;
-            const widthLabel = $('#mirror-width-label');
-            const heightContainer = $('#mirror-height-container');
+            const widthLabel = App.elements.mirrorWidthLabel;
+            const heightContainer = App.elements.mirrorHeightContainer;
             if (mirrorShape === 'circle') {
                 widthLabel.textContent = t('dim_mirror_diameter');
                 heightContainer.style.display = 'none';
@@ -1377,9 +1499,9 @@
 
             // 5. Smart Default: Sync closet paint to other paintable items
             const isClosetPaintable = closetWoodType === 'counter';
-            const effectiveClosetPaint = isClosetPaintable ? $('#closet-paint-type').value : 'none';
+            const effectiveClosetPaint = isClosetPaintable ? App.elements.closetPaintType.value : 'none';
             if (bedMaterial === 'wood') {
-                $('#bed-paint-type').value = effectiveClosetPaint;
+                App.elements.bedPaintType.value = effectiveClosetPaint;
             }
 
             // 6. Enable/disable submit button based on contact info
@@ -1422,7 +1544,7 @@
             const value = parseFloat(inputElement.value);
             const min = parseFloat(inputElement.min);
             const max = parseFloat(inputElement.max);
-            const errorContainer = inputElement.nextElementSibling;
+            const errorContainer = inputElement.closest('div').nextElementSibling;
             let errorMessage = '';
 
             if (value < 0) {
@@ -1473,7 +1595,7 @@
                 const glassDoors = parseInt(App.elements.closetGlassDoors.value);
                 if (!isNaN(closetDoors) && !isNaN(glassDoors) && glassDoors > closetDoors) {
                     App.elements.closetGlassDoors.classList.add('border-red-500', 'focus:border-red-500', 'focus:ring-red-500');
-                    const errorContainer = App.elements.closetGlassDoors.nextElementSibling;
+                    const errorContainer = App.elements.closetGlassDoors.closest('div').nextElementSibling;
                     if (errorContainer) errorContainer.textContent = t('validation_glass_doors_error');
                     isValid = false;
                 }
@@ -1482,9 +1604,10 @@
             return isValid;
         }
 
-        function resetForm(forceNew = false) {
-            if(!forceNew) {
-                localStorage.removeItem(App.config.LOCAL_STORAGE_KEY);
+        async function resetForm(forceNew = false) {
+            if(!forceNew && App.currentUserId) {
+                 const docRef = doc(App.db, "artifacts", App.appId, "users", App.currentUserId, "designs", App.config.DESIGN_DOC_ID);
+                 await deleteDoc(docRef).catch(e => console.error("Error removing document: ", e));
             }
             App.elements.configuratorForm.reset();
             
@@ -1517,8 +1640,7 @@
 
         // --- EVENT HANDLING & SUBMISSION ---
         function handleMechanismButtons() {
-            const buttons = $$('.mechanism-btn');
-            buttons.forEach(button => {
+            $$('.mechanism-btn').forEach(button => {
                 button.addEventListener('click', () => {
                     const value = button.dataset.value;
                     setMechanismButtonState(value);
@@ -1526,6 +1648,36 @@
                 });
             });
         }
+        
+        function handleStepperButtons() {
+            App.elements.configuratorForm.addEventListener('click', (e) => {
+                const target = e.target.closest('.stepper-btn');
+                if (!target) return;
+
+                const action = target.dataset.action;
+                const inputId = target.dataset.target;
+                const inputElement = $(`#${inputId}`);
+                
+                if (!inputElement) return;
+                
+                const step = parseFloat(inputElement.step) || (inputId.includes('door') || inputId.includes('drawer') || inputId.includes('count') ? 1 : 10);
+                const min = parseFloat(inputElement.min);
+                const max = parseFloat(inputElement.max);
+                let value = parseFloat(inputElement.value) || 0;
+
+                if (action === 'increment') {
+                    value += step;
+                    if (!isNaN(max) && value > max) value = max;
+                } else if (action === 'decrement') {
+                    value -= step;
+                    if (!isNaN(min) && value < min) value = min;
+                }
+
+                inputElement.value = value;
+                inputElement.dispatchEvent(new Event('input', { bubbles: true }));
+            });
+        }
+
 
         function submitQuote() {
             if (!validateForm()) {
@@ -1557,7 +1709,7 @@
             const summaryParts = [
                 `*${T.app_title}*`,
                 `*${T.delivery_estimate_text} ${deliveryWeeks} ${T.delivery_weeks_unit}*`,
-                `*User ID: ${App.currentUserId || 'Unknown'}*`,
+                `User ID: ${App.currentUserId || 'Unknown'}`,
                 '---------------------------------------------',
                 `*${T.placeholder_name}:* ${name}`,
                 `*${T.placeholder_phone}:* ${phone}`,
@@ -1837,10 +1989,10 @@ https://facebook.com/waleed.designs.furniture
                 const y = 0;
                 furniture.push({
                     html: `<g>
-                           <rect x="${x}" y="${y}" width="${w}" height="${d}" fill="#c7d2fe" stroke="#4f46e5" stroke-width="0.5"/>
-                           <text x="${x + w/2}" y="${y + d/2}" font-size="${10*scale}" text-anchor="middle" dominant-baseline="middle" fill="#312e81" font-weight="bold">${getArabicName('closet_title')}</text>
-                           <text x="${x + w/2}" y="${y - (5 * scale)}" font-size="${9*scale}" text-anchor="middle" fill="#334155">${cl.width} cm</text>
-                           </g>`
+                            <rect x="${x}" y="${y}" width="${w}" height="${d}" fill="#c7d2fe" stroke="#4f46e5" stroke-width="0.5"/>
+                            <text x="${x + w/2}" y="${y + d/2}" font-size="${10*scale}" text-anchor="middle" dominant-baseline="middle" fill="#312e81" font-weight="bold">${getArabicName('closet_title')}</text>
+                            <text x="${x + w/2}" y="${y - (5 * scale)}" font-size="${9*scale}" text-anchor="middle" fill="#334155">${cl.width} cm</text>
+                            </g>`
                 });
             }
 
@@ -1853,10 +2005,10 @@ https://facebook.com/waleed.designs.furniture
                 const y = (svgHeight - dresserW_scaled) / 2; // Centered vertically
                 furniture.push({
                     html: `<g>
-                            <rect x="${x}" y="${y}" width="${dresserD_scaled}" height="${dresserW_scaled}" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.5"/>
-                            <text x="${x + dresserD_scaled / 2}" y="${y + dresserW_scaled / 2}" font-size="${8 * scale}" text-anchor="middle" dominant-baseline="middle" fill="#1f2937" font-weight="bold">${getArabicName('dresser_title')}</text>
-                            <text x="${svgWidth + (12 * scale)}" y="${y + dresserW_scaled / 2}" font-size="${9*scale}" text-anchor="middle" dominant-baseline="middle" fill="#334155" transform="rotate(90, ${svgWidth + (12 * scale)}, ${y + dresserW_scaled / 2})">${dr.width} cm</text>
-                           </g>`
+                             <rect x="${x}" y="${y}" width="${dresserD_scaled}" height="${dresserW_scaled}" fill="#e5e7eb" stroke="#6b7280" stroke-width="0.5"/>
+                             <text x="${x + dresserD_scaled / 2}" y="${y + dresserW_scaled / 2}" font-size="${8 * scale}" text-anchor="middle" dominant-baseline="middle" fill="#1f2937" font-weight="bold">${getArabicName('dresser_title')}</text>
+                             <text x="${svgWidth + (12 * scale)}" y="${y + dresserW_scaled / 2}" font-size="${9*scale}" text-anchor="middle" dominant-baseline="middle" fill="#334155" transform="rotate(90, ${svgWidth + (12 * scale)}, ${y + dresserW_scaled / 2})">${dr.width} cm</text>
+                            </g>`
                 });
             }
 
@@ -2132,7 +2284,7 @@ https://facebook.com/waleed.designs.furniture
                         <main>${summaryHTML}</main>
                         
                         ${layoutSVG ? `
-                         <div class="mt-8 pt-8 border-t-2 break-inside-avoid">
+                        <div class="mt-8 pt-8 border-t-2 break-inside-avoid">
                             <h2 class="text-xl font-bold text-center text-indigo-800 mb-4">${T.visualizer_title}</h2>
                             <div class="w-full bg-slate-50 p-4 rounded-lg border flex justify-center">
                                 ${layoutSVG}
@@ -2140,7 +2292,7 @@ https://facebook.com/waleed.designs.furniture
                         </div>` : ''}
 
                         ${closetSVG ? `
-                         <div class="mt-8 pt-8 border-t-2 break-inside-avoid">
+                        <div class="mt-8 pt-8 border-t-2 break-inside-avoid">
                             <h2 class="text-xl font-bold text-center text-indigo-800 mb-4">${T.visualizer_closet_details_title}</h2>
                             <div class="w-full bg-slate-50 p-4 rounded-lg border flex justify-center">
                                 ${closetSVG}
@@ -2149,14 +2301,14 @@ https://facebook.com/waleed.designs.furniture
                         
                         <footer class="mt-10 pt-8 border-t-2 text-center space-y-6 break-inside-avoid">
                              <div class="bg-indigo-50 border border-indigo-200 p-6 rounded-lg">
-                                <p class="text-lg font-bold text-slate-700">${T.footer_price_label}</p>
-                                <p class="text-4xl font-black text-indigo-700 my-2">${roundedTotal.toLocaleString(lang === 'ar' ? 'ar-EG' : 'en-US')} ج.م</p>
-                                <p class="text-md font-bold text-green-700">${T.delivery_estimate_text} ${deliveryWeeks} ${T.delivery_weeks_unit}</p>
-                                <p class="text-xs text-slate-500 mt-3">${T.footer_disclaimer}</p>
+                                 <p class="text-lg font-bold text-slate-700">${T.footer_price_label}</p>
+                                 <p class="text-4xl font-black text-indigo-700 my-2">${roundedTotal.toLocaleString(lang === 'ar' ? 'ar-EG' : 'en-US')} ج.م</p>
+                                 <p class="text-md font-bold text-green-700">${T.delivery_estimate_text} ${deliveryWeeks} ${T.delivery_weeks_unit}</p>
+                                 <p class="text-xs text-slate-500 mt-3">${T.footer_disclaimer}</p>
                              </div>
                              <div>
-                                <p class="font-bold text-slate-800">${T.customer_service}: 01110846333 / 01220431043</p>
-                                <p class="text-slate-600">${T.facebook_page}: facebook.com/waleed.designs.furniture</p>
+                                 <p class="font-bold text-slate-800">${T.customer_service}: 01110846333 / 01220431043</p>
+                                 <p class="text-slate-600">${T.facebook_page}: facebook.com/waleed.designs.furniture</p>
                              </div>
                         </footer>
                     </div>
@@ -2168,9 +2320,9 @@ https://facebook.com/waleed.designs.furniture
                         <p class="mt-4 text-slate-500 text-sm">${T.print_share_tip_mobile}</p>
                     </div>
                      <script>
-                        // Removed auto-print on load for better mobile compatibility.
-                        // User must click the button to print/save.
-                    <\/script>
+                         // Removed auto-print on load for better mobile compatibility.
+                         // User must click the button to print/save.
+                     <\/script>
                 </body>
                 </html>`;
         }
@@ -2193,8 +2345,8 @@ https://facebook.com/waleed.designs.furniture
             
             const printWindow = window.open('', '_blank');
              if (!printWindow) {
-                showAlert(t('popup_blocker_alert'));
-                return;
+                 showAlert(t('popup_blocker_alert'));
+                 return;
             }
             
             printWindow.document.write(printableHTML);
@@ -2202,11 +2354,17 @@ https://facebook.com/waleed.designs.furniture
             printWindow.focus();
         }
         
-        // --- LOCAL STORAGE & SESSION ---
-        const debouncedSaveState = debounce(() => {
+        // --- DATA PERSISTENCE (FIRESTORE) ---
+        const debouncedSaveState = debounce(async () => {
+            if (!App.auth || !App.currentUserId || !App.db) return;
             const state = getFullConfiguration();
-            localStorage.setItem(App.config.LOCAL_STORAGE_KEY, JSON.stringify(state));
-        }, 500);
+            const docRef = doc(App.db, "artifacts", App.appId, "users", App.currentUserId, "designs", App.config.DESIGN_DOC_ID);
+            try {
+                await setDoc(docRef, state);
+            } catch (e) {
+                console.error("Error saving state to Firestore: ", e);
+            }
+        }, 1000);
 
         function loadState(state) {
             if (!state) return;
@@ -2222,7 +2380,8 @@ https://facebook.com/waleed.designs.furniture
                         }
                     });
                 } else {
-                    const element = $(`#${key.replace(/([A-Z])/g, '-$1').toLowerCase()}`);
+                    const elementId = key.replace(/([A-Z])/g, '-$1').toLowerCase();
+                    const element = $(`#${elementId}`);
                     if(element) {
                          if(element.type === 'checkbox') element.checked = state[key];
                          else element.value = state[key];
@@ -2237,22 +2396,29 @@ https://facebook.com/waleed.designs.furniture
             updateUI();
         }
 
-        function checkForSavedState() {
-            const savedStateJSON = localStorage.getItem(App.config.LOCAL_STORAGE_KEY);
-            if (savedStateJSON) {
+        async function checkForSavedState() {
+             if (!App.currentUserId || !App.db) {
+                resetForm(true);
+                return;
+             }
+
+            const docRef = doc(App.db, "artifacts", App.appId, "users", App.currentUserId, "designs", App.config.DESIGN_DOC_ID);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                const savedState = docSnap.data();
                 const modal = App.elements.restoreSessionModal;
                 const content = modal.querySelector('.modal-content');
                 modal.classList.remove('opacity-0', 'pointer-events-none');
                 content.classList.remove('scale-95', 'opacity-0');
 
                 $('#restore-yes-btn').onclick = () => {
-                    loadState(JSON.parse(savedStateJSON));
+                    loadState(savedState);
                     content.classList.add('scale-95', 'opacity-0');
                     modal.classList.add('opacity-0', 'pointer-events-none');
                 };
-                $('#restore-no-btn').onclick = () => {
-                    resetForm(true); // Force new without clearing storage yet
-                    localStorage.removeItem(App.config.LOCAL_STORAGE_KEY);
+                $('#restore-no-btn').onclick = async () => {
+                    await resetForm(false); // reset and delete doc
                     content.classList.add('scale-95', 'opacity-0');
                     modal.classList.add('opacity-0', 'pointer-events-none');
                 };
@@ -2271,8 +2437,7 @@ https://facebook.com/waleed.designs.furniture
                 showGuideBtn: $('#show-guide-btn'),
                 resetFormBtn: $('#reset-form-btn'),
                 exportShareBtn: $('#export-share-btn'),
-                backToMainBtn: $('#back-to-main-btn'),
-                backToMainBtnBottom: $('#back-to-main-btn-bottom'),
+                backToMainBtns: $$('.back-to-main-btn'),
 
                 footer: $('footer'), totalPrice: $('#total-price'), priceErrorMessage: $('#price-error-message'), deliveryEstimate: $('#delivery-estimate'),
                 priceBreakdown: $('#price-breakdown'),
@@ -2288,15 +2453,18 @@ https://facebook.com/waleed.designs.furniture
                 appointmentDateInput: $('#appointment-date'),
 
                 // Closet
-                includeCloset: $('#include-closet'), closetWoodType: $('#closet-wood-type'), closetWidth: $('#closet-width'), closetHeight: $('#closet-height'), closetDepth: $('#closet-depth'), closetDoors: $('#closet-doors'), closetGlassDoors: $('#closet-glass-doors'), closetStorageRatio: $('#closet-storage-ratio'), doorMechanism: $('#door-mechanism'), closetLed: $('#closet-led'),
+                includeCloset: $('#include-closet'), closetWoodType: $('#closet-wood-type'), closetPaintType: $('#closet-paint-type'), closetPaintOptionContainer: $('#closet-paint-option-container'), closetWidth: $('#closet-width'), closetHeight: $('#closet-height'), closetDepth: $('#closet-depth'), closetDoors: $('#closet-doors'), closetGlassDoors: $('#closet-glass-doors'), closetStorageRatio: $('#closet-storage-ratio'), doorMechanism: $('#door-mechanism'), closetLed: $('#closet-led'),
+                closetSmartAlert: $('#closet-smart-alert'),
                 
                 // Bed & Komod
-                includeBed: $('#include-bed'), bedCount: $('#bed-count'), bedSize: $('#bed-size'), bedMaterial: $('#bed-material'), liftingMechanism: $('#lifting-mechanism'), bedLed: $('#bed-led'),
+                includeBed: $('#include-bed'), bedCount: $('#bed-count'), bedSize: $('#bed-size'), bedMaterial: $('#bed-material'), bedPaintType: $('#bed-paint-type'), bedPaintOptionContainer: $('#bed-paint-option-container'), liftingMechanism: $('#lifting-mechanism'), bedLed: $('#bed-led'),
                 komodCount: $('#komod-count'), komodDrawers: $('#komod-drawers'),
+                bedSmartAlert: $('#bed-smart-alert'),
                 
                 // Dresser & Mirror
                 includeDresser: $('#include-dresser'), dresserType: $('#dresser-type'), dresserDrawers: $('#dresser-drawers'), dresserWidth: $('#dresser-width'), dresserDepth: $('#dresser-depth'),
                 mirrorShape: $('#mirror-shape'), mirrorWidth: $('#mirror-width'), mirrorHeight: $('#mirror-height'), mirrorLed: $('#mirror-led'),
+                mirrorWidthLabel: $('#mirror-width-label'), mirrorHeightContainer: $('#mirror-height-container'),
                 mirrorShapeIconRect: $('#icon-rectangle'), mirrorShapeIconSquare: $('#icon-square'), mirrorShapeIconCircle: $('#icon-circle'),
 
                 // Additional Items
@@ -2311,12 +2479,35 @@ https://facebook.com/waleed.designs.furniture
                 restoreSessionModal: $('#restore-session-modal'),
             };
 
+            // Add styles for new components dynamically
+            const style = document.createElement('style');
+            style.textContent = `
+                .stepper-btn {
+                    width: 2.5rem; height: 2.5rem; background-color: #f1f5f9; color: #475569;
+                    border: 1px solid #cbd5e1; font-size: 1.5rem; line-height: 1; font-weight: bold;
+                    cursor: pointer; transition: background-color 0.2s;
+                    display: inline-flex; align-items: center; justify-content: center;
+                }
+                .stepper-btn:hover { background-color: #e2e8f0; }
+                .stepper-btn:first-of-type { border-radius: 0 0.375rem 0.375rem 0; }
+                .stepper-btn:last-of-type { border-radius: 0.375rem 0 0 0.375rem; }
+                body[dir="ltr"] .stepper-btn:first-of-type { border-radius: 0.375rem 0 0 0.375rem; }
+                body[dir="ltr"] .stepper-btn:last-of-type { border-radius: 0 0.375rem 0.375rem 0; }
+
+                .smart-alert {
+                    background-color: #fefce8; color: #a16207; border: 1px solid #fde047;
+                    padding: 0.5rem; border-radius: 0.375rem; font-size: 0.8rem; margin-top: 0.5rem;
+                }
+            `;
+            document.head.appendChild(style);
+
             // --- Event listeners setup ---
-            if (App.elements.langToggleButton) App.elements.langToggleButton.addEventListener('click', toggleLanguage);
-            if (App.elements.resetFormBtn) App.elements.resetFormBtn.addEventListener('click', () => resetForm(true));
-            if (App.elements.exportShareBtn) App.elements.exportShareBtn.addEventListener('click', handlePrintClick);
+            App.elements.langToggleButton.addEventListener('click', toggleLanguage);
+            App.elements.resetFormBtn.addEventListener('click', () => resetForm(false));
+            App.elements.exportShareBtn.addEventListener('click', handlePrintClick);
             
             handleMechanismButtons();
+            handleStepperButtons();
 
             $$('#configurator-form select, #configurator-form input[type="checkbox"]').forEach(el => el.addEventListener('change', updateUI));
             
@@ -2333,80 +2524,66 @@ https://facebook.com/waleed.designs.furniture
             
             App.elements.configuratorForm.addEventListener('input', debouncedSaveState);
             
-            if (App.elements.additionalNotes) {
-                App.elements.additionalNotes.addEventListener('input', () => {
-                    const el = App.elements.additionalNotes;
-                    el.style.height = 'auto';
-                    el.style.height = (el.scrollHeight) + 'px';
-                });
-            }
+            App.elements.additionalNotes.addEventListener('input', () => {
+                const el = App.elements.additionalNotes;
+                el.style.height = 'auto';
+                el.style.height = (el.scrollHeight) + 'px';
+            });
 
-            if (App.elements.closetWidth) {
-                App.elements.closetWidth.addEventListener('input', () => {
-                    const width = parseFloat(App.elements.closetWidth.value);
-                    if (width > 0) {
-                        App.elements.closetDoors.value = Math.max(1, Math.round(width / 50));
-                    }
-                });
-            }
+            App.elements.closetWidth.addEventListener('input', () => {
+                const width = parseFloat(App.elements.closetWidth.value);
+                if (width > 0) {
+                    App.elements.closetDoors.value = Math.max(1, Math.round(width / 50));
+                }
+            });
 
-            if (App.elements.bedCount) {
-                App.elements.bedCount.addEventListener('input', () => {
-                    const bedCount = parseInt(App.elements.bedCount.value, 10);
-                    if (bedCount === 1) App.elements.komodCount.value = 2;
-                    else if (bedCount === 2) App.elements.komodCount.value = 1;
-                });
-            }
+            App.elements.bedCount.addEventListener('input', () => {
+                const bedCount = parseInt(App.elements.bedCount.value, 10);
+                if (bedCount === 1) App.elements.komodCount.value = 2;
+                else if (bedCount === 2) App.elements.komodCount.value = 1;
+            });
 
-            const closetPaintTypeEl = $('#closet-paint-type');
-            if (closetPaintTypeEl) {
-                closetPaintTypeEl.addEventListener('change', (e) => {
-                    const bedPaintTypeEl = $('#bed-paint-type');
-                    if ($('#bed-material').value === 'wood' && bedPaintTypeEl) {
-                        bedPaintTypeEl.value = e.target.value;
-                    }
-                });
-            }
+            App.elements.closetPaintType.addEventListener('change', (e) => {
+                if (App.elements.bedMaterial.value === 'wood') {
+                    App.elements.bedPaintType.value = e.target.value;
+                }
+            });
 
             $$('input[type="checkbox"][data-card-id]').forEach(checkbox => {
                 checkbox.addEventListener('change', () => handleCardToggle(checkbox));
             });
             
-            if (App.elements.roomSize) App.elements.roomSize.addEventListener('change', updateDimensionsBasedOnSize);
-            if (App.elements.showQuoteBtn) App.elements.showQuoteBtn.addEventListener('click', showQuoteFooter);
-            if (App.elements.requestQuoteBtn) App.elements.requestQuoteBtn.addEventListener('click', submitQuote);
-            if (App.elements.hideQuoteLink) App.elements.hideQuoteLink.addEventListener('click', hideQuoteFooter); 
-            if (App.elements.showGuideBtn) App.elements.showGuideBtn.addEventListener('click', () => {
+            App.elements.roomSize.addEventListener('change', updateDimensionsBasedOnSize);
+            App.elements.showQuoteBtn.addEventListener('click', showQuoteFooter);
+            App.elements.requestQuoteBtn.addEventListener('click', submitQuote);
+            App.elements.hideQuoteLink.addEventListener('click', hideQuoteFooter); 
+            App.elements.showGuideBtn.addEventListener('click', () => {
                 App.elements.mainView.classList.add('hidden');
                 App.elements.guideView.classList.remove('hidden');
             });
-            if (App.elements.backToMainBtn) App.elements.backToMainBtn.addEventListener('click', () => {
-                App.elements.guideView.classList.add('hidden');
-                App.elements.mainView.classList.remove('hidden');
-            });
-            if (App.elements.backToMainBtnBottom) App.elements.backToMainBtnBottom.addEventListener('click', () => {
-                App.elements.guideView.classList.add('hidden');
-                App.elements.mainView.classList.remove('hidden');
+            App.elements.backToMainBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    App.elements.guideView.classList.add('hidden');
+                    App.elements.mainView.classList.remove('hidden');
+                });
             });
 
             
             $$('#customer-name, #customer-phone, #customer-city').forEach(el => el.addEventListener('input', updateUI)); 
             
-            if (App.elements.modalCloseBtn) App.elements.modalCloseBtn.addEventListener('click', hideAlert);
-            if (App.elements.alertModal) App.elements.alertModal.addEventListener('click', e => { if (e.target === App.elements.alertModal) hideAlert(); });
+            App.elements.modalCloseBtn.addEventListener('click', hideAlert);
+            App.elements.alertModal.addEventListener('click', e => { if (e.target === App.elements.alertModal) hideAlert(); });
             
-            if (App.elements.requestAppointmentCheckbox) {
-                App.elements.requestAppointmentCheckbox.addEventListener('change', (e) => {
-                    App.elements.appointmentDateContainer.classList.toggle('hidden', !e.target.checked);
-                    if(e.target.checked) {
-                        // Set min date to tomorrow
-                        const today = new Date();
-                        today.setDate(today.getDate() + 1);
-                        App.elements.appointmentDateInput.min = today.toISOString().split('T')[0];
-                        App.elements.appointmentDateInput.value = today.toISOString().split('T')[0];
-                    }
-                });
-            }
+            App.elements.requestAppointmentCheckbox.addEventListener('change', (e) => {
+                App.elements.appointmentDateContainer.classList.toggle('hidden', !e.target.checked);
+                if(e.target.checked) {
+                    // Set min date to tomorrow
+                    const today = new Date();
+                    today.setDate(today.getDate() + 1);
+                    App.elements.appointmentDateInput.min = today.toISOString().split('T')[0];
+                    App.elements.appointmentDateInput.value = today.toISOString().split('T')[0];
+                }
+            });
 
             // --- Firebase Init ---
             const firebaseConfig = typeof __firebase_config !== 'undefined' && __firebase_config ? JSON.parse(__firebase_config) : null;
@@ -2414,6 +2591,8 @@ https://facebook.com/waleed.designs.furniture
                 try {
                     const app = initializeApp(firebaseConfig);
                     App.auth = getAuth(app);
+                    App.db = getFirestore(app);
+                    setLogLevel('debug'); // Enable Firestore debug logging
                     onAuthStateChanged(App.auth, async (user) => {
                         if (user) { 
                             App.currentUserId = user.uid; 
@@ -2427,44 +2606,28 @@ https://facebook.com/waleed.designs.furniture
                                 App.currentUserId = crypto.randomUUID(); 
                             }
                         }
+                        // Now that we have a user ID, check for saved state
+                        await checkForSavedState();
                     });
                 } catch (e) {
                     console.error("Firebase initialization failed:", e);
                     App.currentUserId = crypto.randomUUID();
+                    resetForm(true); // Start fresh if firebase fails
                 }
             } else {
-                 console.warn("Firebase configuration not found. Running without persistent storage.");
+                 console.warn("Firebase configuration not found. Using ephemeral session.");
                  App.currentUserId = crypto.randomUUID(); 
+                 resetForm(true); // Start fresh if no firebase config
             }
 
             // Load saved language or default to Arabic
             const savedLang = localStorage.getItem('appLang') || 'ar';
             updateLanguage(savedLang);
-
-            // Check for a saved session or shared link
-            const urlParams = new URLSearchParams(window.location.search);
-            if (urlParams.has('design')) {
-                try {
-                    const state = JSON.parse(atob(urlParams.get('design')));
-                    loadState(state);
-                    history.replaceState(null, '', window.location.pathname); // Clean URL
-                } catch(e) {
-                    console.error("Could not parse design from URL", e);
-                    checkForSavedState();
-                }
-            } else {
-                checkForSavedState();
-            }
         }
         
         document.addEventListener('DOMContentLoaded', initialize);
     </script>
 </body>
 </html>
-
-
-
-
-
 
 
