@@ -199,7 +199,7 @@
                       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                       <span data-lang-key="export_share_btn">التصميم 2D / مشاركة</span>
                     </button>
-                    <button type="button" id="reset-form-btn" class="text-red-600 font-bold hover:underline flex items-center gap-2 text-sm md:text-base">
+                    <button type="button" id="reset-form-btn" class="text-red-600 font-bold hover:underline flex items-center gap-2 text-sm md:text-base p-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-cw"><path d="M21 2v6h-6"/><path d="M21.17 12a10 10 0 1 1-3.97-8.36"/></svg>
                         <span id="reset-button-text" data-lang-key="reset_button_text">إعادة تعيين</span>
                     </button>
@@ -273,7 +273,7 @@
                                     <option value="duco" data-lang-key="paint_duco">دوكو (Lacquer/Duco)</option>
                                 </select>
                             </div>
-                            <div class="grid grid-cols-3 gap-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                 <div>
                                     <label id="closet-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
                                     <div class="flex items-center mt-1">
@@ -302,7 +302,7 @@
                                     <div class="input-error-message"></div>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-3 gap-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                 <div>
                                     <label id="closet-doors-label" data-lang-key="dim_doors" class="text-xs text-slate-500">عدد الضُلف</label>
                                      <div class="flex items-center mt-1">
@@ -435,7 +435,7 @@
                                 </div>
                         </div>
                         <div id="dresser-mirror-controls" class="space-y-4">
-                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
                                 <div><label id="dresser-type-label" data-lang-key="dresser_type_label" class="text-sm font-medium text-slate-600">طريقة التركيب</label><select id="dresser-type" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="hanging" data-lang-key="install_hanging">معلقة</option><option value="floor" selected data-lang-key="install_floor">على الأرض</option></select></div>
                                 <div>
                                     <label id="dresser-drawers-label" data-lang-key="dim_drawers" class="text-sm font-medium text-slate-600">عدد الأدراج</label>
@@ -465,7 +465,7 @@
                                     <div class="input-error-message"></div>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 pt-4 border-t mt-4">
+                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 pt-4 border-t mt-4">
                                 <div>
                                     <label id="mirror-shape-label" data-lang-key="mirror_shape_label" for="mirror-shape" class="text-sm font-medium text-slate-600">شكل المرايا</label>
                                     <div class="flex items-center gap-2">
@@ -524,7 +524,7 @@
                                 </div>
                             </div>
                             <div id="tv-table-controls" class="space-y-3">
-                                <div class="grid grid-cols-3 gap-2">
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                     <div>
                                         <label id="tv-table-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
                                         <div class="flex items-center mt-1">
@@ -593,7 +593,7 @@
                                 </div>
                             </div>
                             <div id="coffee-table-controls" class="space-y-3">
-                                <div class="grid grid-cols-3 gap-2">
+                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                                     <div>
                                         <label id="coffee-table-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
                                         <div class="flex items-center mt-1">
@@ -2276,6 +2276,12 @@ https://facebook.com/waleed.designs.furniture
                     </style>
                 </head>
                 <body class="bg-gray-100 p-4 sm:p-8">
+                    <div class="max-w-4xl mx-auto mb-4 text-left no-print">
+                         <button onclick="window.close()" class="bg-slate-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-slate-600 transition">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2 lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                             ${T.guide_back_button_text}
+                         </button>
+                    </div>
                     <div class="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-lg shadow-lg" id="summary-content">
                         <header class="text-center border-b-2 pb-4 mb-8">
                             <h1 class="text-4xl font-black text-indigo-800">Waleed Designs</h1>
@@ -2313,6 +2319,10 @@ https://facebook.com/waleed.designs.furniture
                         </footer>
                     </div>
                     <div class="text-center my-8 no-print">
+                        <button onclick="window.close()" class="bg-slate-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-slate-600 transition text-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2 lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                           ${T.guide_back_button_text}
+                        </button>
                         <button onclick="window.print()" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700 transition text-lg">
                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                             ${T.print_button_text}
@@ -2629,5 +2639,6 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
+
 
 
