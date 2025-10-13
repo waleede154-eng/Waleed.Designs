@@ -156,6 +156,61 @@
             -webkit-appearance: none; 
             margin: 0; 
         }
+        .stepper-container {
+            display: flex;
+            align-items: stretch;
+        }
+        .stepper-container input[type="number"] {
+            border-right-width: 0;
+            border-radius: 0 0.375rem 0.375rem 0; /* RTL default */
+            flex-grow: 1;
+            width: 0; /* Let flexbox handle width */
+            text-align: center;
+            padding: 0.5rem;
+            border: 1px solid #cbd5e1;
+        }
+        body[dir="ltr"] .stepper-container input[type="number"] {
+            border-right-width: 1px;
+            border-left-width: 0;
+            border-radius: 0.375rem 0 0 0.375rem;
+        }
+        .stepper-buttons {
+            display: flex;
+            flex-direction: column;
+        }
+        .stepper-btn-v {
+            width: 2rem;
+            flex-grow: 1;
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            font-size: 1.25rem;
+            line-height: 1;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .stepper-btn-v:hover { background-color: #e2e8f0; }
+
+        /* RTL buttons */
+        .stepper-btn-v:first-child { /* + button on top */
+            border-radius: 0.375rem 0 0 0;
+            border-bottom-width: 0.5px;
+        }
+        .stepper-btn-v:last-child { /* - button on bottom */
+            border-radius: 0 0 0 0.375rem;
+            border-top-width: 0.5px;
+        }
+
+        /* LTR buttons */
+        body[dir="ltr"] .stepper-btn-v:first-child {
+            border-radius: 0 0.375rem 0 0;
+        }
+        body[dir="ltr"] .stepper-btn-v:last-child {
+            border-radius: 0 0 0.375rem;
+        }
     </style>
 </head>
 <body class="bg-slate-50">
@@ -273,51 +328,61 @@
                                     <option value="duco" data-lang-key="paint_duco">دوكو (Lacquer/Duco)</option>
                                 </select>
                             </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                            <div class="grid grid-cols-3 gap-2">
                                 <div>
                                     <label id="closet-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                    <div class="flex items-center mt-1">
-                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="closet-width">-</button>
-                                        <input type="number" id="closet-width" value="200" min="100" max="400" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                        <button type="button" class="stepper-btn" data-action="increment" data-target="closet-width">+</button>
+                                    <div class="stepper-container mt-1">
+                                        <input type="number" id="closet-width" value="200" min="100" max="400">
+                                        <div class="stepper-buttons">
+                                            <button type="button" class="stepper-btn-v" data-action="increment" data-target="closet-width">+</button>
+                                            <button type="button" class="stepper-btn-v" data-action="decrement" data-target="closet-width">-</button>
+                                        </div>
                                     </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
                                     <label id="closet-height-label" data-lang-key="dim_height" class="text-xs text-slate-500">الارتفاع (سم)</label>
-                                     <div class="flex items-center mt-1">
-                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="closet-height">-</button>
-                                        <input type="number" id="closet-height" value="240" min="190" max="300" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                        <button type="button" class="stepper-btn" data-action="increment" data-target="closet-height">+</button>
+                                     <div class="stepper-container mt-1">
+                                        <input type="number" id="closet-height" value="240" min="190" max="300">
+                                        <div class="stepper-buttons">
+                                            <button type="button" class="stepper-btn-v" data-action="increment" data-target="closet-height">+</button>
+                                            <button type="button" class="stepper-btn-v" data-action="decrement" data-target="closet-height">-</button>
+                                        </div>
                                     </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
                                     <label id="closet-depth-label" data-lang-key="dim_depth" class="text-xs text-slate-500">العمق (سم)</label>
-                                     <div class="flex items-center mt-1">
-                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="closet-depth">-</button>
-                                        <input type="number" id="closet-depth" value="60" min="50" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                        <button type="button" class="stepper-btn" data-action="increment" data-target="closet-depth">+</button>
+                                     <div class="stepper-container mt-1">
+                                        <input type="number" id="closet-depth" value="60" min="50">
+                                        <div class="stepper-buttons">
+                                            <button type="button" class="stepper-btn-v" data-action="increment" data-target="closet-depth">+</button>
+                                            <button type="button" class="stepper-btn-v" data-action="decrement" data-target="closet-depth">-</button>
+                                        </div>
                                     </div>
                                     <div class="input-error-message"></div>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                            <div class="grid grid-cols-3 gap-2">
                                 <div>
                                     <label id="closet-doors-label" data-lang-key="dim_doors" class="text-xs text-slate-500">عدد الضُلف</label>
-                                     <div class="flex items-center mt-1">
-                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="closet-doors">-</button>
-                                        <input type="number" id="closet-doors" value="4" min="1" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                        <button type="button" class="stepper-btn" data-action="increment" data-target="closet-doors">+</button>
+                                     <div class="stepper-container mt-1">
+                                        <input type="number" id="closet-doors" value="4" min="1">
+                                        <div class="stepper-buttons">
+                                            <button type="button" class="stepper-btn-v" data-action="increment" data-target="closet-doors">+</button>
+                                            <button type="button" class="stepper-btn-v" data-action="decrement" data-target="closet-doors">-</button>
+                                        </div>
                                     </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
                                     <label id="closet-glass-doors-label" data-lang-key="dim_glass_doors" class="text-xs text-slate-500">ضلف زجاج</label>
-                                     <div class="flex items-center mt-1">
-                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="closet-glass-doors">-</button>
-                                        <input type="number" id="closet-glass-doors" value="0" min="0" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                        <button type="button" class="stepper-btn" data-action="increment" data-target="closet-glass-doors">+</button>
+                                     <div class="stepper-container mt-1">
+                                        <input type="number" id="closet-glass-doors" value="0" min="0">
+                                        <div class="stepper-buttons">
+                                            <button type="button" class="stepper-btn-v" data-action="increment" data-target="closet-glass-doors">+</button>
+                                            <button type="button" class="stepper-btn-v" data-action="decrement" data-target="closet-glass-doors">-</button>
+                                        </div>
                                     </div>
                                     <div class="input-error-message"></div>
                                 </div>
@@ -365,10 +430,12 @@
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
                                         <label id="bed-count-label" data-lang-key="dim_bed_count" class="text-sm font-medium text-slate-600">عدد السراير</label>
-                                         <div class="flex items-center mt-1">
-                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="bed-count">-</button>
-                                            <input type="number" id="bed-count" value="1" min="1" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                            <button type="button" class="stepper-btn" data-action="increment" data-target="bed-count">+</button>
+                                         <div class="stepper-container mt-1">
+                                            <input type="number" id="bed-count" value="1" min="1">
+                                            <div class="stepper-buttons">
+                                                <button type="button" class="stepper-btn-v" data-action="increment" data-target="bed-count">+</button>
+                                                <button type="button" class="stepper-btn-v" data-action="decrement" data-target="bed-count">-</button>
+                                            </div>
                                         </div>
                                         <div class="input-error-message"></div>
                                     </div>
@@ -401,19 +468,23 @@
                                     <div class="grid grid-cols-2 gap-2">
                                         <div>
                                             <label id="komod-count-label" data-lang-key="dim_komod_count" class="text-sm font-medium text-slate-600">عدد الكمود</label>
-                                             <div class="flex items-center mt-1">
-                                                <button type="button" class="stepper-btn" data-action="decrement" data-target="komod-count">-</button>
-                                                <input type="number" id="komod-count" value="2" min="0" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                                <button type="button" class="stepper-btn" data-action="increment" data-target="komod-count">+</button>
+                                             <div class="stepper-container mt-1">
+                                                <input type="number" id="komod-count" value="2" min="0">
+                                                <div class="stepper-buttons">
+                                                    <button type="button" class="stepper-btn-v" data-action="increment" data-target="komod-count">+</button>
+                                                    <button type="button" class="stepper-btn-v" data-action="decrement" data-target="komod-count">-</button>
+                                                </div>
                                             </div>
                                             <div class="input-error-message"></div>
                                         </div>
                                         <div>
                                             <label id="komod-drawers-label" data-lang-key="dim_komod_drawers" class="text-sm font-medium text-slate-600">أدراج الكمود</label>
-                                             <div class="flex items-center mt-1">
-                                                <button type="button" class="stepper-btn" data-action="decrement" data-target="komod-drawers">-</button>
-                                                <input type="number" id="komod-drawers" value="2" min="0" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                                <button type="button" class="stepper-btn" data-action="increment" data-target="komod-drawers">+</button>
+                                             <div class="stepper-container mt-1">
+                                                <input type="number" id="komod-drawers" value="2" min="0">
+                                                <div class="stepper-buttons">
+                                                    <button type="button" class="stepper-btn-v" data-action="increment" data-target="komod-drawers">+</button>
+                                                    <button type="button" class="stepper-btn-v" data-action="decrement" data-target="komod-drawers">-</button>
+                                                </div>
                                             </div>
                                             <div class="input-error-message"></div>
                                         </div>
@@ -435,37 +506,43 @@
                                 </div>
                         </div>
                         <div id="dresser-mirror-controls" class="space-y-4">
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2">
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2">
                                 <div><label id="dresser-type-label" data-lang-key="dresser_type_label" class="text-sm font-medium text-slate-600">طريقة التركيب</label><select id="dresser-type" class="w-full mt-1 p-2 rounded-md border border-slate-300"><option value="hanging" data-lang-key="install_hanging">معلقة</option><option value="floor" selected data-lang-key="install_floor">على الأرض</option></select></div>
                                 <div>
                                     <label id="dresser-drawers-label" data-lang-key="dim_drawers" class="text-sm font-medium text-slate-600">عدد الأدراج</label>
-                                     <div class="flex items-center mt-1">
-                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="dresser-drawers">-</button>
-                                        <input type="number" id="dresser-drawers" value="3" min="0" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                        <button type="button" class="stepper-btn" data-action="increment" data-target="dresser-drawers">+</button>
+                                     <div class="stepper-container mt-1">
+                                        <input type="number" id="dresser-drawers" value="3" min="0">
+                                        <div class="stepper-buttons">
+                                            <button type="button" class="stepper-btn-v" data-action="increment" data-target="dresser-drawers">+</button>
+                                            <button type="button" class="stepper-btn-v" data-action="decrement" data-target="dresser-drawers">-</button>
+                                        </div>
                                     </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
                                     <label id="dresser-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                     <div class="flex items-center mt-1">
-                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="dresser-width">-</button>
-                                        <input type="number" id="dresser-width" value="120" min="60" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                        <button type="button" class="stepper-btn" data-action="increment" data-target="dresser-width">+</button>
+                                     <div class="stepper-container mt-1">
+                                        <input type="number" id="dresser-width" value="120" min="60">
+                                        <div class="stepper-buttons">
+                                            <button type="button" class="stepper-btn-v" data-action="increment" data-target="dresser-width">+</button>
+                                            <button type="button" class="stepper-btn-v" data-action="decrement" data-target="dresser-width">-</button>
+                                        </div>
                                     </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div>
                                     <label id="dresser-depth-label" data-lang-key="dim_depth" class="text-xs text-slate-500">العمق (سم)</label>
-                                     <div class="flex items-center mt-1">
-                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="dresser-depth">-</button>
-                                        <input type="number" id="dresser-depth" value="45" min="30" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                        <button type="button" class="stepper-btn" data-action="increment" data-target="dresser-depth">+</button>
+                                     <div class="stepper-container mt-1">
+                                        <input type="number" id="dresser-depth" value="45" min="30">
+                                        <div class="stepper-buttons">
+                                            <button type="button" class="stepper-btn-v" data-action="increment" data-target="dresser-depth">+</button>
+                                            <button type="button" class="stepper-btn-v" data-action="decrement" data-target="dresser-depth">-</button>
+                                        </div>
                                     </div>
                                     <div class="input-error-message"></div>
                                 </div>
                             </div>
-                            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2 pt-4 border-t mt-4">
+                            <div class="grid grid-cols-2 lg:grid-cols-4 gap-2 pt-4 border-t mt-4">
                                 <div>
                                     <label id="mirror-shape-label" data-lang-key="mirror_shape_label" for="mirror-shape" class="text-sm font-medium text-slate-600">شكل المرايا</label>
                                     <div class="flex items-center gap-2">
@@ -483,19 +560,23 @@
                                 </div>
                                 <div>
                                     <label id="mirror-width-label" data-lang-key="dim_mirror_width" class="text-xs text-slate-500">عرض المرايا (سم)</label>
-                                     <div class="flex items-center mt-1">
-                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="mirror-width">-</button>
-                                        <input type="number" id="mirror-width" value="70" min="40" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                        <button type="button" class="stepper-btn" data-action="increment" data-target="mirror-width">+</button>
+                                     <div class="stepper-container mt-1">
+                                        <input type="number" id="mirror-width" value="70" min="40">
+                                        <div class="stepper-buttons">
+                                            <button type="button" class="stepper-btn-v" data-action="increment" data-target="mirror-width">+</button>
+                                            <button type="button" class="stepper-btn-v" data-action="decrement" data-target="mirror-width">-</button>
+                                        </div>
                                     </div>
                                     <div class="input-error-message"></div>
                                 </div>
                                 <div id="mirror-height-container">
                                     <label id="mirror-height-label" data-lang-key="dim_mirror_height" class="text-xs text-slate-500">ارتفاع المرايا (سم)</label>
-                                     <div class="flex items-center mt-1">
-                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="mirror-height">-</button>
-                                        <input type="number" id="mirror-height" value="100" min="60" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                        <button type="button" class="stepper-btn" data-action="increment" data-target="mirror-height">+</button>
+                                     <div class="stepper-container mt-1">
+                                        <input type="number" id="mirror-height" value="100" min="60">
+                                        <div class="stepper-buttons">
+                                            <button type="button" class="stepper-btn-v" data-action="increment" data-target="mirror-height">+</button>
+                                            <button type="button" class="stepper-btn-v" data-action="decrement" data-target="mirror-height">-</button>
+                                        </div>
                                     </div>
                                     <div class="input-error-message"></div>
                                 </div>
@@ -524,31 +605,37 @@
                                 </div>
                             </div>
                             <div id="tv-table-controls" class="space-y-3">
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                <div class="grid grid-cols-3 gap-2">
                                     <div>
                                         <label id="tv-table-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                        <div class="flex items-center mt-1">
-                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="tv-table-width">-</button>
-                                            <input type="number" id="tv-table-width" value="160" min="80" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                            <button type="button" class="stepper-btn" data-action="increment" data-target="tv-table-width">+</button>
+                                        <div class="stepper-container mt-1">
+                                            <input type="number" id="tv-table-width" value="160" min="80">
+                                            <div class="stepper-buttons">
+                                                <button type="button" class="stepper-btn-v" data-action="increment" data-target="tv-table-width">+</button>
+                                                <button type="button" class="stepper-btn-v" data-action="decrement" data-target="tv-table-width">-</button>
+                                            </div>
                                         </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div>
                                         <label id="tv-table-height-label" data-lang-key="dim_height" class="text-xs text-slate-500">الارتفاع (سم)</label>
-                                        <div class="flex items-center mt-1">
-                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="tv-table-height">-</button>
-                                            <input type="number" id="tv-table-height" value="50" min="30" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                            <button type="button" class="stepper-btn" data-action="increment" data-target="tv-table-height">+</button>
+                                        <div class="stepper-container mt-1">
+                                            <input type="number" id="tv-table-height" value="50" min="30">
+                                            <div class="stepper-buttons">
+                                                <button type="button" class="stepper-btn-v" data-action="increment" data-target="tv-table-height">+</button>
+                                                <button type="button" class="stepper-btn-v" data-action="decrement" data-target="tv-table-height">-</button>
+                                            </div>
                                         </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div>
                                         <label id="tv-table-depth-label" data-lang-key="dim_depth" class="text-xs text-slate-500">العمق (سم)</label>
-                                        <div class="flex items-center mt-1">
-                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="tv-table-depth">-</button>
-                                            <input type="number" id="tv-table-depth" value="40" min="30" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                            <button type="button" class="stepper-btn" data-action="increment" data-target="tv-table-depth">+</button>
+                                        <div class="stepper-container mt-1">
+                                            <input type="number" id="tv-table-depth" value="40" min="30">
+                                            <div class="stepper-buttons">
+                                                <button type="button" class="stepper-btn-v" data-action="increment" data-target="tv-table-depth">+</button>
+                                                <button type="button" class="stepper-btn-v" data-action="decrement" data-target="tv-table-depth">-</button>
+                                            </div>
                                         </div>
                                         <div class="input-error-message"></div>
                                     </div>
@@ -556,19 +643,23 @@
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
                                         <label id="tv-table-drawers-label" data-lang-key="dim_drawers" class="text-xs text-slate-500">عدد الأدراج</label>
-                                        <div class="flex items-center mt-1">
-                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="tv-table-drawers">-</button>
-                                            <input type="number" id="tv-table-drawers" value="0" min="0" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                            <button type="button" class="stepper-btn" data-action="increment" data-target="tv-table-drawers">+</button>
+                                        <div class="stepper-container mt-1">
+                                            <input type="number" id="tv-table-drawers" value="0" min="0">
+                                            <div class="stepper-buttons">
+                                                <button type="button" class="stepper-btn-v" data-action="increment" data-target="tv-table-drawers">+</button>
+                                                <button type="button" class="stepper-btn-v" data-action="decrement" data-target="tv-table-drawers">-</button>
+                                            </div>
                                         </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div>
                                         <label id="tv-table-doors-label" data-lang-key="dim_doors" class="text-xs text-slate-500">عدد الدولف</label>
-                                        <div class="flex items-center mt-1">
-                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="tv-table-doors">-</button>
-                                            <input type="number" id="tv-table-doors" value="0" min="0" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                            <button type="button" class="stepper-btn" data-action="increment" data-target="tv-table-doors">+</button>
+                                        <div class="stepper-container mt-1">
+                                            <input type="number" id="tv-table-doors" value="0" min="0">
+                                            <div class="stepper-buttons">
+                                                <button type="button" class="stepper-btn-v" data-action="increment" data-target="tv-table-doors">+</button>
+                                                <button type="button" class="stepper-btn-v" data-action="decrement" data-target="tv-table-doors">-</button>
+                                            </div>
                                         </div>
                                         <div class="input-error-message"></div>
                                     </div>
@@ -593,31 +684,37 @@
                                 </div>
                             </div>
                             <div id="coffee-table-controls" class="space-y-3">
-                                <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+                                <div class="grid grid-cols-3 gap-2">
                                     <div>
                                         <label id="coffee-table-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                        <div class="flex items-center mt-1">
-                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="coffee-table-width">-</button>
-                                            <input type="number" id="coffee-table-width" value="100" min="50" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                            <button type="button" class="stepper-btn" data-action="increment" data-target="coffee-table-width">+</button>
+                                        <div class="stepper-container mt-1">
+                                            <input type="number" id="coffee-table-width" value="100" min="50">
+                                            <div class="stepper-buttons">
+                                                <button type="button" class="stepper-btn-v" data-action="increment" data-target="coffee-table-width">+</button>
+                                                <button type="button" class="stepper-btn-v" data-action="decrement" data-target="coffee-table-width">-</button>
+                                            </div>
                                         </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div>
                                         <label id="coffee-table-height-label" data-lang-key="dim_height" class="text-xs text-slate-500">الارتفاع (سم)</label>
-                                        <div class="flex items-center mt-1">
-                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="coffee-table-height">-</button>
-                                            <input type="number" id="coffee-table-height" value="45" min="30" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                            <button type="button" class="stepper-btn" data-action="increment" data-target="coffee-table-height">+</button>
+                                        <div class="stepper-container mt-1">
+                                            <input type="number" id="coffee-table-height" value="45" min="30">
+                                            <div class="stepper-buttons">
+                                                <button type="button" class="stepper-btn-v" data-action="increment" data-target="coffee-table-height">+</button>
+                                                <button type="button" class="stepper-btn-v" data-action="decrement" data-target="coffee-table-height">-</button>
+                                            </div>
                                         </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div>
                                         <label id="coffee-table-depth-label" data-lang-key="dim_depth" class="text-xs text-slate-500">العمق (سم)</label>
-                                        <div class="flex items-center mt-1">
-                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="coffee-table-depth">-</button>
-                                            <input type="number" id="coffee-table-depth" value="60" min="40" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                            <button type="button" class="stepper-btn" data-action="increment" data-target="coffee-table-depth">+</button>
+                                        <div class="stepper-container mt-1">
+                                            <input type="number" id="coffee-table-depth" value="60" min="40">
+                                            <div class="stepper-buttons">
+                                                <button type="button" class="stepper-btn-v" data-action="increment" data-target="coffee-table-depth">+</button>
+                                                <button type="button" class="stepper-btn-v" data-action="decrement" data-target="coffee-table-depth">-</button>
+                                            </div>
                                         </div>
                                         <div class="input-error-message"></div>
                                     </div>
@@ -638,19 +735,23 @@
                                 <div class="grid grid-cols-2 gap-2">
                                     <div>
                                         <label id="l-sofa-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                        <div class="flex items-center mt-1">
-                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="l-sofa-width">-</button>
-                                            <input type="number" id="l-sofa-width" value="250" min="150" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                            <button type="button" class="stepper-btn" data-action="increment" data-target="l-sofa-width">+</button>
+                                        <div class="stepper-container mt-1">
+                                            <input type="number" id="l-sofa-width" value="250" min="150">
+                                            <div class="stepper-buttons">
+                                                <button type="button" class="stepper-btn-v" data-action="increment" data-target="l-sofa-width">+</button>
+                                                <button type="button" class="stepper-btn-v" data-action="decrement" data-target="l-sofa-width">-</button>
+                                            </div>
                                         </div>
                                         <div class="input-error-message"></div>
                                     </div>
                                     <div>
                                         <label id="l-sofa-depth-label" data-lang-key="dim_depth" class="text-xs text-slate-500">العمق (سم)</label>
-                                        <div class="flex items-center mt-1">
-                                            <button type="button" class="stepper-btn" data-action="decrement" data-target="l-sofa-depth">-</button>
-                                            <input type="number" id="l-sofa-depth" value="180" min="100" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                            <button type="button" class="stepper-btn" data-action="increment" data-target="l-sofa-depth">+</button>
+                                        <div class="stepper-container mt-1">
+                                            <input type="number" id="l-sofa-depth" value="180" min="100">
+                                            <div class="stepper-buttons">
+                                                <button type="button" class="stepper-btn-v" data-action="increment" data-target="l-sofa-depth">+</button>
+                                                <button type="button" class="stepper-btn-v" data-action="decrement" data-target="l-sofa-depth">-</button>
+                                            </div>
                                         </div>
                                         <div class="input-error-message"></div>
                                     </div>
@@ -670,10 +771,12 @@
                             <div id="sofa-controls" class="space-y-3">
                                 <div>
                                     <label id="sofa-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                    <div class="flex items-center mt-1">
-                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="sofa-width">-</button>
-                                        <input type="number" id="sofa-width" value="200" min="120" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                        <button type="button" class="stepper-btn" data-action="increment" data-target="sofa-width">+</button>
+                                    <div class="stepper-container mt-1">
+                                        <input type="number" id="sofa-width" value="200" min="120">
+                                        <div class="stepper-buttons">
+                                            <button type="button" class="stepper-btn-v" data-action="increment" data-target="sofa-width">+</button>
+                                            <button type="button" class="stepper-btn-v" data-action="decrement" data-target="sofa-width">-</button>
+                                        </div>
                                     </div>
                                     <div class="input-error-message"></div>
                                 </div>
@@ -692,10 +795,12 @@
                             <div id="sofa-bed-controls" class="space-y-3">
                                 <div>
                                     <label id="sofa-bed-width-label" data-lang-key="dim_width" class="text-xs text-slate-500">العرض (سم)</label>
-                                    <div class="flex items-center mt-1">
-                                        <button type="button" class="stepper-btn" data-action="decrement" data-target="sofa-bed-width">-</button>
-                                        <input type="number" id="sofa-bed-width" value="200" min="120" class="w-full p-2 text-center rounded-none border-y border-x-0 border-slate-300">
-                                        <button type="button" class="stepper-btn" data-action="increment" data-target="sofa-bed-width">+</button>
+                                    <div class="stepper-container mt-1">
+                                        <input type="number" id="sofa-bed-width" value="200" min="120">
+                                        <div class="stepper-buttons">
+                                            <button type="button" class="stepper-btn-v" data-action="increment" data-target="sofa-bed-width">+</button>
+                                            <button type="button" class="stepper-btn-v" data-action="decrement" data-target="sofa-bed-width">-</button>
+                                        </div>
                                     </div>
                                     <div class="input-error-message"></div>
                                 </div>
@@ -1579,16 +1684,6 @@
             $$('.input-error-message').forEach(el => el.textContent = '');
             $$('#configurator-form input.border-red-500').forEach(el => el.classList.remove('border-red-500', 'focus:border-red-500', 'focus:ring-red-500'));
 
-            $$('#configurator-form input[type="number"]').forEach(input => {
-                const parentControls = input.closest('[id$="-controls"]');
-                // Only validate if the controls container is not hidden
-                if (parentControls && !parentControls.classList.contains('hidden')) {
-                     if (!validateInput(input)) {
-                         isValid = false;
-                     }
-                }
-            });
-
             // Custom validation for glass doors
             if(App.elements.includeCloset.checked){
                 const closetDoors = parseInt(App.elements.closetDoors.value);
@@ -1604,11 +1699,8 @@
             return isValid;
         }
 
-        async function resetForm(forceNew = false) {
-            if(!forceNew && App.currentUserId) {
-                 const docRef = doc(App.db, "artifacts", App.appId, "users", App.currentUserId, "designs", App.config.DESIGN_DOC_ID);
-                 await deleteDoc(docRef).catch(e => console.error("Error removing document: ", e));
-            }
+        function resetForm(forceNew = false) {
+            // Perform the UI reset immediately for a fast user experience.
             App.elements.configuratorForm.reset();
             
             // Define which items are checked by default
@@ -1623,7 +1715,7 @@
             updateDimensionsBasedOnSize();
             
             App.elements.additionalNotes.value = '';
-            updateUI();
+            // updateUI will be called inside updateDimensionsBasedOnSize, which calls recalculate()
             
             if (!App.elements.footer.classList.contains('hidden')) {
                 hideQuoteFooter({ preventDefault: () => {} });
@@ -1636,6 +1728,12 @@
             
             $('#configurator-form').classList.add('highlight-flash');
             setTimeout(() => $('#configurator-form').classList.remove('highlight-flash'), 700);
+            
+            // Handle the database deletion in the background, without waiting for it.
+            if(!forceNew && App.currentUserId && App.db) {
+                 const docRef = doc(App.db, "artifacts", App.appId, "users", App.currentUserId, "designs", App.config.DESIGN_DOC_ID);
+                 deleteDoc(docRef).catch(e => console.error("Error removing document in background: ", e));
+            }
         }
 
         // --- EVENT HANDLING & SUBMISSION ---
@@ -1651,7 +1749,7 @@
         
         function handleStepperButtons() {
             App.elements.configuratorForm.addEventListener('click', (e) => {
-                const target = e.target.closest('.stepper-btn');
+                const target = e.target.closest('button[data-action][data-target]');
                 if (!target) return;
 
                 const action = target.dataset.action;
@@ -2318,7 +2416,7 @@ https://facebook.com/waleed.designs.furniture
                              </div>
                         </footer>
                     </div>
-                    <div class="text-center my-8 no-print">
+                    <div class="text-center my-8 no-print gap-4 flex justify-center items-center">
                         <button onclick="window.close()" class="bg-slate-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-slate-600 transition text-lg">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2 lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
                            ${T.guide_back_button_text}
@@ -2327,8 +2425,8 @@ https://facebook.com/waleed.designs.furniture
                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                             ${T.print_button_text}
                         </button>
-                        <p class="mt-4 text-slate-500 text-sm">${T.print_share_tip_mobile}</p>
                     </div>
+                    <p class="text-center text-slate-500 text-sm no-print -mt-4">${T.print_share_tip_mobile}</p>
                      <script>
                          // Removed auto-print on load for better mobile compatibility.
                          // User must click the button to print/save.
@@ -2639,6 +2737,7 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
+
 
 
 
