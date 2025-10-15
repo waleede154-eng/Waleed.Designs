@@ -17,6 +17,8 @@
       gtag('js', new Date());
       gtag('config', 'G-32MKV2L3P1');
     </script>
+    <!-- html2pdf.js for modern PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" xintegrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <!-- Microsoft Clarity -->
     <script type="text/javascript">
         (function(c,l,a,r,i,t,y){
@@ -249,10 +251,6 @@
                     <button type="button" id="show-guide-btn" class="text-indigo-600 font-bold hover:underline flex items-center gap-2 text-sm md:text-base">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-help-circle"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><path d="M12 17h.01"/></svg>
                         <span id="guide-button-text" data-lang-key="guide_button_text">دليل الاستخدام</span>
-                    </button>
-                    <button type="button" id="export-share-btn" class="text-indigo-600 font-bold hover:underline flex items-center gap-2 text-sm md:text-base">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                      <span data-lang-key="export_share_btn">التصميم 2D / مشاركة</span>
                     </button>
                     <button type="button" id="reset-form-btn" class="text-red-600 font-bold hover:underline flex items-center gap-2 text-sm md:text-base p-2">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-rotate-cw"><path d="M21 2v6h-6"/><path d="M21.17 12a10 10 0 1 1-3.97-8.36"/></svg>
@@ -930,6 +928,10 @@
                      <span id="request-quote-text" data-lang-key="request_quote_text">إرسال الطلب عبر واتساب</span>
                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-send"><path d="m22 2-7 20-4-9-9-4Z"/><path d="M22 2 11 13"/></svg>
                  </button>
+                 <button type="button" id="export-share-btn" class="bg-indigo-600 text-white font-bold transition duration-200 hover:bg-indigo-700 shadow-lg hover:shadow-xl shadow-indigo-300 hover:shadow-indigo-400 w-full py-2 px-6 mt-2 rounded-xl inline-flex items-center justify-center gap-2">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-download"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                      <span data-lang-key="export_share_btn">التصميم 2D / مشاركة</span>
+                </button>
             </div>
         </div>
     </footer>
@@ -1090,6 +1092,7 @@
                         restore_yes: 'نعم، استكمل',
                         restore_no: 'لا، ابدأ من جديد',
                         popup_blocker_alert: 'يرجى السماح بظهور النوافذ المنبثقة لهذا الموقع لعرض ملخص التصميم.',
+                        share_error: 'حدث خطأ أثناء محاولة مشاركة الملف.',
                         smart_alert_bed_wider_than_closet: 'ملاحظة: مقاس السرير الذي اخترته أعرض من الدولاب. تأكد من أن مساحة الغرفة كافية.',
                         smart_alert_closet_doors_too_many: 'نصيحة: عدد الضلف كبير جداً بالنسبة للعرض ({doorWidth} سم للضلفة). للحصول على أفضل استخدام، نقترح تقليل العدد إلى {suggestedDoors} ضلف.',
                     },
@@ -1169,6 +1172,7 @@
                         restore_yes: 'Yes, Restore',
                         restore_no: 'No, Start New',
                         popup_blocker_alert: 'Please allow pop-ups for this site to display the design summary.',
+                        share_error: 'An error occurred while trying to share the file.',
                         smart_alert_bed_wider_than_closet: 'Note: The selected bed size is wider than the closet. Please ensure your room has enough space.',
                         smart_alert_closet_doors_too_many: 'Tip: The number of doors is too high for the width ({doorWidth} cm per door). For best results, we suggest reducing the count to {suggestedDoors} doors.',
                     }
@@ -1736,7 +1740,7 @@
             }
         }
 
-        // --- EVENT HANDLING & SUBMISSION ---
+            // --- EVENT HANDLING & SUBMISSION ---
         function handleMechanismButtons() {
             $$('.mechanism-btn').forEach(button => {
                 button.addEventListener('click', () => {
@@ -2245,7 +2249,7 @@ https://facebook.com/waleed.designs.furniture
 
             let furnitureHTML = furniture.map(f => f.html).join('');
             
-            return `<svg viewBox="${viewBox}" xmlns="http://www.w3.org/2000/svg" class="mx-auto" style="overflow: visible; font-family: '${App.currentLang === 'ar' ? 'Cairo' : 'Inter'}', sans-serif;">
+            return `<svg width="600" viewBox="${viewBox}" xmlns="http://www.w3.org/2000/svg" class="mx-auto" style="overflow: visible; font-family: '${App.currentLang === 'ar' ? 'Cairo' : 'Inter'}', sans-serif;">
                 ${defs}
                 <rect x="0" y="0" width="${svgWidth}" height="${svgHeight}" fill="white" stroke="#94a3b8" stroke-width="1"/>
                 <text x="${svgWidth/2}" y="-8" text-anchor="middle" font-size="12" fill="#475569">${T.room_size_label} ${roomW}x${roomH} cm</text>
@@ -2346,12 +2350,12 @@ https://facebook.com/waleed.designs.furniture
             // Title
             innerHTML += `<text x="${svgWidth/2}" y="-8" text-anchor="middle" font-size="14" font-weight="bold" fill="#312e81">${T.visualizer_closet}</text>`
 
-            return `<svg viewBox="${viewBox}" xmlns="http://www.w3.org/2000/svg" class="mx-auto" style="overflow: visible; font-family: '${App.currentLang === 'ar' ? 'Cairo' : 'Inter'}', sans-serif;">
+            return `<svg width="500" viewBox="${viewBox}" xmlns="http://www.w3.org/2000/svg" class="mx-auto" style="overflow: visible; font-family: '${App.currentLang === 'ar' ? 'Cairo' : 'Inter'}', sans-serif;">
                 ${innerHTML}
             </svg>`;
         }
 
-        function generatePrintableHTML(config, total, deliveryWeeks) {
+        function generatePreviewPageHTML(config, total, deliveryWeeks) {
             const T = App.config.LANGUAGES[App.currentLang];
             const lang = App.currentLang;
             const dir = T.dir;
@@ -2359,6 +2363,58 @@ https://facebook.com/waleed.designs.furniture
             const summaryHTML = generateSummaryHTML(config);
             const layoutSVG = generateLayoutVisualizerSVG(config);
             const closetSVG = generateClosetVisualizerSVG(config);
+
+            // This script will be embedded in the preview page to handle its functionality
+            const previewPageScript = `
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js" xintegrity="sha512-GsLlZN/3F2ErC5ifS5QtgpiJtWd43JWSuIgh7mbzZ8zBps+dvLusV+eNQATqgA/HdeKFVgA5v3S/cIrLF7QnIg==" crossorigin="anonymous" referrerpolicy="no-referrer"><\/script>
+                <script>
+                    async function handleShare() {
+                        const shareBtn = document.getElementById('share-btn');
+                        const originalText = shareBtn.innerHTML;
+                        shareBtn.disabled = true;
+                        shareBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block animate-spin -mt-1 mx-2 lucide lucide-loader-2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> ${T.generating_pdf}';
+
+                        const content = document.getElementById('pdf-content');
+                        const filename = 'Waleed Designs - ${new Date().toISOString().slice(0,10)}.pdf';
+
+                        const pdfOptions = {
+                            margin:       [0.2, 0.2, 0.2, 0.2], // Margins in inches [top, left, bottom, right]
+                            filename:     filename,
+                            image:        { type: 'jpeg', quality: 0.98 },
+                            html2canvas:  { scale: 2, useCORS: true, letterRendering: true, windowWidth: 1400 }, // Force desktop-like render width
+                            jsPDF:        { unit: 'in', format: 'a4', orientation: 'portrait' }, // Reverted to A4
+                            pagebreak:    { mode: 'css', before: '.page-break' } // Force page breaks
+                        };
+                        
+                        try {
+                            if (navigator.share && navigator.canShare) {
+                                const pdfBlob = await html2pdf().from(content).set(pdfOptions).output('blob');
+                                const pdfFile = new File([pdfBlob], filename, { type: 'application/pdf' });
+                                
+                                if (navigator.canShare({ files: [pdfFile] })) {
+                                    await navigator.share({
+                                        files: [pdfFile],
+                                        title: '${T.summary_title}',
+                                        text: '${T.app_title}',
+                                    });
+                                } else {
+                                    html2pdf().from(content).set(pdfOptions).save();
+                                }
+                            } else {
+                                html2pdf().from(content).set(pdfOptions).save();
+                            }
+                        } catch (err) {
+                             if (err.name !== 'AbortError') {
+                                console.error('Share Error:', err);
+                                alert('${T.share_error}');
+                            }
+                        } finally {
+                            shareBtn.disabled = false;
+                            shareBtn.innerHTML = originalText;
+                        }
+                    }
+                <\/script>
+            `;
 
             return `<!DOCTYPE html>
                 <html lang="${lang}" dir="${dir}">
@@ -2369,97 +2425,144 @@ https://facebook.com/waleed.designs.furniture
                     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet">
                     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
                     <style>
-                        body { font-family: '${lang === 'ar' ? 'Cairo' : 'Inter'}', sans-serif; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
-                        @media print { .no-print { display: none !important; } @page { margin: 0.5in; } }
+                        body { font-family: '${lang === 'ar' ? 'Cairo' : 'Inter'}', sans-serif; background-color: #e2e8f0; }
+                        .pdf-page-container {
+                            width: 21cm; /* A4 width */
+                            height: 29.7cm; /* Strict height for A4 */
+                            padding: 1cm;
+                            margin: 1rem auto;
+                            border-radius: 5px;
+                            background: white;
+                            box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+                            box-sizing: border-box;
+                            display: flex;
+                            flex-direction: column;
+                            overflow: hidden; /* Prevent content overflow from creating extra pages */
+                        }
+                        .page-break { page-break-after: always; }
+                        .visualizer-wrapper {
+                            display: flex;
+                            justify-content: center;
+                            align-items: center;
+                            width: 100%;
+                            flex-grow: 1; /* Allow wrapper to fill available space */
+                            overflow: hidden;
+                            border: 1px solid #e2e8f0;
+                            border-radius: 0.5rem;
+                            background-color: #f8fafc;
+                            padding: 1rem;
+                            box-sizing: border-box;
+                        }
+                        .visualizer-wrapper svg {
+                           width: 100%;
+                           height: 100%;
+                           object-fit: contain;
+                        }
+                        @media print {
+                            body { background-color: white; margin: 0; }
+                            .no-print { display: none !important; }
+                            .pdf-page-container { margin: 0; box-shadow: none; border-radius: 0; border: none; }
+                        }
                     </style>
                 </head>
-                <body class="bg-gray-100 p-4 sm:p-8">
-                    <div class="max-w-4xl mx-auto mb-4 text-left no-print">
-                         <button onclick="window.close()" class="bg-slate-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-slate-600 transition">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2 lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-                             ${T.guide_back_button_text}
-                         </button>
+                <body class="bg-slate-200">
+                    <div class="max-w-4xl mx-auto p-4 text-center no-print sticky top-0 z-10 bg-slate-200/80 backdrop-blur-sm">
+                        <button onclick="window.close()" class="bg-slate-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-slate-600 transition">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2 lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
+                            ${T.guide_back_button_text}
+                        </button>
+                        <button id="share-btn" onclick="handleShare()" class="bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg hover:bg-indigo-700 transition">
+                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                            ${T.print_button_text}
+                        </button>
                     </div>
-                    <div class="max-w-4xl mx-auto bg-white p-6 sm:p-10 rounded-lg shadow-lg" id="summary-content">
-                        <header class="text-center border-b-2 pb-4 mb-8">
-                            <h1 class="text-4xl font-black text-indigo-800">Waleed Designs</h1>
-                            <p class="text-xl text-slate-600 mt-2">${T.summary_title}</p>
-                        </header>
-                        <main>${summaryHTML}</main>
+
+                    <div id="pdf-content">
+                        <!-- PAGE 1: SUMMARY -->
+                        <div class="pdf-page-container">
+                            <header class="text-center border-b-2 pb-4 mb-8">
+                                <h1 class="text-4xl font-black text-indigo-800">Waleed Designs</h1>
+                                <p class="text-xl text-slate-600 mt-2">${T.summary_title}</p>
+                            </header>
+                            <main>${summaryHTML}</main>
+                            <footer class="mt-auto pt-8 border-t-2 text-center space-y-6">
+                                 <div class="bg-indigo-50 border border-indigo-200 p-6 rounded-lg">
+                                     <p class="text-lg font-bold text-slate-700">${T.footer_price_label}</p>
+                                     <p class="text-4xl font-black text-indigo-700 my-2">${roundedTotal.toLocaleString(lang === 'ar' ? 'ar-EG' : 'en-US')} ج.م</p>
+                                     <p class="text-md font-bold text-green-700">${T.delivery_estimate_text} ${deliveryWeeks} ${T.delivery_weeks_unit}</p>
+                                     <p class="text-xs text-slate-500 mt-3">${T.footer_disclaimer}</p>
+                                 </div>
+                                 <div>
+                                     <p class="font-bold text-slate-800">${T.customer_service}: 01110846333 / 01220431043</p>
+                                     <p class="text-slate-600">${T.facebook_page}: facebook.com/waleed.designs.furniture</p>
+                                 </div>
+                            </footer>
+                        </div>
                         
                         ${layoutSVG ? `
-                        <div class="mt-8 pt-8 border-t-2 break-inside-avoid">
-                            <h2 class="text-xl font-bold text-center text-indigo-800 mb-4">${T.visualizer_title}</h2>
-                            <div class="w-full bg-slate-50 p-4 rounded-lg border flex justify-center">
+                        <!-- PAGE 2: ROOM LAYOUT -->
+                        <div class="pdf-page-container page-break">
+                            <h2 class="text-2xl font-bold text-center text-indigo-800 mb-6 shrink-0">${T.visualizer_title}</h2>
+                            <div class="visualizer-wrapper">
                                 ${layoutSVG}
                             </div>
                         </div>` : ''}
 
                         ${closetSVG ? `
-                        <div class="mt-8 pt-8 border-t-2 break-inside-avoid">
-                            <h2 class="text-xl font-bold text-center text-indigo-800 mb-4">${T.visualizer_closet_details_title}</h2>
-                            <div class="w-full bg-slate-50 p-4 rounded-lg border flex justify-center">
+                        <!-- PAGE 3: CLOSET DETAILS -->
+                        <div class="pdf-page-container page-break">
+                            <h2 class="text-2xl font-bold text-center text-indigo-800 mb-6 shrink-0">${T.visualizer_closet_details_title}</h2>
+                             <div class="visualizer-wrapper">
                                 ${closetSVG}
                             </div>
                         </div>` : ''}
-                        
-                        <footer class="mt-10 pt-8 border-t-2 text-center space-y-6 break-inside-avoid">
-                             <div class="bg-indigo-50 border border-indigo-200 p-6 rounded-lg">
-                                 <p class="text-lg font-bold text-slate-700">${T.footer_price_label}</p>
-                                 <p class="text-4xl font-black text-indigo-700 my-2">${roundedTotal.toLocaleString(lang === 'ar' ? 'ar-EG' : 'en-US')} ج.م</p>
-                                 <p class="text-md font-bold text-green-700">${T.delivery_estimate_text} ${deliveryWeeks} ${T.delivery_weeks_unit}</p>
-                                 <p class="text-xs text-slate-500 mt-3">${T.footer_disclaimer}</p>
-                             </div>
-                             <div>
-                                 <p class="font-bold text-slate-800">${T.customer_service}: 01110846333 / 01220431043</p>
-                                 <p class="text-slate-600">${T.facebook_page}: facebook.com/waleed.designs.furniture</p>
-                             </div>
-                        </footer>
                     </div>
-                    <div class="text-center my-8 no-print gap-4 flex justify-center items-center">
-                        <button onclick="window.close()" class="bg-slate-500 text-white font-bold py-3 px-8 rounded-lg hover:bg-slate-600 transition text-lg">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2 lucide lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-                           ${T.guide_back_button_text}
-                        </button>
-                        <button onclick="window.print()" class="bg-indigo-600 text-white font-bold py-3 px-8 rounded-lg hover:bg-indigo-700 transition text-lg">
-                           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block -mt-1 mx-2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-                            ${T.print_button_text}
-                        </button>
-                    </div>
-                    <p class="text-center text-slate-500 text-sm no-print -mt-4">${T.print_share_tip_mobile}</p>
-                     <script>
-                         // Removed auto-print on load for better mobile compatibility.
-                         // User must click the button to print/save.
-                     <\/script>
+                    ${previewPageScript}
                 </body>
                 </html>`;
         }
         
-        function handlePrintClick() {
+        async function handleShareClick() {
             if (!validateForm()) {
                 showAlert(t('validation_fix_fields'), t('validation_input_error'));
                 return;
             }
-            
-            const config = getFullConfiguration();
-            const { total, error } = calculateTotal();
-            if (error) {
-                showAlert(error, t('validation_specs_error'));
-                return;
+
+            const T = App.config.LANGUAGES[App.currentLang];
+            const originalButtonContent = App.elements.exportShareBtn.innerHTML;
+            App.elements.exportShareBtn.disabled = true;
+            const loadingSpan = App.elements.exportShareBtn.querySelector('span');
+            if(loadingSpan) loadingSpan.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block animate-spin -mt-1 mx-2 lucide lucide-loader-2"><path d="M21 12a9 9 0 1 1-6.219-8.56"/></svg> ` + T.generating_pdf;
+
+            try {
+                const config = getFullConfiguration();
+                const { total, error } = calculateTotal();
+                if (error) {
+                    showAlert(error, t('validation_specs_error'));
+                    return;
+                }
+                const deliveryWeeks = calculateDeliveryEstimate(config);
+                
+                // Generate the full HTML for the preview page
+                const previewHTML = generatePreviewPageHTML(config, total, deliveryWeeks);
+                
+                // Open a new window and write the content
+                const previewWindow = window.open("", "_blank");
+                if (previewWindow) {
+                    previewWindow.document.open();
+                    previewWindow.document.write(previewHTML);
+                    previewWindow.document.close();
+                } else {
+                    showAlert(t('popup_blocker_alert'), t('modal_error'));
+                }
+
+            } catch (err) {
+                console.error('Preview Generation Error:', err);
+                showAlert(t('share_error'), t('modal_error'));
+            } finally {
+                App.elements.exportShareBtn.disabled = false;
+                App.elements.exportShareBtn.innerHTML = originalButtonContent;
             }
-            const deliveryWeeks = calculateDeliveryEstimate(config);
-            
-            const printableHTML = generatePrintableHTML(config, total, deliveryWeeks);
-            
-            const printWindow = window.open('', '_blank');
-             if (!printWindow) {
-                 showAlert(t('popup_blocker_alert'));
-                 return;
-            }
-            
-            printWindow.document.write(printableHTML);
-            printWindow.document.close();
-            printWindow.focus();
         }
         
         // --- DATA PERSISTENCE (FIRESTORE) ---
@@ -2612,7 +2715,7 @@ https://facebook.com/waleed.designs.furniture
             // --- Event listeners setup ---
             App.elements.langToggleButton.addEventListener('click', toggleLanguage);
             App.elements.resetFormBtn.addEventListener('click', () => resetForm(false));
-            App.elements.exportShareBtn.addEventListener('click', handlePrintClick);
+            App.elements.exportShareBtn.addEventListener('click', handleShareClick);
             
             handleMechanismButtons();
             handleStepperButtons();
@@ -2737,6 +2840,15 @@ https://facebook.com/waleed.designs.furniture
     </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
 
 
 
